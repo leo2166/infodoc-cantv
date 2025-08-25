@@ -9,18 +9,18 @@ import { PWAInstallPrompt } from "@/components/pwa-install-prompt"
 export default function HomePage() {
   const quickLinks = [
     {
-      title: "Información de Pensiones",
-      description: "Consulta todo sobre tu pensión y beneficios",
-      icon: FileText,
-      href: "/informacion/pensiones",
-      color: "bg-primary",
+      title: "Emergencias médicas",
+      description: "Contacto rápido para emergencias de salud",
+      icon: Phone,
+      href: "/emergencias",
+      color: "bg-red-500",
     },
     {
-      title: "Noticias Recientes",
-      description: "Mantente al día con las últimas novedades",
-      icon: Newspaper,
-      href: "/noticias",
-      color: "bg-secondary",
+      title: "Nómina Cantv",
+      description: "Consulta y gestiona tu información de nómina",
+      icon: FileText,
+      href: "/nomina",
+      color: "bg-blue-500",
     },
     {
       title: "Consultas con IA",
