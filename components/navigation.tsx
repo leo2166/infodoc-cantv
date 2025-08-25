@@ -9,10 +9,10 @@ export function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
 
   const navItems = [
-    { href: "/", label: "Inicio", icon: Home },
-    { href: "/informacion", label: "Información", icon: FileText },
-    { href: "/noticias", label: "Noticias", icon: Newspaper },
-    { href: "/chat-ia", label: "Consultas IA", icon: MessageCircle },
+    { href: "/en-construccion.html", label: "Inicio", icon: Home },
+    { href: "/informacion/fotos", label: "Información", icon: FileText },
+    { href: "/en-construccion.html", label: "Noticias", icon: Newspaper },
+    { href: "/en-construccion.html", label: "Consultas IA", icon: MessageCircle },
   ]
 
   return (
@@ -24,7 +24,7 @@ export function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2" aria-label="InfoDoc - Ir al inicio">
+          <Link href="/en-construccion.html" className="flex items-center space-x-2" aria-label="InfoDoc - Ir al inicio">
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center" aria-hidden="true">
               <span className="text-primary-foreground font-bold text-sm">ID</span>
             </div>
