@@ -23,11 +23,11 @@ export default function HomePage() {
       color: "bg-blue-500",
     },
     {
-      title: "Consultas con IA",
-      description: "Pregunta a Copilot o Gemini sobre tus dudas",
-      icon: MessageCircle,
-      href: "/chat-ia",
-      color: "bg-accent",
+      title: "Servicios Funerarios El Rosal",
+      description: "Información sobre servicios funerarios",
+      icon: Shield,
+      href: "/servicios-funerarios",
+      color: "bg-slate-500",
     },
   ]
 
@@ -79,7 +79,7 @@ export default function HomePage() {
               <span id="explore-info-desc" className="sr-only">
                 Accede a información sobre pensiones, beneficios y trámites
               </span>
-              <Link href="/chat-ia">
+              <Link href="/informacion">
                 <Button
                   variant="outline"
                   size="lg"
