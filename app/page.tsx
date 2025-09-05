@@ -40,7 +40,7 @@ export default function HomePage() {
     {
       icon: Shield,
       title: "Información Confiable",
-      description: "Datos oficiales y actualizados constantemente",
+      description: "Información oficial mayormente de CANTV, estática y que se actualizará cuando se produzcan cambios.",
     },
     {
       icon: Clock,
