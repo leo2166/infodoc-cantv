@@ -35,7 +35,7 @@ export default function HomePage() {
     {
       icon: Users,
       title: "Atención Personalizada",
-      description: "Para ampliar cualquier información comunícate con la directiva de AJUPTEL ZULIA.",
+      description: "Para ampliar cualquier información aquí contenida, comunícate con tu AJUPTEL LOCAL o en su defecto a Gestión Humana.",
     },
     {
       icon: Shield,
