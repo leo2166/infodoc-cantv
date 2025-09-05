@@ -35,7 +35,7 @@ export default function HomePage() {
     {
       icon: Users,
       title: "Atención Personalizada",
-      description: "Soporte dedicado para jubilados de CANTV",
+      description: "Para ampliar cualquier información comunícate con la directiva de AJUPTEL ZULIA.",
     },
     {
       icon: Shield,
