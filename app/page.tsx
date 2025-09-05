@@ -197,8 +197,7 @@ export default function HomePage() {
         </section>
       </main>
 
-      {/* ChatWidget component for floating chat access */}
-      <ChatWidget />
+      
 
       <PWAInstallPrompt />
 
