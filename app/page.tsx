@@ -172,12 +172,7 @@ export default function HomePage() {
                 <Phone className="w-8 h-8 text-primary mb-2" aria-hidden="true" />
                 <h3 className="font-semibold mb-1">Teléfono</h3>
                 <p className="text-muted-foreground">
-                  <a
-                    href="tel:0800-CANTV-00"
-                    className="hover:text-primary focus:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
-                  >
-                    0800-CANTV-00
-                  </a>
+                  
                 </p>
               </div>
               <div className="flex flex-col items-center" role="listitem">
@@ -195,7 +190,7 @@ export default function HomePage() {
               <div className="flex flex-col items-center" role="listitem">
                 <MapPin className="w-8 h-8 text-primary mb-2" aria-hidden="true" />
                 <h3 className="font-semibold mb-1">Oficinas</h3>
-                <p className="text-muted-foreground">Caracas, Venezuela</p>
+                <p className="text-muted-foreground">Maracaibo, Venezuela</p>
               </div>
             </div>
           </div>
