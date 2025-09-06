@@ -67,7 +67,7 @@ export default function HomePage() {
               Toda la información de interés al alcance de los jubilados de CANTV
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/informacion">
+              <Link href="/informacion/fotos">
                 <Button
                   size="lg"
                   className="text-lg px-8 py-4 min-h-[56px] touch-target"
@@ -79,7 +79,7 @@ export default function HomePage() {
               <span id="explore-info-desc" className="sr-only">
                 Accede a información sobre pensiones, beneficios y trámites
               </span>
-              <Link href="/informacion">
+              <Link href="/construccion">
                 <Button
                   variant="outline"
                   size="lg"

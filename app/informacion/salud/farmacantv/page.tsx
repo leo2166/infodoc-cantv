@@ -27,15 +27,44 @@ export default function FarmacantvPage() {
           <h1 className="text-3xl sm:text-4xl font-heading font-bold text-foreground mb-8 text-center">
             Información de Farmacantv
           </h1>
-          <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
-            <Image
-              src="/farmacantv.jpg"
-              alt="Información sobre Farmacantv"
-              width={800} 
-              height={1120}
-              priority
-              className="rounded-md object-contain"
-            />
+          <div className="flex flex-col gap-8">
+            <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
+              <Image
+                src="/farmacantv.jpg"
+                alt="Información sobre Farmacantv"
+                width={800}
+                height={1120}
+                priority
+                className="rounded-md object-contain"
+              />
+            </div>
+            <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
+              <Image
+                src="/Mp1.png"
+                alt="Medicina prepagada parte 1"
+                width={800}
+                height={1120}
+                className="rounded-md object-contain"
+              />
+            </div>
+            <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
+              <Image
+                src="/Mp2.png"
+                alt="Medicina prepagada parte 2"
+                width={800}
+                height={1120}
+                className="rounded-md object-contain"
+              />
+            </div>
+            <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
+              <Image
+                src="/Mp3.png"
+                alt="Medicina prepagada parte 3"
+                width={800}
+                height={1120}
+                className="rounded-md object-contain"
+              />
+            </div>
           </div>
         </div>
       </main>
