@@ -18,7 +18,7 @@ const imageList = [
     src: '/ghz.webp',
     alt: 'Información de Gestión Humana Zulia',
     title: 'Gestión Humana Zulia',
-    href: '/ghz.jpg' // Corregido: Enlace directo a la imagen
+    href: '/informacion/ghz' // Corregido: Enlace directo a la imagen
   },
   { src: '/images/digital-payment-system.png', alt: 'Descripción de la imagen de ejemplo 3', title: 'Soporte de Pago' },
   { src: '/images/elderly-medical-care.png', alt: 'Descripción de la imagen de ejemplo 4', title: 'Informe Médico' },
