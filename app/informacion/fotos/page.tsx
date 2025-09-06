@@ -7,16 +7,16 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowLeft } from "lucide-react";
 
-// --- INSTRUCCIÓN PARA TI ---
-// Modifica esta lista con tus propias imágenes.
-// Asegúrate de que las rutas (src) coincidan con los archivos que tienes en la carpeta `public/images/`.
 const imageList = [
-  { src: '/images/placeholder.jpg', alt: 'Descripción de la imagen de ejemplo 1', title: 'Documento de Identidad' },
+  {
+    src: 'https://images.pexels.com/photos/4154/clinic-doctor-health-hospital.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    alt: 'Estetoscopio sobre una mesa simbolizando servicios de salud',
+    title: 'Gerencia Servicios de Salud',
+    href: '/informacion/salud' // Enlace para la primera tarjeta
+  },
   { src: '/images/placeholder.svg', alt: 'Descripción de la imagen de ejemplo 2', title: 'Factura de Servicios' },
   { src: '/images/digital-payment-system.png', alt: 'Descripción de la imagen de ejemplo 3', title: 'Soporte de Pago' },
   { src: '/images/elderly-medical-care.png', alt: 'Descripción de la imagen de ejemplo 4', title: 'Informe Médico' },
-  // Puedes añadir más imágenes aquí, hasta 50 o las que necesites.
-  // Ejemplo: { src: '/images/mi-otra-imagen.png', alt: 'Otra descripción', title: 'Otro Documento' },
 ];
 
 export default function FotosPage() {
@@ -41,14 +41,14 @@ export default function FotosPage() {
           </p>
         </div>
         
-        {imageList.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {imageList.map((image, index) => (
-              <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {imageList.map((image, index) => {
+            const cardContent = (
+              <Card key={image.src} className="h-full overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col">
                 <CardHeader>
                   <CardTitle className="truncate">{image.title}</CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="flex-grow">
                   <div className="relative aspect-[4/3] bg-muted rounded-md overflow-hidden">
                     <Image
                       src={image.src}
@@ -60,14 +60,19 @@ export default function FotosPage() {
                   </div>
                 </CardContent>
               </Card>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-16 border-2 border-dashed rounded-lg">
-              <p className="text-muted-foreground">No hay imágenes para mostrar.</p>
-              <p className="text-sm text-muted-foreground mt-2">Añade imágenes a la lista en el archivo de esta página para empezar.</p>
-          </div>
-        )}
+            );
+
+            if (image.href) {
+              return (
+                <Link href={image.href} key={index} className="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg">
+                  {cardContent}
+                </Link>
+              );
+            }
+
+            return cardContent;
+          })}
+        </div>
       </main>
     </div>
   );
