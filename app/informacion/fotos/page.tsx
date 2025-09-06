@@ -12,9 +12,14 @@ const imageList = [
     src: 'https://images.pexels.com/photos/4154/clinic-doctor-health-hospital.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     alt: 'Estetoscopio sobre una mesa simbolizando servicios de salud',
     title: 'Gerencia Servicios de Salud',
-    href: '/informacion/salud' // Enlace para la primera tarjeta
+    href: '/informacion/salud'
   },
-  { src: '/images/placeholder.svg', alt: 'Descripción de la imagen de ejemplo 2', title: 'Factura de Servicios' },
+  {
+    src: '/ghz.jpg',
+    alt: 'Información de Gestión Humana Zulia',
+    title: 'Gestión Humana Zulia',
+    href: '/informacion/ghz' // Enlace para la segunda tarjeta
+  },
   { src: '/images/digital-payment-system.png', alt: 'Descripción de la imagen de ejemplo 3', title: 'Soporte de Pago' },
   { src: '/images/elderly-medical-care.png', alt: 'Descripción de la imagen de ejemplo 4', title: 'Informe Médico' },
 ];
