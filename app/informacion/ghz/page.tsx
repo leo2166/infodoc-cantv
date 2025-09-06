@@ -24,9 +24,7 @@ export default function GhzPage() {
               </Button>
             </Link>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-heading font-bold text-foreground mb-8 text-center">
-            Gestión Humana Zulia
-          </h1>
+          
           <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
             <Image
               src="/ghz.webp"
