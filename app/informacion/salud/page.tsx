@@ -2,7 +2,7 @@ import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import Link from "next/link"
-import { ArrowLeft, FileText, Shield } from "lucide-react"
+import { ArrowLeft, FileText, Shield, Pill } from "lucide-react"
 
 const healthServices = [
   {
@@ -16,6 +16,12 @@ const healthServices = [
     description: "Información y proceso para la solicitud de cartas aval.",
     icon: Shield,
     href: "/informacion/salud/carta-aval",
+  },
+  {
+    title: "Farmacantv",
+    description: "Información sobre el programa Farmacantv (próximamente).",
+    icon: Pill, // Icono de píldora como placeholder
+    href: "#", // Enlace deshabilitado temporalmente
   },
 ]
 
@@ -39,10 +45,10 @@ export default function SaludPage() {
             </h1>
             <p className="text-xl text-muted-foreground">Selecciona una opción para ver los detalles.</p>
           </div>
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {healthServices.map((service) => (
-              <Link key={service.href} href={service.href} className="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg">
-                <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer">
+              <Link key={service.href} href={service.href} className={`focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg ${service.href === '#' ? 'cursor-not-allowed' : ''}`}>
+                <Card className={`h-full hover:shadow-lg transition-shadow ${service.href === '#' ? 'opacity-50' : 'cursor-pointer'}`}>
                   <CardHeader className="flex flex-row items-center gap-4">
                     <service.icon className="w-8 h-8 text-primary" />
                     <div>
