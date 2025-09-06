@@ -1,7 +1,23 @@
 import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
+import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import Link from "next/link"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, FileText, Shield } from "lucide-react"
+
+const healthServices = [
+  {
+    title: "Reembolsos",
+    description: "Consulta la información y el proceso para la solicitud de reembolsos.",
+    icon: FileText,
+    href: "/informacion/salud/reembolsos",
+  },
+  {
+    title: "Carta Aval",
+    description: "Información y proceso para la solicitud de cartas aval.",
+    icon: Shield,
+    href: "/informacion/salud/carta-aval",
+  },
+]
 
 export default function SaludPage() {
   return (
@@ -17,11 +33,26 @@ export default function SaludPage() {
               </Button>
             </Link>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-heading font-bold text-foreground mb-8 text-center">
-            Gerencia Servicios de Salud
-          </h1>
-          <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md text-center">
-            <p className="text-muted-foreground">Página en construcción. Aquí se mostrará la información de la Gerencia de Servicios de Salud.</p>
+          <div className="text-center mb-12">
+            <h1 className="text-3xl sm:text-4xl font-heading font-bold text-foreground mb-4">
+              Gerencia Servicios de Salud
+            </h1>
+            <p className="text-xl text-muted-foreground">Selecciona una opción para ver los detalles.</p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            {healthServices.map((service) => (
+              <Link key={service.href} href={service.href} className="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg">
+                <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer">
+                  <CardHeader className="flex flex-row items-center gap-4">
+                    <service.icon className="w-8 h-8 text-primary" />
+                    <div>
+                      <CardTitle>{service.title}</CardTitle>
+                      <CardDescription>{service.description}</CardDescription>
+                    </div>
+                  </CardHeader>
+                </Card>
+              </Link>
+            ))}
           </div>
         </div>
       </main>
