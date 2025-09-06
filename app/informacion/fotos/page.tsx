@@ -15,13 +15,17 @@ const imageList = [
     href: '/informacion/salud'
   },
   {
-    src: '/ghz.webp',
+    src: '/ghz.jpg',
     alt: 'Información de Gestión Humana Zulia',
     title: 'Gestión Humana Zulia',
-    href: '/informacion/ghz' // Corregido: Enlace directo a la imagen
+    href: '/ghz.jpg'
   },
-  { src: '/images/digital-payment-system.png', alt: 'Descripción de la imagen de ejemplo 3', title: 'Soporte de Pago' },
-  { src: '/images/elderly-medical-care.png', alt: 'Descripción de la imagen de ejemplo 4', title: 'Informe Médico' },
+  {
+    src: '/atejub.jpeg',
+    alt: 'Información de Atención al Jubilado',
+    title: 'Atención al Jubilado',
+    href: '/ATJ.png'
+  },
 ];
 
 export default function FotosPage() {
