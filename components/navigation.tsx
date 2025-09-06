@@ -11,7 +11,7 @@ export function Navigation() {
   const navItems = [
     { href: "/en-construccion.html", label: "Inicio", icon: Home },
     { href: "/informacion/fotos", label: "Información", icon: FileText },
-    { href: "/en-construccion.html", label: "Noticias", icon: Newspaper },
+    { href: "#", label: "Noticias", icon: Newspaper },
     { href: "/en-construccion.html", label: "Consultas IA", icon: MessageCircle },
   ]
 
