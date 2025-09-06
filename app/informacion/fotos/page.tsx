@@ -18,7 +18,7 @@ const imageList = [
     src: '/ghz.jpg',
     alt: 'Información de Gestión Humana Zulia',
     title: 'Gestión Humana Zulia',
-    href: '/informacion/ghz' // Enlace para la segunda tarjeta
+    href: '/ghz.jpg' // Corregido: Enlace directo a la imagen
   },
   { src: '/images/digital-payment-system.png', alt: 'Descripción de la imagen de ejemplo 3', title: 'Soporte de Pago' },
   { src: '/images/elderly-medical-care.png', alt: 'Descripción de la imagen de ejemplo 4', title: 'Informe Médico' },
@@ -69,7 +69,7 @@ export default function FotosPage() {
 
             if (image.href) {
               return (
-                <Link href={image.href} key={index} className="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg">
+                <Link href={image.href} key={index} className="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg" target="_blank" rel="noopener noreferrer">
                   {cardContent}
                 </Link>
               );
