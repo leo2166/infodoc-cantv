@@ -25,9 +25,9 @@ export default function GhzPage() {
             </Link>
           </div>
           
-          <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
+          <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
             <Image
-              src="/ghz.webp"
+              src="/ghz.jpg"
               alt="Información sobre Gestión Humana Zulia"
               width={800} 
               height={1120}

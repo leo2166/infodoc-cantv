@@ -15,10 +15,10 @@ const imageList = [
     href: '/informacion/salud'
   },
   {
-    src: '/ghz.jpg',
+    src: '/gestion.webp',
     alt: 'Información de Gestión Humana Zulia',
     title: 'Gestión Humana Zulia',
-    href: '/ghz.jpg'
+    href: '/informacion/ghz'
   },
   {
     src: '/atejub.jpeg',
