@@ -15,7 +15,7 @@ const imageList = [
     href: '/informacion/salud'
   },
   {
-    src: '/ghz.jpg',
+    src: '/ghz.webp',
     alt: 'Información de Gestión Humana Zulia',
     title: 'Gestión Humana Zulia',
     href: '/ghz.jpg' // Corregido: Enlace directo a la imagen
