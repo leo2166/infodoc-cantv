@@ -24,7 +24,7 @@ const imageList = [
     src: '/atejub.jpeg',
     alt: 'Información de Atención al Jubilado',
     title: 'Atención al Jubilado',
-    href: '/ATJ.png'
+    href: '/informacion/atencion-jubilado'
   },
 ];
 
