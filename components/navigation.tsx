@@ -11,14 +11,14 @@ const navLinks = [
   { href: "/", label: "Inicio" },
   { href: "/informacion", label: "Información" },
   { href: "/construccion", label: "Documentos" },
-  { href: "/construccion", label: "Enlaces de Interés" },
+  { href: "/enlaces-interes", label: "Enlaces de Interés" },
 ]
 
 const mobileNavLinks = [
   { href: "/", label: "Inicio" },
   { href: "/informacion", label: "Información" },
   { href: "/construccion", label: "Documentos" },
-  { href: "/construccion", label: "Enlaces de Interés" },
+  { href: "/enlaces-interes", label: "Enlaces de Interés" },
 ]
 
 export function Navigation() {
