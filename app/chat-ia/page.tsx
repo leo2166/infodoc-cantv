@@ -52,11 +52,17 @@ export default function ChatPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="h-96 overflow-y-auto p-4 border rounded-md">
-              {chatHistory.map((msg, index) => (
-                <div key={index} className={`p-2 rounded-lg ${msg.startsWith("You:") ? "bg-blue-100 dark:bg-blue-900" : "bg-gray-200 dark:bg-gray-700"}`}>
-                  {msg}
-                </div>
-              ))}
+              {
+                chatHistory.map((msg, index) => {
+                  const isUser = msg.startsWith("You:");
+                  const content = isUser ? msg : msg.replace(/\n/g, "<br />");
+                  return (
+                    <div key={index} className={`p-2 rounded-lg ${isUser ? "bg-blue-100 dark:bg-blue-900" : "bg-gray-200 dark:bg-gray-700"}`}>
+                      <span dangerouslySetInnerHTML={{ __html: content }} />
+                    </div>
+                  );
+                })
+              }
             </div>
             <div className="flex space-x-2">
               <Input
