@@ -61,21 +61,8 @@ const toolFinder = new ToolFinder(tools);
 export async function POST(req: NextRequest) {
   const { message } = await req.json();
 
-  if (!process.env.NEXT_PUBLIC_GEMINI_API_KEY) {
-    return NextResponse.json(
-      { error: "API key not configured" },
-      { status: 500 }
-    );
-  }
-  if (!process.env.GOOGLE_SEARCH_API_KEY || !process.env.GOOGLE_CSE_ID) {
-    return NextResponse.json(
-      { error: "Google Search API keys not configured" },
-      { status: 500 }
-    );
-  }
-
   try {
-    const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY);
+    const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY || "");
     const model = genAI.getGenerativeModel({
       model: "gemini-1.5-flash",
       tools: tools,
