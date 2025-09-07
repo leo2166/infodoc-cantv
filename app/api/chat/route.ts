@@ -1,38 +1,36 @@
-import { GoogleGenerativeAI, FunctionCallingTool, ToolFinder } from "@google/generative-ai";
+import { GoogleGenerativeAI, FunctionCallingTool } from "@google/generative-ai";
 import { NextRequest, NextResponse } from "next/server";
-import SerpApi from "google-search-results-nodejs";
-
-const searchClient = new SerpApi.GoogleSearchResults(process.env.GOOGLE_SEARCH_API_KEY || "");
 
 async function search(query: string) {
-  return new Promise((resolve, reject) => {
-    searchClient.json({
-      q: query,
-      google_domain: "google.com",
-      hl: "en",
-      gl: "us",
-      num: 5, // Number of results
-      api_key: process.env.GOOGLE_SEARCH_API_KEY,
-      engine: "google",
-      no_cache: true,
-      safe: "active",
-      lr: "lang_es", // Prefer Spanish results
-      cx: process.env.GOOGLE_CSE_ID,
-    }, (data: any) => {
-      if (data.error) {
-        reject(new Error(data.error));
-      } else if (data.organic_results && data.organic_results.length > 0) {
-        const results = data.organic_results.map((result: any) => ({
-          title: result.title,
-          link: result.link,
-          snippet: result.snippet,
-        }));
-        resolve(JSON.stringify(results));
-      } else {
-        resolve("No se encontraron resultados de búsqueda.");
-      }
-    });
-  });
+  const apiKey = process.env.GOOGLE_SEARCH_API_KEY;
+  const cseId = process.env.GOOGLE_CSE_ID;
+
+  if (!apiKey || !cseId) {
+    throw new Error("Google Search API keys not configured.");
+  }
+
+  const url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${cseId}&q=${encodeURIComponent(query)}&num=5&safe=active&lr=lang_es`;
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data.error) {
+      throw new Error(data.error.message);
+    } else if (data.items && data.items.length > 0) {
+      const results = data.items.map((item: any) => ({
+        title: item.title,
+        link: item.link,
+        snippet: item.snippet,
+      }));
+      return JSON.stringify(results);
+    } else {
+      return "No se encontraron resultados de búsqueda.";
+    }
+  } catch (error: any) {
+    console.error("Error calling Google Custom Search API:", error);
+    return `Error al realizar la búsqueda: ${error.message}`;
+  }
 }
 
 const tools: FunctionCallingTool[] = [
@@ -56,8 +54,6 @@ const tools: FunctionCallingTool[] = [
   },
 ];
 
-const toolFinder = new ToolFinder(tools);
-
 export async function POST(req: NextRequest) {
   const { message } = await req.json();
 
@@ -80,18 +76,32 @@ export async function POST(req: NextRequest) {
     // Handle function calls
     while (response.function_calls && response.function_calls.length > 0) {
       const functionCall = response.function_calls[0];
-      const toolResponse = await toolFinder.findAndCall(functionCall);
-      result = await chat.sendMessage(toolResponse);
+      const toolName = functionCall.name;
+      const toolArgs = functionCall.args;
+
+      let toolResponse;
+      if (toolName === "search") {
+        toolResponse = await search(toolArgs.query);
+      } else {
+        throw new Error(`Herramienta no reconocida: ${toolName}`);
+      }
+
+      result = await chat.sendMessage({
+        function_response: {
+          name: toolName,
+          response: toolResponse,
+        },
+      });
       response = result.response;
     }
 
     const text = response.text();
 
     return NextResponse.json({ text });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error calling Gemini API or Search Tool:", error);
     return NextResponse.json(
-      { error: "Internal Server Error or Search Tool Error" },
+      { error: `Internal Server Error: ${error.message}` },
       { status: 500 }
     );
   }
