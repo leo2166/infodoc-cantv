@@ -1,8 +1,8 @@
 import { GoogleGenerativeAI, FunctionCallingTool, ToolFinder } from "@google/generative-ai";
 import { NextRequest, NextResponse } from "next/server";
-import { GoogleSearchResults } from "google-search-results-nodejs";
+import SerpApi from "google-search-results-nodejs";
 
-const searchClient = new GoogleSearchResults(process.env.GOOGLE_SEARCH_API_KEY || "");
+const searchClient = new SerpApi.GoogleSearchResults(process.env.GOOGLE_SEARCH_API_KEY || "");
 
 async function search(query: string) {
   return new Promise((resolve, reject) => {
