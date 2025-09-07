@@ -199,6 +199,8 @@ export default function HomePage() {
 
       
 
+      <ChatWidget />
+
       <PWAInstallPrompt />
 
       {/* Footer */}
