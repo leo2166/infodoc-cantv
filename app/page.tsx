@@ -79,7 +79,7 @@ export default function HomePage() {
               <span id="explore-info-desc" className="sr-only">
                 Accede a información sobre pensiones, beneficios y trámites
               </span>
-              <Link href="/chat-ia">
+              {/* <Link href="/chat-ia">
                 <Button
                   variant="outline"
                   size="lg"
@@ -88,7 +88,7 @@ export default function HomePage() {
                 >
                   Consultar con IA
                 </Button>
-              </Link>
+              </Link> */}
               <span id="ai-chat-desc" className="sr-only">
                 Haz preguntas a asistentes de inteligencia artificial
               </span>
@@ -199,7 +199,7 @@ export default function HomePage() {
 
       
 
-      <ChatWidget />
+      {/* <ChatWidget /> */}
 
       <PWAInstallPrompt />
 
