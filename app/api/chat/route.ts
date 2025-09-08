@@ -11,13 +11,16 @@ async function search(query: string) {
 
   const url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${cseId}&q=${encodeURIComponent(query)}&num=5&safe=active&lr=lang_es`;
 
+  console.log("Attempting to call Google Custom Search API...");
   try {
     const response = await fetch(url);
     const data = await response.json();
 
     if (data.error) {
+      console.error("Error from Google Custom Search API:", data.error);
       throw new Error(data.error.message);
     } else if (data.items && data.items.length > 0) {
+      console.log("Successfully received data from Google Custom Search API.");
       const results = data.items.map((item: any) => ({
         title: item.title,
         link: item.link,
