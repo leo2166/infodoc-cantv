@@ -12,6 +12,7 @@ const navLinks = [
   { href: "/informacion", label: "Información" },
   { href: "/construccion", label: "Documentos" },
   { href: "/enlaces-interes", label: "Enlaces de Interés" },
+  { href: "/convertir-jpg-pdf", label: "Convertir JPG > PDF" },
 ]
 
 const mobileNavLinks = [
@@ -19,6 +20,7 @@ const mobileNavLinks = [
   { href: "/informacion", label: "Información" },
   { href: "/construccion", label: "Documentos" },
   { href: "/enlaces-interes", label: "Enlaces de Interés" },
+  { href: "/convertir-jpg-pdf", label: "Convertir JPG > PDF" },
 ]
 
 export function Navigation() {
