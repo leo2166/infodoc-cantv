@@ -79,7 +79,7 @@ export default function HomePage() {
               <span id="explore-info-desc" className="sr-only">
                 Accede a información sobre pensiones, beneficios y trámites
               </span>
-              <Link href="/chat-ia">
+              <Link href="/chat-deepseek">
                 <Button
                   variant="outline"
                   size="lg"

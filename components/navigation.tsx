@@ -9,7 +9,6 @@ import { PWAInstallPrompt } from "./pwa-install-prompt"
 
 const navLinks = [
   { href: "/", label: "Inicio" },
-  { href: "/informacion", label: "Información" },
   { href: "/construccion", label: "Documentos" },
   { href: "/enlaces-interes", label: "Enlaces de Interés" },
   { href: "/convertir-jpg-pdf", label: "Convertir JPG > PDF" },
@@ -17,7 +16,6 @@ const navLinks = [
 
 const mobileNavLinks = [
   { href: "/", label: "Inicio" },
-  { href: "/informacion", label: "Información" },
   { href: "/construccion", label: "Documentos" },
   { href: "/enlaces-interes", label: "Enlaces de Interés" },
   { href: "/convertir-jpg-pdf", label: "Convertir JPG > PDF" },
