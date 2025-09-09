@@ -16,21 +16,21 @@ export default function SelectChatModelPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-        {/* Gemini Card */}
+        {/* OpenAI Card */}
         <Link href="/chat-gemini" className="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg">
           <Card className="h-full hover:shadow-xl hover:border-primary transition-all duration-300 cursor-pointer">
             <CardHeader className="items-center text-center">
               <div className="p-4 bg-primary/10 rounded-full mb-4">
                 <BrainCircuit className="w-12 h-12 text-primary" />
               </div>
-              <CardTitle className="text-2xl font-bold">Usar Gemini 2.5</CardTitle>
+              <CardTitle className="text-2xl font-bold">Usar OpenAI</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
               <p className="text-muted-foreground mb-4">
-                El modelo más avanzado de Google, ideal para tareas complejas, razonamiento y búsqueda de información actualizada.
+                El modelo estándar de la industria, potente y versátil para una amplia gama de tareas de conversación y generación de texto.
               </p>
               <Button className="w-full" variant="default">
-                Iniciar Chat con Gemini
+                Iniciar Chat con OpenAI
               </Button>
             </CardContent>
           </Card>

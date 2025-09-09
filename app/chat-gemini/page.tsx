@@ -9,7 +9,7 @@ import { ArrowLeft } from "lucide-react";
 
 export default function ChatPage() {
   const [message, setMessage] = useState("");
-  const [chatHistory, setChatHistory] = useState<string[]>(["Gemini: ¿Qué quieres saber hoy?"]);
+  const [chatHistory, setChatHistory] = useState<string[]>(["OpenAI: Hola, ¿cómo puedo ayudarte hoy?"]);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSendMessage = async () => {
@@ -19,7 +19,7 @@ export default function ChatPage() {
     setChatHistory((prev) => [...prev, `Tú: ${message}`]);
 
     try {
-      const res = await fetch("/api/chat-gemini", {
+      const res = await fetch("/api/chat-gemini", { // This route now points to OpenAI
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -32,10 +32,10 @@ export default function ChatPage() {
       }
 
       const { text } = await res.json();
-      setChatHistory((prev) => [...prev, `Gemini: ${text}`]);
+      setChatHistory((prev) => [...prev, `OpenAI: ${text}`]);
     } catch (error) {
       console.error("Error sending message:", error);
-      setChatHistory((prev) => [...prev, "Gemini: Lo siento, algo salió mal."]);
+      setChatHistory((prev) => [...prev, "OpenAI: Lo siento, algo salió mal."]);
     } finally {
       setIsLoading(false);
       setMessage("");
@@ -45,7 +45,7 @@ export default function ChatPage() {
   return (
     <div className="flex flex-col h-screen bg-gray-100 dark:bg-gray-900">
       <header className="bg-primary text-primary-foreground p-4 text-center">
-        <h1 className="text-2xl font-bold">Chat con Gemini</h1>
+        <h1 className="text-2xl font-bold">Chat con OpenAI</h1>
       </header>
       <main className="flex-1 overflow-y-auto p-4">
         <div className="max-w-2xl mx-auto mb-4">
@@ -66,7 +66,7 @@ export default function ChatPage() {
                 chatHistory.map((msg, index) => {
                   const isUser = msg.startsWith("Tú:");
                   const content = isUser ? msg.substring(3) : msg.substring(7).replace(/\n/g, "<br />");
-                  const sender = isUser ? "Tú" : "Gemini";
+                  const sender = isUser ? "Tú" : "OpenAI";
                   return (
                     <div key={index} className={`p-2 my-2 rounded-lg ${isUser ? "bg-blue-100 dark:bg-blue-900 ml-auto" : "bg-gray-200 dark:bg-gray-700 mr-auto"}`}>
                       <p className="font-bold">{sender}</p>
@@ -80,7 +80,7 @@ export default function ChatPage() {
               <Input
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder="Haz tu pregunta a Gemini..."
+                placeholder="Haz tu pregunta a OpenAI..."
                 onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
                 disabled={isLoading}
               />

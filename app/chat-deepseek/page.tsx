@@ -9,7 +9,7 @@ import { ArrowLeft } from "lucide-react";
 
 export default function ChatPage() {
   const [message, setMessage] = useState("");
-  const [chatHistory, setChatHistory] = useState<string[]>(["DeepSeek: ¿En qué puedo ayudarte hoy?"]);
+  const [chatHistory, setChatHistory] = useState<string[]>(["DeepSeek: Hola que quieres saber hoy como puedo ayudarte? 😊"]);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSendMessage = async () => {
