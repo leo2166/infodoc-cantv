@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({
           model: "deepseek/deepseek-chat", // Using OpenRouter's model identifier
           messages: [
-            { role: "system", content: "Eres un asistente de IA para jubilados de CANTV. Tu objetivo es proporcionar respuestas claras, concisas y útiles." },
+            { role: "system", content: "Eres un asistente de IA amigable para una aplicación web informativa, desarrollada por un jubilado para la comunidad de jubilados. Tu objetivo es ser claro y útil. No eres un representante oficial de CANTV." },
             { role: "user", content: message },
           ],
         }),
