@@ -59,54 +59,76 @@ const tools: FunctionCallingTool[] = [
 
 export async function POST(req: NextRequest) {
   const { message } = await req.json();
+  const MAX_RETRIES = 5;
 
-  try {
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
-    const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash",
-      tools: tools,
-      tool_config: {
-        function_calling_config: {
-          mode: "AUTO",
+  for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+    try {
+      const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+      const model = genAI.getGenerativeModel({
+        model: "gemini-2.5-pro",
+        tools: tools,
+        tool_config: {
+          function_calling_config: {
+            mode: "AUTO",
+          },
         },
-      },
-      systemInstruction: "Eres un asistente de IA para jubilados de CANTV. Tu objetivo es proporcionar respuestas claras, concisas y útiles. Siempre que la pregunta del usuario requiera información que no conoces o datos actuales, DEBES usar la herramienta de búsqueda ('search') para encontrar la información más reciente en la web. Si la pregunta implica generar contenido estructurado como listas, comparaciones o menús, DEBES formatear tu respuesta usando tablas en formato Markdown. Si no se proporcionan preferencias específicas para una solicitud, genera un ejemplo genérico o una plantilla utilizando la búsqueda. Sé proactivo en el uso de la búsqueda y las tablas para dar la mejor respuesta posible.",
-    });
+        systemInstruction: "Eres un asistente de IA para jubilados de CANTV. Tu objetivo es proporcionar respuestas claras, concisas y útiles. Siempre que la pregunta del usuario requiera información que no conoces o datos actuales, DEBES usar la herramienta de búsqueda ('search') para encontrar la información más reciente en la web. Si la pregunta implica generar contenido estructurado como listas, comparaciones o menús, DEBES formatear tu respuesta usando tablas en formato Markdown. Si no se proporcionan preferencias específicas para una solicitud, genera un ejemplo genérico o una plantilla utilizando la búsqueda. Sé proactivo en el uso de la búsqueda y las tablas para dar la mejor respuesta posible.",
+      });
 
-    let chat = model.startChat();
-    let result = await chat.sendMessage(message);
-    let response = result.response;
+      let chat = model.startChat();
+      let result = await chat.sendMessage(message);
+      let response = result.response;
 
-    // Handle function calls
-    while (response.function_calls && response.function_calls.length > 0) {
-      const functionCall = response.function_calls[0];
-      const toolName = functionCall.name;
-      const toolArgs = functionCall.args;
+      // Handle function calls
+      while (response.function_calls && response.function_calls.length > 0) {
+        const functionCall = response.function_calls[0];
+        const toolName = functionCall.name;
+        const toolArgs = functionCall.args;
 
-      let toolResponse;
-      if (toolName === "search") {
-        toolResponse = await search(toolArgs.query);
-      } else {
-        throw new Error(`Herramienta no reconocida: ${toolName}`);
+        let toolResponse;
+        if (toolName === "search") {
+          toolResponse = await search(toolArgs.query);
+        } else {
+          throw new Error(`Herramienta no reconocida: ${toolName}`);
+        }
+
+        result = await chat.sendMessage({
+          function_response: {
+            name: toolName,
+            response: toolResponse,
+          },
+        });
+        response = result.response;
       }
 
-      result = await chat.sendMessage({
-        function_response: {
-          name: toolName,
-          response: toolResponse,
-        },
-      });
-      response = result.response;
+      const text = response.text();
+
+      // Success, return the response
+      return NextResponse.json({ text });
+
+    } catch (error: any) {
+      console.error(`Attempt ${attempt + 1} failed:`, error);
+
+      // Check if it's a rate limit error (often status 429)
+      const isRateLimitError = error.message?.includes("429") || error.message?.includes("rate limit");
+
+      if (isRate-limit-error && attempt < MAX_RETRIES - 1) {
+        const delay = Math.pow(2, attempt) * 1000 + Math.random() * 1000; // Exponential backoff with jitter
+        console.log(`Rate limit hit. Retrying in ${delay.toFixed(0)}ms...`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      } else {
+        // Not a rate limit error or last attempt, so fail
+        return NextResponse.json(
+          { error: `Internal Server Error: ${error.message}` },
+          { status: 500 }
+        );
+      }
     }
-
-    const text = response.text();
-
-    return NextResponse.json({ text });
-  } catch (error: any) {
-    console.error("Error calling Gemini API or Search Tool:", error);
-    return NextResponse.json(
-      { error: `Internal Server Error: ${error.message}` },
-      { status: 500 }
-    );
   }
+
+  // This part is reached only if all retries fail
+  return NextResponse.json(
+    { error: "Internal Server Error: All retry attempts failed." },
+    { status: 500 }
+  );
 }
