@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 export default function ChatPage() {
   const [message, setMessage] = useState("");
@@ -46,6 +48,14 @@ export default function ChatPage() {
         <h1 className="text-2xl font-bold">Chat con IA</h1>
       </header>
       <main className="flex-1 overflow-y-auto p-4">
+        <div className="max-w-2xl mx-auto mb-4">
+            <Link href="/">
+              <Button variant="outline" className="touch-target">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Volver al Inicio
+              </Button>
+            </Link>
+        </div>
         <Card className="w-full max-w-2xl mx-auto">
           <CardHeader>
             <CardTitle>Historial del Chat</CardTitle>
