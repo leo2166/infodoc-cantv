@@ -5,7 +5,7 @@ import Link from "next/link"
 import { Menu, X, Newspaper, MessageCircle, Home, Info } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { PWAInstallPrompt } from "./pwa-install-prompt"
+
 
 const navLinks = [
   { href: "/", label: "Inicio" },
@@ -48,7 +48,6 @@ export function Navigation() {
         </nav>
 
         <div className="flex items-center space-x-2">
-          <PWAInstallPrompt />
           {/* Mobile Navigation */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="md:hidden">

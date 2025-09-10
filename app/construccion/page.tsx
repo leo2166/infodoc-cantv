@@ -1,7 +1,7 @@
 import { Navigation } from "@/components/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, BookOpen } from "lucide-react";
+import { FileText, BookOpen, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 const documents = [
@@ -24,6 +24,14 @@ export default function DocumentosPage() {
     <div className="min-h-screen bg-background">
       <Navigation />
       <main className="container mx-auto px-4 py-10">
+        <div className="mb-8">
+          <Link href="/">
+            <Button variant="outline" className="touch-target">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Volver al Inicio
+            </Button>
+          </Link>
+        </div>
         <div className="text-center mb-12">
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">
             Consulta de Documentos

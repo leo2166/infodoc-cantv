@@ -4,8 +4,9 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Upload, File, X, Loader2, Download } from 'lucide-react';
+import { Upload, File, X, Loader2, Download, ArrowLeft } from 'lucide-react';
 import { Navigation } from '@/components/navigation';
+import Link from 'next/link';
 
 export default function ConvertJpgToPdfPage() {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -83,7 +84,15 @@ export default function ConvertJpgToPdfPage() {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <main className="container mx-auto px-4 py-10">
+      <main className="container mx-auto px-4 py-16">
+        <div className="max-w-2xl mx-auto mb-8">
+          <Link href="/">
+            <Button variant="outline" className="touch-target">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Volver al Inicio
+            </Button>
+          </Link>
+        </div>
         <Card className="max-w-2xl mx-auto">
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-2">

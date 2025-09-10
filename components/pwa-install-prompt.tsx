@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { X, Download } from "lucide-react"
+import { Download } from "lucide-react"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
 export function PWAInstallPrompt() {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null)
@@ -53,27 +54,36 @@ export function PWAInstallPrompt() {
     setDeferredPrompt(null)
   }
 
-  if (!showPrompt) return null
-
   return (
-    <div className="fixed bottom-4 left-4 right-4 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-50 max-w-sm mx-auto">
-      <div className="flex items-start gap-3">
-        <Download className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
-        <div className="flex-1">
-          <h3 className="font-semibold text-gray-900 text-base mb-1">Instalar InfoDoc</h3>
-          <p className="text-sm text-gray-600 mb-3">
-            Instala InfoDoc en tu dispositivo para acceso rápido y fácil a toda la información de jubilados CANTV.
+    <Dialog open={showPrompt} onOpenChange={(open) => {
+      if (!open) {
+        handleDismiss()
+      }
+    }}>
+      <DialogContent className="sm:max-w-[425px]" showCloseButton={false}>
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-bold text-center flex items-center justify-center gap-2">
+            <Download className="w-6 h-6" />
+            Instalar InfoDoc
+          </DialogTitle>
+          <DialogDescription className="text-center pt-2">
+            Instala la aplicación en tu dispositivo para un acceso más rápido y sin conexión.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="py-4 text-center">
+          <p className="text-sm text-muted-foreground">
+            Tendrás un ícono en tu pantalla de inicio, como cualquier otra aplicación.
           </p>
-          <div className="flex gap-2">
-            <Button onClick={handleInstall} size="sm" className="flex-1 text-sm">
-              Instalar
-            </Button>
-            <Button onClick={handleDismiss} variant="outline" size="sm" className="px-3 bg-transparent">
-              <X className="h-4 w-4" />
-            </Button>
-          </div>
         </div>
-      </div>
-    </div>
+        <DialogFooter className="sm:justify-center gap-2">
+          <Button onClick={handleDismiss} variant="outline">
+            Ahora no
+          </Button>
+          <Button onClick={handleInstall}>
+            Instalar
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   )
 }
