@@ -1,14 +1,22 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { ZoomIn, ZoomOut, Contrast, Type, Settings, X, RefreshCw } from "lucide-react"
 
 export function AccessibilityToolbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [fontSize, setFontSize] = useState(100)
-  const [highContrast, setHighContrast] = useState(false)
+  const { theme, setTheme } = useTheme()
   const [updateAvailable, setUpdateAvailable] = useState(false)
   const [waitingWorker, setWaitingWorker] = useState<ServiceWorker | null>(null)
 
@@ -64,19 +72,20 @@ export function AccessibilityToolbar() {
     document.documentElement.style.fontSize = `${fontSize}%`
   }, [fontSize])
 
-  useEffect(() => {
-    if (highContrast) {
-      document.documentElement.classList.add("high-contrast")
-    } else {
-      document.documentElement.classList.remove("high-contrast")
-    }
-  }, [highContrast])
+  // Remove highContrast useEffect as it's replaced by theme
+  // useEffect(() => {
+  //   if (highContrast) {
+  //     document.documentElement.classList.add("high-contrast")
+  //   } else {
+  //     document.documentElement.classList.remove("high-contrast")
+  //   }
+  // }, [highContrast])
 
   const increaseFontSize = () => setFontSize((prev) => Math.min(prev + 10, 150));
   const decreaseFontSize = () => setFontSize((prev) => Math.max(prev - 10, 80));
   const resetSettings = () => {
     setFontSize(100)
-    setHighContrast(false)
+    setTheme("system") // Reset theme to system
   }
 
   return (
@@ -131,9 +140,17 @@ export function AccessibilityToolbar() {
               </div>
 
               <div className="mb-4">
-                <Button variant={highContrast ? "default" : "outline"} onClick={() => setHighContrast(!highContrast)} className="w-full justify-start" aria-pressed={highContrast}>
-                  <Contrast className="w-4 h-4 mr-2" /> Alto Contraste
-                </Button>
+                <h4 className="font-semibold mb-2 flex items-center"><Contrast className="w-4 h-4 mr-2" /> Tema</h4>
+                <Select onValueChange={(value) => setTheme(value)} value={theme}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Seleccionar tema" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="light">Claro</SelectItem>
+                    <SelectItem value="dark">Oscuro</SelectItem>
+                    <SelectItem value="system">Sistema</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               <Button variant="outline" onClick={resetSettings} className="w-full">
