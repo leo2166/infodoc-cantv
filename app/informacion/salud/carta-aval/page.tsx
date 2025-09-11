@@ -27,15 +27,26 @@ export default function CartaAvalPage() {
           <h1 className="text-3xl sm:text-4xl font-heading font-bold text-foreground mb-8 text-center">
             Información de Carta Aval
           </h1>
-          <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
-            <Image
-              src="/cartaAval.png"
-              alt="Información sobre Carta Aval"
-              width={800} 
-              height={1120}
-              priority
-              className="rounded-md object-contain"
-            />
+          <div className="flex flex-col gap-8">
+            <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
+              <Image
+                src="/cartaAval.png"
+                alt="Información sobre Carta Aval"
+                width={800}
+                height={1120}
+                priority
+                className="rounded-md object-contain"
+              />
+            </div>
+            <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
+              <Image
+                src="/presupuesto.jpg"
+                alt="Presupuesto de ejemplo"
+                width={800}
+                height={1120}
+                className="rounded-md object-contain"
+              />
+            </div>
           </div>
         </div>
       </main>
