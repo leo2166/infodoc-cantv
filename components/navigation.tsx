@@ -11,6 +11,7 @@ const navLinks = [
   { href: "/", label: "Inicio" },
   { href: "/construccion", label: "Documentos" },
   { href: "/enlaces-interes", label: "Enlaces de Interés" },
+  { href: "/farmacias.jpg", label: "Farmacias Locales" },
   { href: "/convertir-jpg-pdf", label: "Convertir JPG > PDF" },
 ]
 
@@ -18,6 +19,7 @@ const mobileNavLinks = [
   { href: "/", label: "Inicio" },
   { href: "/construccion", label: "Documentos" },
   { href: "/enlaces-interes", label: "Enlaces de Interés" },
+  { href: "/farmacias.jpg", label: "Farmacias Locales" },
   { href: "/convertir-jpg-pdf", label: "Convertir JPG > PDF" },
 ]
 
