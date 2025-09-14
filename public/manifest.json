@@ -1,0 +1,26 @@
+{
+  "name": "InfoDoc - Portal de Jubilados CANTV",
+  "short_name": "InfoDoc",
+  "description": "Toda la información de interés al alcance para jubilados de CANTV",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1e40af",
+  "orientation": "portrait-primary",
+  "categories": ["productivity", "utilities"],
+  "lang": "es",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ]
+}
