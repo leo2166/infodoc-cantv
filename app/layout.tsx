@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Montserrat } from "next/font/google"
 import { Open_Sans } from "next/font/google"
+import Script from "next/script"
 import "./globals.css"
 import { AccessibilityToolbar } from "@/components/accessibility-toolbar"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -50,18 +51,21 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${montserrat.variable} ${openSans.variable}`}>
       <head>
-        {/* Google tag (gtag.js) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-3TF4NYTG54"></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-3TF4NYTG54');
-            `,
-          }}
+        <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-3TF4NYTG54"
         />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+        >
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-3TF4NYTG54');
+          `}
+        </Script>
         <meta name="theme-color" content="#0891b2" />
         <meta name="color-scheme" content="light dark" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
