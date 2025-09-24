@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react"
 import type React from "react"
 import type { Metadata } from "next"
 import { Montserrat } from "next/font/google"
@@ -86,6 +87,7 @@ export default function RootLayout({
           <div id="main-content">{children}</div>
           <AccessibilityToolbar />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   )
