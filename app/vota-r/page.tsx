@@ -28,7 +28,7 @@ export default function VotaRPage() {
             </CardHeader>
             <CardContent className="flex justify-center">
               <Image
-                src="/SoytuVoz.png"
+                src="/AM.png"
                 alt="Campaña Vota por la R - Alexander Muñoz"
                 width={800}
                 height={1200}
