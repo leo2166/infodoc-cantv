@@ -105,6 +105,18 @@ export default function HomePage() {
               <span id="vota-r-desc" className="sr-only">
                 Apoya al candidato Alexander Muñoz
               </span>
+              <Link href="/publicidad">
+                <Button
+                  size="lg"
+                  className="text-lg px-8 py-4 min-h-[56px] touch-target bg-red-600 hover:bg-red-700 text-white"
+                  aria-describedby="publicidad-desc"
+                >
+                  Publicidad
+                </Button>
+              </Link>
+              <span id="publicidad-desc" className="sr-only">
+                Ver publicidad
+              </span>
             </div>
           </div>
         </section>
