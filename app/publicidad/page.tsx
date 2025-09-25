@@ -24,7 +24,7 @@ export default function PublicidadPage() {
           </div>
           <Card>
             <CardHeader>
-              <CardTitle className="text-center text-3xl">Repuestos de PC</CardTitle>
+              <CardTitle className="text-center text-3xl">Mantenimiento de PC</CardTitle>
             </CardHeader>
             <CardContent className="flex justify-center">
               <Image
