@@ -238,6 +238,10 @@ export default function HomePage() {
             <span className="font-heading font-black text-lg">InfoDoc</span>
           </div>
           <p className="text-muted-foreground mb-2">Portal oficial de información para jubilados de CANTV</p>
+          <div className="text-sm text-muted-foreground my-4">
+            <p>Desarrollado por <strong>Ing. Lucidio Fuenmayor</strong> con la asistencia de <strong>IA GeminiCLI</strong>.</p>
+            <p>Licencia de Uso Libre.</p>
+          </div>
           <p className="text-sm text-muted-foreground">© 2025 InfoDoc. Toda la información de interés al alcance.</p>
         </div>
       </footer>
