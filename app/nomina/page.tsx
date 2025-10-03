@@ -21,15 +21,44 @@ export default function NominaPage() {
           <h1 className="text-3xl sm:text-4xl font-heading font-bold text-foreground mb-8 text-center">
             Nómina Cantv
           </h1>
-          <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
-            <Image
-              src="/nomina.png"
-              alt="Información de nómina"
-              width={800}
-              height={1120}
-              priority
-              className="rounded-md object-contain"
-            />
+          <div className="flex flex-col gap-8">
+            <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
+              <Image
+                src="/n1.png"
+                alt="Información de nómina - Parte 1"
+                width={800}
+                height={1120}
+                priority
+                className="rounded-md object-contain"
+              />
+            </div>
+            <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
+              <Image
+                src="/n2.png"
+                alt="Información de nómina - Parte 2"
+                width={800}
+                height={1120}
+                className="rounded-md object-contain"
+              />
+            </div>
+            <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
+              <Image
+                src="/n3.png"
+                alt="Información de nómina - Parte 3"
+                width={800}
+                height={1120}
+                className="rounded-md object-contain"
+              />
+            </div>
+            <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
+              <Image
+                src="/n4.png"
+                alt="Información de nómina - Parte 4"
+                width={800}
+                height={1120}
+                className="rounded-md object-contain"
+              />
+            </div>
           </div>
         </div>
       </main>
