@@ -93,18 +93,7 @@ export default function HomePage() {
               <span id="ai-chat-desc" className="sr-only">
                 Haz preguntas a asistentes de inteligencia artificial
               </span>
-              <Link href="/vota-r">
-                <Button
-                  size="lg"
-                  className="text-lg px-8 py-4 min-h-[56px] touch-target bg-blue-600 hover:bg-blue-700 text-white"
-                  aria-describedby="vota-r-desc"
-                >
-                  Vota por la R
-                </Button>
-              </Link>
-              <span id="vota-r-desc" className="sr-only">
-                Apoya al candidato Alexander Muñoz
-              </span>
+
               <Link href="/publicidad">
                 <Button
                   size="lg"
