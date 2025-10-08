@@ -16,6 +16,10 @@ export default function EnlacesInteresPage() {
       href: "http://www.bcv.org.ve",
     },
     {
+      title: "Tutorial Reembolso",
+      href: "https://youtu.be/nLq4uAbeTC8",
+    },
+    {
       title: "Banco de Venezuela",
       href: "http://www.bancodevenezuela.com",
     },
