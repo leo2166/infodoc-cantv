@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { Menu, ChevronDown } from "lucide-react"
+import { Menu, X, Newspaper, MessageCircle, Home, Info, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
@@ -31,7 +31,7 @@ export function Navigation() {
   const [isOpen, setIsOpen] = React.useState(false)
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 max-w-screen-2xl items-center justify-between">
         <Link href="/" className="flex items-center space-x-2">
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
@@ -41,10 +41,13 @@ export function Navigation() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-1 lg:space-x-2">
-          <Button variant="ghost" asChild className="text-sm font-medium">
-            <Link href="/">Inicio</Link>
-          </Button>
+        <nav className="hidden md:flex items-center space-x-4 lg:space-x-6">
+          <Link
+            href="/"
+            className="text-sm font-medium transition-colors hover:text-primary"
+          >
+            Inicio
+          </Link>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="flex items-center gap-1 text-sm font-medium">
@@ -52,7 +55,7 @@ export function Navigation() {
                 <ChevronDown className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="z-50">
+            <DropdownMenuContent>
               {navLinks.map((link) => (
                 <DropdownMenuItem key={link.href} asChild>
                   <Link href={link.href}>{link.label}</Link>
