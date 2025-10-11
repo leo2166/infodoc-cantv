@@ -82,9 +82,9 @@ export default function HomePage() {
               </span>
               <Link href="/chat-deepseek">
                 <Button
-                  variant="outline"
                   size="lg"
-                  className="text-lg px-8 py-4 min-h-[56px] touch-target bg-transparent"
+                  variant="aiChat"
+                  className="text-lg px-8 py-4 min-h-[56px] touch-target"
                   aria-describedby="ai-chat-desc"
                 >
                   Consultar con IA

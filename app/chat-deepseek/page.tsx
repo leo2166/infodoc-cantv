@@ -45,7 +45,7 @@ export default function ChatPage() {
   return (
     <div className="flex flex-col h-screen bg-gray-100 dark:bg-gray-900">
       <header className="bg-secondary text-secondary-foreground p-4 text-center">
-        <h1 className="text-2xl font-bold">Chat con DeepSeek</h1>
+        <h1 className="text-2xl font-bold text-black">Chat con DeepSeek</h1>
       </header>
       <main className="flex-1 overflow-y-auto p-4">
         <div className="max-w-2xl mx-auto mb-4">
@@ -69,8 +69,8 @@ export default function ChatPage() {
                   const sender = isUser ? "Tú" : "DeepSeek";
                   return (
                     <div key={index} className={`p-2 my-2 rounded-lg ${isUser ? "bg-green-100 dark:bg-green-900 ml-auto" : "bg-gray-200 dark:bg-gray-700 mr-auto"}`}>
-                      <p className="font-bold">{sender}</p>
-                      <span dangerouslySetInnerHTML={{ __html: content }} />
+                      <p className="font-bold text-base">{sender}</p>
+                      <span className="text-base" dangerouslySetInnerHTML={{ __html: content }} />
                     </div>
                   );
                 })
@@ -84,7 +84,7 @@ export default function ChatPage() {
                 onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
                 disabled={isLoading}
               />
-              <Button onClick={handleSendMessage} disabled={isLoading} variant="secondary">
+              <Button onClick={handleSendMessage} disabled={isLoading} className="bg-black text-white hover:bg-gray-800">
                 {isLoading ? "Enviando..." : "Enviar"}
               </Button>
             </div>
