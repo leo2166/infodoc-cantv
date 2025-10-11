@@ -26,6 +26,12 @@ const imageList = [
     title: 'Atención al Jubilado',
     href: '/informacion/atencion-jubilado'
   },
+  {
+    src: '/biblioteca.jpg',
+    alt: 'Libros y documentos en la biblioteca',
+    title: 'Biblioteca',
+    href: '/informacion/biblioteca'
+  },
 ];
 
 export default function FotosPage() {
