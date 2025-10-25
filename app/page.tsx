@@ -91,11 +91,11 @@ export default function HomePage() {
             <p className="text-xl sm:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
               Toda la información de interés al alcance de los jubilados de CANTV
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/informacion/fotos">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Link href="/informacion/fotos" className="w-full sm:w-auto">
                 <Button
                   size="lg"
-                  className="text-lg px-8 py-4 min-h-[56px] touch-target"
+                  className="text-lg px-8 py-4 min-h-[56px] touch-target w-full"
                   aria-describedby="explore-info-desc"
                 >
                   Explorar Información
@@ -104,11 +104,11 @@ export default function HomePage() {
               <span id="explore-info-desc" className="sr-only">
                 Accede a información sobre pensiones, beneficios y trámites
               </span>
-              <Link href="/chat-deepseek">
+              <Link href="/chat-deepseek" className="w-full sm:w-auto">
                 <Button
                   size="lg"
                   variant="aiChat"
-                  className="text-lg px-8 py-4 min-h-[56px] touch-target"
+                  className="text-lg px-8 py-4 min-h-[56px] touch-target w-full"
                   aria-describedby="ai-chat-desc"
                 >
                   Consultar con IA
@@ -119,7 +119,7 @@ export default function HomePage() {
               </span>
 
               <div
-                className="text-base px-8 py-4 h-[56px] flex items-center justify-center rounded-md bg-blue-600 text-white touch-target"
+                className="text-base px-8 py-4 h-[56px] flex items-center justify-center rounded-md bg-blue-600 text-white touch-target w-full sm:w-auto"
                 aria-live="polite"
               >
                 {loadingRate ? (
