@@ -1,3 +1,6 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -7,6 +10,27 @@ import { ChatWidget } from "@/components/chat-widget"
 import { PWAInstallPrompt } from "@/components/pwa-install-prompt"
 
 export default function HomePage() {
+  const [bcvRate, setBcvRate] = useState<string | null>(null);
+  const [loadingRate, setLoadingRate] = useState(true);
+
+  useEffect(() => {
+    const fetchRate = async () => {
+      try {
+        const response = await fetch('/api/tasa-bcv');
+        const data = await response.json();
+        if (data.rate) {
+          setBcvRate(data.rate);
+        }
+      } catch (error) {
+        console.error('Error fetching BCV rate:', error);
+      } finally {
+        setLoadingRate(false);
+      }
+    };
+
+    fetchRate();
+  }, []);
+
   const quickLinks = [
     {
       title: "Emergencias médicas",
@@ -94,18 +118,19 @@ export default function HomePage() {
                 Haz preguntas a asistentes de inteligencia artificial
               </span>
 
-              <Link href="/publicidad">
-                <Button
-                  size="lg"
-                  className="text-lg px-8 py-4 min-h-[56px] touch-target bg-red-600 hover:bg-red-700 text-white"
-                  aria-describedby="publicidad-desc"
-                >
-                  Publicidad
-                </Button>
-              </Link>
-              <span id="publicidad-desc" className="sr-only">
-                Ver publicidad
-              </span>
+              <div
+                className="text-base px-8 py-4 h-[56px] flex items-center justify-center rounded-md bg-blue-600 text-white touch-target"
+                aria-live="polite"
+              >
+                {loadingRate ? (
+                  <span>Cargando...</span>
+                ) : (
+                  <div className="text-center">
+                    <span className="block font-bold">Tasa BCV:</span>
+                    <span>{bcvRate ? bcvRate.replace('.', ',') : '...'}</span>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </section>
