@@ -14,8 +14,11 @@ export default function HomePage() {
   const [loadingRate, setLoadingRate] = useState(true);
 
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+
     const fetchRate = async () => {
       try {
+        setLoadingRate(true);
         const response = await fetch('/api/tasa-bcv');
         const data = await response.json();
         if (data.rate) {
@@ -25,10 +28,49 @@ export default function HomePage() {
         console.error('Error fetching BCV rate:', error);
       } finally {
         setLoadingRate(false);
+        scheduleNextFetch(); // Schedule the next fetch after the current one is done
       }
     };
 
-    fetchRate();
+    const scheduleNextFetch = () => {
+      const now = new Date();
+      const schedule = [
+        { hour: 16, minute: 0 },
+        { hour: 16, minute: 30 },
+        { hour: 17, minute: 30 },
+      ];
+
+      let nextFetchTime: Date | null = null;
+
+      // Find the next fetch time for today
+      for (const time of schedule) {
+        const fetchTime = new Date();
+        fetchTime.setHours(time.hour, time.minute, 0, 0);
+        if (fetchTime > now) {
+          nextFetchTime = fetchTime;
+          break;
+        }
+      }
+
+      // If all fetch times for today have passed, schedule for the first time tomorrow
+      if (!nextFetchTime) {
+        const tomorrow = new Date(now);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const firstTime = schedule[0];
+        tomorrow.setHours(firstTime.hour, firstTime.minute, 0, 0);
+        nextFetchTime = tomorrow;
+      }
+
+      const delay = nextFetchTime.getTime() - now.getTime();
+
+      timeoutId = setTimeout(fetchRate, delay);
+    };
+
+    fetchRate(); // Fetch immediately on mount
+
+    return () => {
+      clearTimeout(timeoutId); // Cleanup on unmount
+    };
   }, []);
 
   const quickLinks = [
