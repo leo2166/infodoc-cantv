@@ -161,7 +161,7 @@ export default function HomePage() {
               </span>
 
               <div
-                className="text-base px-8 py-4 h-[56px] flex items-center justify-center rounded-md bg-blue-600 text-white touch-target w-full sm:w-auto"
+                className="text-sm px-8 py-4 h-[56px] flex items-center justify-center rounded-md bg-blue-600 text-white touch-target w-full sm:w-auto"
                 aria-live="polite"
               >
                 {loadingRate ? (
