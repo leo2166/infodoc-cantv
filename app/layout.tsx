@@ -1,6 +1,6 @@
 import { Analytics } from "@vercel/analytics/react"
 import type React from "react"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Montserrat } from "next/font/google"
 import { Open_Sans } from "next/font/google"
 import Script from "next/script"
@@ -28,7 +28,6 @@ export const metadata: Metadata = {
   generator: "v0.app",
   keywords: "CANTV, jubilados, pensiones, beneficios, información, Venezuela",
   authors: [{ name: "InfoDoc CANTV" }],
-  viewport: "width=device-width, initial-scale=1, maximum-scale=5",
   robots: "index, follow",
   manifest: "/manifest.json",
   appleWebApp: {
@@ -42,7 +41,15 @@ export const metadata: Metadata = {
     type: "website",
     locale: "es_VE",
   },
-}
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#0891b2",
+  colorScheme: "light dark",
+};
 
 export default function RootLayout({
   children,

@@ -8,6 +8,7 @@ import { FileText, Newspaper, MessageCircle, Phone, Mail, MapPin, Users, Shield,
 import Link from "next/link"
 import { ChatWidget } from "@/components/chat-widget"
 import { PWAInstallPrompt } from "@/components/pwa-install-prompt"
+import FechaHora from '@/components/FechaHora';
 
 export default function HomePage() {
   const [bcvRate, setBcvRate] = useState<string | null>(null);
@@ -133,6 +134,7 @@ export default function HomePage() {
             <p className="text-xl sm:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
               Toda la información de interés al alcance de los jubilados de CANTV
             </p>
+            <FechaHora />
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link href="/informacion/fotos" className="w-full sm:w-auto">
                 <Button
