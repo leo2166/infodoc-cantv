@@ -4,11 +4,12 @@ import { useState, useEffect } from 'react';
 import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { FileText, Newspaper, MessageCircle, Phone, Mail, MapPin, Users, Shield, Clock } from "lucide-react"
+import { FileText, Newspaper, MessageCircle, Phone, Mail, MapPin, Users, Shield, Clock, HelpCircle } from "lucide-react"
 import Link from "next/link"
 import { ChatWidget } from "@/components/chat-widget"
 import { PWAInstallPrompt } from "@/components/pwa-install-prompt"
 import FechaHora from '@/components/FechaHora';
+import { EmergencyGuideModal } from "@/components/emergency-guide-modal";
 
 export default function HomePage() {
   const [bcvRate, setBcvRate] = useState<string | null>(null);
@@ -74,7 +75,11 @@ export default function HomePage() {
     };
   }, []);
 
-  const quickLinks = [
+
+
+// ... (rest of the file content)
+
+const quickLinks = [
     {
       title: "Emergencias médicas",
       description: "Contacto rápido para emergencias de salud",
@@ -162,6 +167,8 @@ export default function HomePage() {
                 Haz preguntas a asistentes de inteligencia artificial
               </span>
 
+
+
               <div
                 className="text-sm px-8 py-4 h-[56px] flex items-center justify-center rounded-md bg-blue-600 text-white touch-target w-full sm:w-auto"
                 aria-live="polite"
@@ -175,6 +182,15 @@ export default function HomePage() {
                   </div>
                 )}
               </div>
+            </div>
+            {/* New Emergency Text Link */}
+            <div className="mt-8 text-center">
+              <EmergencyGuideModal>
+                <div className="inline-flex items-center justify-center text-lg text-primary hover:underline cursor-pointer font-semibold touch-target">
+                  <HelpCircle className="w-5 h-5 mr-2" />
+                  <span>¿Qué debo hacer en caso de una Emergencia?</span>
+                </div>
+              </EmergencyGuideModal>
             </div>
           </div>
         </section>
