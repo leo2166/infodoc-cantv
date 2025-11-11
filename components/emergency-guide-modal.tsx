@@ -55,7 +55,7 @@ export function EmergencyGuideModal({ children }: EmergencyGuideModalProps) {
   return (
     <AlertDialog onOpenChange={handleOpenChange}>
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
-      <AlertDialogContent className="max-w-3xl">
+      <AlertDialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
         <AlertDialogHeader>
           <AlertDialogTitle className="text-2xl text-center">¿Qué hacer en caso de una Emergencia?</AlertDialogTitle>
           <AlertDialogDescription className="text-base text-center">
