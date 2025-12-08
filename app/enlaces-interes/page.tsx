@@ -20,6 +20,10 @@ export default function EnlacesInteresPage() {
       href: "https://youtu.be/nLq4uAbeTC8",
     },
     {
+      title: "Tutorial Farmacantv",
+      href: "https://youtu.be/9btLVX1LF6s",
+    },
+    {
       title: "Banco de Venezuela",
       href: "http://www.bancodevenezuela.com",
     },
