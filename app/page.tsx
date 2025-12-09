@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { FileText, Newspaper, MessageCircle, Phone, Mail, MapPin, Users, Shield, Clock, HelpCircle } from "lucide-react"
+import { FileText, Newspaper, MessageCircle, Phone, Mail, MapPin, Users, Shield, Clock, HelpCircle, ArrowDown } from "lucide-react"
 import Link from "next/link"
 import { ChatWidget } from "@/components/chat-widget"
 import { PWAInstallPrompt } from "@/components/pwa-install-prompt"
@@ -191,6 +191,10 @@ const quickLinks = [
                   <span>¿Qué debo hacer en caso de una Emergencia?</span>
                 </div>
               </EmergencyGuideModal>
+              {/* Arrow pointing to Quick Links */}
+              <div className="flex justify-center mt-4">
+                <ArrowDown className="w-6 h-6 text-blue-500 animate-bounce" />
+              </div>
             </div>
           </div>
         </section>
