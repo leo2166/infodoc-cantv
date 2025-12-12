@@ -1,4 +1,5 @@
 "use client";
+// Forzar actualización de Vercel
 
 import React, { useState } from "react";
 import { Navigation } from "@/components/navigation";
