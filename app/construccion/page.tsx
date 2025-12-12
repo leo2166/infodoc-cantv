@@ -6,6 +6,12 @@ import Link from "next/link";
 
 const documents = [
   {
+    title: "Descargar Autorización Bolsa Alim.",
+    fileName: "AutorizacionBolsa.pdf",
+    description: "Documento de autorización para la bolsa de alimentación.",
+    href: "/AutorizacionBolsa.pdf",
+  },
+  {
     title: "Estatutos de AJUPTEL ZULIA",
     fileName: "Estatutos.pdf",
     description: "Documento completo con los estatutos de la Asociación de Jubilados y Pensionados de Teléfonos de Venezuela, seccional Zulia.",
