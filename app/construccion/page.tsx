@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { Navigation } from "@/components/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
