@@ -24,8 +24,8 @@ export default function NominaPage() {
           <div className="flex flex-col gap-8">
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/n1.png"
-                alt="Información de nómina - Parte 1"
+                src="/nomina01_01_2026.png"
+                alt="Información de nómina - Enero 2026"
                 width={800}
                 height={1120}
                 priority
@@ -34,26 +34,8 @@ export default function NominaPage() {
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/n2.png"
-                alt="Información de nómina - Parte 2"
-                width={800}
-                height={1120}
-                className="rounded-md object-contain"
-              />
-            </div>
-            <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
-              <Image
-                src="/n3.png"
-                alt="Información de nómina - Parte 3"
-                width={800}
-                height={1120}
-                className="rounded-md object-contain"
-              />
-            </div>
-            <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
-              <Image
-                src="/n4.png"
-                alt="Información de nómina - Parte 4"
+                src="/CNC_DIC2025.png"
+                alt="Información de nómina - Diciembre 2025"
                 width={800}
                 height={1120}
                 className="rounded-md object-contain"
