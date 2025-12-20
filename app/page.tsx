@@ -144,7 +144,7 @@ const quickLinks = [
               <Link href="/informacion/fotos" className="w-full sm:w-auto">
                 <Button
                   size="lg"
-                  className="text-lg px-8 py-4 min-h-[56px] touch-target w-full"
+                  className="text-lg px-8 py-4 min-h-[56px] touch-target w-full hover:bg-yellow-400"
                   aria-describedby="explore-info-desc"
                 >
                   Explorar Información
@@ -157,7 +157,7 @@ const quickLinks = [
                 <Button
                   size="lg"
                   variant="aiChat"
-                  className="text-lg px-8 py-4 min-h-[56px] touch-target w-full"
+                  className="text-lg px-8 py-4 min-h-[56px] touch-target w-full hover:bg-yellow-400"
                   aria-describedby="ai-chat-desc"
                 >
                   Consultar con IA
@@ -186,11 +186,18 @@ const quickLinks = [
             {/* New Emergency Text Link */}
             <div className="mt-8 text-center">
               <EmergencyGuideModal>
-                <div className="inline-flex items-center justify-center text-lg text-primary hover:underline cursor-pointer font-semibold touch-target">
+                <Button
+                  size="lg"
+                  className="bg-red-500 text-white font-bold hover:bg-yellow-400 text-lg px-8 py-4 min-h-[56px] touch-target w-full sm:w-auto"
+                  aria-describedby="emergency-guide-desc"
+                >
                   <HelpCircle className="w-5 h-5 mr-2" />
-                  <span>¿Qué debo hacer en caso de una Emergencia?</span>
-                </div>
+                  <span>¿Qué hacer en caso de emergencia? CLIC AQUÍ</span>
+                </Button>
               </EmergencyGuideModal>
+              <span id="emergency-guide-desc" className="sr-only">
+                Guía completa sobre qué hacer en caso de emergencia. Haz clic aquí para más información.
+              </span>
               {/* Arrow pointing to Quick Links */}
               <div className="flex justify-center mt-4">
                 <ArrowDown className="w-6 h-6 text-blue-500 animate-bounce" />
