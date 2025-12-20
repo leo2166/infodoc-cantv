@@ -27,13 +27,12 @@ export default function GhzPage() {
           
           <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
             <Image
-              src="/ghz.jpg"
-              alt="Información sobre Gestión Humana Zulia"
-              width={800} 
-              height={1120}
-              priority
-              className="rounded-md object-contain"
-            />
+            src="/GH_Z.jpg"
+            alt="Gerencia de Talento Humano"
+            width={1200}
+            height={800}
+            className="rounded-lg shadow-lg"
+          />
           </div>
         </div>
       </main>

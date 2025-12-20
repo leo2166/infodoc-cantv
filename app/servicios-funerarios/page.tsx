@@ -22,15 +22,13 @@ export default function ServiciosFunerariosPage() {
             Servicios Funerarios El Rosal
           </h1>
           <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
-            <Image
-              src="/serviciosf.png"
-              alt="Información de Servicios Funerarios El Rosal"
-              width={800}
-              height={1120}
-              priority
-              className="rounded-md object-contain"
-            />
-          </div>
+                      <Image
+                        src="/SF_ELROSAL.jpg"
+                        alt="Servicios Funerarios El Rosal"
+                        width={1200}
+                        height={800}
+                        className="rounded-lg shadow-lg"
+                      />          </div>
         </div>
       </main>
     </div>

@@ -29,14 +29,13 @@ export default function FarmacantvPage() {
           </h1>
           <div className="flex flex-col gap-8">
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
-              <Image
-                src="/FarmaCantv1.png"
-                alt="Información sobre Farmacantv"
-                width={800}
-                height={1120}
-                priority
-                className="rounded-md object-contain"
-              />
+          <Image
+            src="/FarmaC.jpg"
+            alt="Farmacia FarmaCantv"
+            width={1200}
+            height={800}
+            className="rounded-lg shadow-lg"
+          />
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
