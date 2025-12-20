@@ -188,7 +188,7 @@ const quickLinks = [
               <EmergencyGuideModal>
                 <Button
                   size="lg"
-                  className="bg-red-500 text-white font-bold hover:bg-yellow-400 text-lg px-8 py-4 min-h-[56px] touch-target w-full sm:w-auto"
+                  className="bg-red-500 text-white font-bold hover:bg-yellow-400 text-base px-8 py-4 min-h-[56px] touch-target w-full sm:w-auto"
                   aria-describedby="emergency-guide-desc"
                 >
                   <HelpCircle className="w-5 h-5 mr-2" />
