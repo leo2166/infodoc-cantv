@@ -13,6 +13,7 @@ import { EmergencyGuideModal } from "@/components/emergency-guide-modal";
 
 export default function HomePage() {
   const [bcvRate, setBcvRate] = useState<string | null>(null);
+  const [bcvTimestamp, setBcvTimestamp] = useState<string | null>(null);
   const [loadingRate, setLoadingRate] = useState(true);
 
   useEffect(() => {
@@ -25,6 +26,7 @@ export default function HomePage() {
         const data = await response.json();
         if (data.rate) {
           setBcvRate(data.rate);
+          setBcvTimestamp(data.timestamp);
         }
       } catch (error) {
         console.error('Error fetching BCV rate:', error);
@@ -77,9 +79,9 @@ export default function HomePage() {
 
 
 
-// ... (rest of the file content)
+  // ... (rest of the file content)
 
-const quickLinks = [
+  const quickLinks = [
     {
       title: "Emergencias médicas",
       description: "Contacto rápido para emergencias de salud",
@@ -282,7 +284,7 @@ const quickLinks = [
                 <Phone className="w-8 h-8 text-primary mb-2" aria-hidden="true" />
                 <h3 className="font-semibold mb-1">Teléfono</h3>
                 <p className="text-muted-foreground">
-                  
+
                 </p>
               </div>
               <div className="flex flex-col items-center" role="listitem">
@@ -307,7 +309,7 @@ const quickLinks = [
         </section>
       </main>
 
-      
+
 
       {/* <ChatWidget /> */}
 
