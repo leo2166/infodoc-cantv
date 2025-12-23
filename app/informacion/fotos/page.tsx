@@ -21,13 +21,13 @@ const imageList = [
     href: '/informacion/ghz'
   },
   {
-    src: '/atejub.jpeg',
+    src: '/atejub.webp',
     alt: 'Información de Atención al Jubilado',
     title: 'Atención al Jubilado',
     href: '/informacion/atencion-jubilado'
   },
   {
-    src: '/biblioteca.jpg',
+    src: '/biblioteca.webp',
     alt: 'Libros y documentos en la biblioteca',
     title: 'Biblioteca',
     href: '/informacion/biblioteca'
@@ -55,7 +55,7 @@ export default function FotosPage() {
             Una guía visual de los documentos y procesos más importantes.
           </p>
         </div>
-        
+
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {imageList.map((image, index) => {
             const cardContent = (
