@@ -83,8 +83,8 @@ export async function POST(req: NextRequest) {
     } catch (error) {
         console.error('Error al subir archivo a R2:', error);
         return NextResponse.json(
-            { error: 'Error al subir el archivo'),
+            { error: 'Error al subir el archivo' },
             { status: 500 }
-    );
+        );
     }
 }
