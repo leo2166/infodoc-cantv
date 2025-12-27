@@ -10,22 +10,22 @@ const bookList = [
   {
     title: "La Inteligencia Artificial explicada a los humanos",
     author: "Jordi Torres",
-    href: "/LibroL1.pdf"
+    href: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/LibroL1.pdf"
   },
   {
     title: "El poder del Metabolismo",
     author: "Frank Suárez",
-    href: "/LibroL2.pdf"
+    href: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/LibroL2.pdf"
   },
   {
     title: "Diabetes Sin Problemas",
     author: "Frank Suárez",
-    href: "/LibroL3.pdf"
+    href: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/LibroL3.pdf"
   },
   {
     title: "Dieta Cetogénica Reto Keto 28 Días",
     author: "Barbara White",
-    href: "/LibroL4 .pdf" // Note the space in the filename
+    href: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/LibroL4 .pdf"
   },
 ];
 
@@ -50,13 +50,13 @@ export default function BibliotecaPage() {
             Selecciona un libro para comenzar a leer.
           </p>
         </div>
-        
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {bookList.map((book) => (
-            <a 
-              href={book.href} 
-              key={book.title} 
-              target="_blank" 
+            <a
+              href={book.href}
+              key={book.title}
+              target="_blank"
               rel="noopener noreferrer"
               className="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg block h-full"
             >

@@ -39,7 +39,7 @@ export function EmergencyGuideModal({ children }: EmergencyGuideModalProps) {
   const handleAudioEnded = () => {
     setIsPlaying(false);
   };
-  
+
   const handleOpenChange = (open: boolean) => {
     // Stop and reset audio when modal is closed
     if (!open) {
@@ -65,7 +65,7 @@ export function EmergencyGuideModal({ children }: EmergencyGuideModalProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center justify-center my-4">
           <div className="flex flex-col items-center">
             <Image
-              src="/EM1.png"
+              src="https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/EM1.png"
               alt="Persona mayor llamando a emergencias y operadora de call center atendiendo"
               width={600}
               height={400}
@@ -76,7 +76,7 @@ export function EmergencyGuideModal({ children }: EmergencyGuideModalProps) {
             <p className="text-lg">
               En una situación de emergencia, lo más importante es mantener la calma.
             </p>
-            
+
             <Button onClick={handlePlayPause} className="w-auto text-lg py-6">
               {isPlaying ? (
                 <PauseCircle className="mr-2 h-5 w-5" />

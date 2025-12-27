@@ -13,7 +13,7 @@ export default function NoticiasPage() {
     category: "Pensiones",
     date: "2025-01-15",
     readTime: "3 min",
-    image: "/elderly-celebration.png",
+    image: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/elderly-celebration.png",
     featured: true,
   }
 
@@ -25,7 +25,7 @@ export default function NoticiasPage() {
       category: "Beneficios",
       date: "2025-01-12",
       readTime: "4 min",
-      image: "/elderly-medical-care.png",
+      image: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/elderly-medical-care.png",
     },
     {
       id: "evento-navidad-jubilados",
@@ -34,7 +34,7 @@ export default function NoticiasPage() {
       category: "Eventos",
       date: "2025-01-10",
       readTime: "2 min",
-      image: "/elderly-christmas-celebration.png",
+      image: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/elderly-christmas-celebration.png",
     },
     {
       id: "nuevas-oficinas-atencion",
@@ -43,7 +43,7 @@ export default function NoticiasPage() {
       category: "Servicios",
       date: "2025-01-08",
       readTime: "3 min",
-      image: "/modern-office-building.png",
+      image: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/modern-office-building.png",
     },
     {
       id: "programa-recreacion",
@@ -52,7 +52,7 @@ export default function NoticiasPage() {
       category: "Bienestar",
       date: "2025-01-05",
       readTime: "5 min",
-      image: "/elderly-recreation.png",
+      image: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/elderly-recreation.png",
     },
     {
       id: "actualizacion-sistema-pagos",

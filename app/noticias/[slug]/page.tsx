@@ -16,7 +16,7 @@ const newsArticles = {
     date: "2025-01-15",
     readTime: "3 min",
     author: "Departamento de Comunicaciones CANTV",
-    image: "/elderly-celebration.png",
+    image: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/elderly-celebration.png",
     content: `
       <p>La Compañía Anónima Nacional Teléfonos de Venezuela (CANTV) se complace en anunciar un incremento del 15% en las pensiones de todos sus jubilados, medida que entrará en vigencia a partir del mes de enero de 2025.</p>
       
@@ -44,7 +44,7 @@ const newsArticles = {
     date: "2025-01-12",
     readTime: "4 min",
     author: "Departamento de Bienestar Social",
-    image: "/elderly-medical-care.png",
+    image: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/elderly-medical-care.png",
     content: `
       <p>CANTV anuncia la ampliación significativa de la cobertura médica para sus jubilados, incorporando nuevas especialidades y tratamientos que mejorarán sustancialmente la atención de salud disponible.</p>
       
