@@ -12,70 +12,7 @@ import FechaHora from '@/components/FechaHora';
 import { EmergencyGuideModal } from "@/components/emergency-guide-modal";
 
 export default function HomePage() {
-  const [bcvRate, setBcvRate] = useState<string | null>(null);
-  const [bcvTimestamp, setBcvTimestamp] = useState<string | null>(null);
-  const [loadingRate, setLoadingRate] = useState(true);
 
-  useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
-
-    const fetchRate = async () => {
-      try {
-        setLoadingRate(true);
-        const response = await fetch('/api/tasa-bcv');
-        const data = await response.json();
-        if (data.rate) {
-          setBcvRate(data.rate);
-          setBcvTimestamp(data.timestamp);
-        }
-      } catch (error) {
-        console.error('Error fetching BCV rate:', error);
-      } finally {
-        setLoadingRate(false);
-        scheduleNextFetch(); // Schedule the next fetch after the current one is done
-      }
-    };
-
-    const scheduleNextFetch = () => {
-      const now = new Date();
-      const schedule = [
-        { hour: 16, minute: 0 },
-        { hour: 16, minute: 30 },
-        { hour: 17, minute: 30 },
-      ];
-
-      let nextFetchTime: Date | null = null;
-
-      // Find the next fetch time for today
-      for (const time of schedule) {
-        const fetchTime = new Date();
-        fetchTime.setHours(time.hour, time.minute, 0, 0);
-        if (fetchTime > now) {
-          nextFetchTime = fetchTime;
-          break;
-        }
-      }
-
-      // If all fetch times for today have passed, schedule for the first time tomorrow
-      if (!nextFetchTime) {
-        const tomorrow = new Date(now);
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        const firstTime = schedule[0];
-        tomorrow.setHours(firstTime.hour, firstTime.minute, 0, 0);
-        nextFetchTime = tomorrow;
-      }
-
-      const delay = nextFetchTime.getTime() - now.getTime();
-
-      timeoutId = setTimeout(fetchRate, delay);
-    };
-
-    fetchRate(); // Fetch immediately on mount
-
-    return () => {
-      clearTimeout(timeoutId); // Cleanup on unmount
-    };
-  }, []);
 
 
 
@@ -171,19 +108,15 @@ export default function HomePage() {
 
 
 
-              <div
-                className="text-sm px-8 py-4 h-[56px] flex items-center justify-center rounded-md bg-blue-600 text-white touch-target w-full sm:w-auto"
-                aria-live="polite"
+              <a
+                href="https://leo2166.github.io/news-scraper/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm px-8 py-4 h-[56px] flex items-center justify-center rounded-md bg-blue-600 text-white touch-target w-full sm:w-auto hover:bg-blue-700 transition-colors"
+                aria-label="Noticias y Tasas del Dólar en Venezuela"
               >
-                {loadingRate ? (
-                  <span>Cargando...</span>
-                ) : (
-                  <div className="text-center">
-                    <span className="block font-bold">Tasa BCV:</span>
-                    <span>{bcvRate ? bcvRate.replace('.', ',') : '...'}</span>
-                  </div>
-                )}
-              </div>
+                Noticias y Tasas Bs/$
+              </a>
             </div>
             {/* New Emergency Text Link */}
             <div className="mt-8 text-center">
