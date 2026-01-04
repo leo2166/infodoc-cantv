@@ -1,8 +1,7 @@
 import { Analytics } from "@vercel/analytics/react"
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import { Montserrat } from "next/font/google"
-import { Open_Sans } from "next/font/google"
+import { Montserrat, Open_Sans, Anton } from "next/font/google"
 import Script from "next/script"
 import "./globals.css"
 import { AccessibilityToolbar } from "@/components/accessibility-toolbar"
@@ -20,6 +19,13 @@ const openSans = Open_Sans({
   display: "swap",
   variable: "--font-sans",
   weight: ["400", "500", "600"],
+})
+
+const anton = Anton({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-anton",
+  weight: "400",
 })
 
 export const metadata: Metadata = {
@@ -57,7 +63,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es" className={`${montserrat.variable} ${openSans.variable}`}>
+    <html lang="es" className={`${montserrat.variable} ${openSans.variable} ${anton.variable}`}>
       <head>
         <Script id="google-tag-manager" strategy="afterInteractive">
           {`

@@ -83,7 +83,7 @@ export default function HomePage() {
               <Link href="/informacion/fotos" className="w-full sm:w-auto">
                 <Button
                   size="lg"
-                  className="text-lg px-8 py-4 min-h-[56px] touch-target w-full hover:bg-yellow-400"
+                  className="font-anton font-bold text-lg px-8 py-4 min-h-[56px] touch-target w-full hover:bg-yellow-400"
                   aria-describedby="explore-info-desc"
                 >
                   Explorar Información
@@ -96,7 +96,7 @@ export default function HomePage() {
                 <Button
                   size="lg"
                   variant="aiChat"
-                  className="text-lg px-8 py-4 min-h-[56px] touch-target w-full hover:bg-yellow-400"
+                  className="font-anton font-bold text-lg px-8 py-4 min-h-[56px] touch-target w-full hover:bg-yellow-400"
                   aria-describedby="ai-chat-desc"
                 >
                   Consultar con IA
@@ -112,7 +112,7 @@ export default function HomePage() {
                 href="https://leo2166.github.io/news-scraper/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm px-8 py-4 h-[56px] flex items-center justify-center rounded-md bg-blue-600 text-white touch-target w-full sm:w-auto hover:bg-blue-700 transition-colors"
+                className="font-anton font-bold text-lg px-8 py-4 h-[56px] flex items-center justify-center rounded-md bg-blue-600 text-white touch-target w-full sm:w-auto hover:bg-blue-700 transition-colors"
                 aria-label="Noticias y Tasas del Dólar en Venezuela"
               >
                 Noticias y Tasas Bs/$

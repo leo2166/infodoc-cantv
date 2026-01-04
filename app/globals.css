@@ -138,6 +138,7 @@
   /* Added font family variables for Montserrat and Open Sans */
   --font-sans: "Open Sans", ui-sans-serif, system-ui, sans-serif;
   --font-heading: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-anton: "Anton", ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
@@ -232,5 +233,11 @@
 
   .success {
     @apply border-green-500 text-green-700;
+  }
+}
+
+@layer utilities {
+  .font-anton {
+    font-family: var(--font-anton);
   }
 }
