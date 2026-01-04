@@ -49,12 +49,12 @@ export default function ChatPage() {
       </header>
       <main className="flex-1 overflow-y-auto p-4">
         <div className="max-w-2xl mx-auto mb-4">
-            <Link href="/chat-ia">
-              <Button variant="outline" className="touch-target">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Volver a la selección
-              </Button>
-            </Link>
+          <Link href="/">
+            <Button variant="outline" className="touch-target">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Volver al Inicio
+            </Button>
+          </Link>
         </div>
         <Card className="w-full max-w-2xl mx-auto">
           <CardHeader>

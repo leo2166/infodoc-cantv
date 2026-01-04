@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -19,6 +19,31 @@ export function AccessibilityToolbar() {
   const { theme, setTheme } = useTheme()
   const [updateAvailable, setUpdateAvailable] = useState(false)
   const [waitingWorker, setWaitingWorker] = useState<ServiceWorker | null>(null)
+  const toolbarRef = useRef<HTMLDivElement>(null)
+
+  // Close toolbar when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (toolbarRef.current && !toolbarRef.current.contains(event.target as Node)) {
+        // Check if the click is on the toggle button itself to avoid immediate reopening
+        const toggleButton = document.querySelector('[aria-label="Abrir herramientas de accesibilidad"], [aria-label="Cerrar herramientas de accesibilidad"]');
+        if (toggleButton && toggleButton.contains(event.target as Node)) {
+          return;
+        }
+        setIsOpen(false)
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside)
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [isOpen])
 
   useEffect(() => {
     // Lógica para detectar actualizaciones del Service Worker
@@ -108,7 +133,7 @@ export function AccessibilityToolbar() {
       </div>
 
       {isOpen && (
-        <div className="fixed top-32 right-4 z-40 w-72">
+        <div ref={toolbarRef} className="fixed top-32 right-4 z-40 w-72">
           <Card className="shadow-2xl border-2">
             <CardContent className="p-4">
               <h3 className="font-heading font-bold text-lg mb-4">Herramientas de Accesibilidad</h3>
