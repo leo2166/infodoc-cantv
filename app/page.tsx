@@ -68,7 +68,14 @@ export default function HomePage() {
         {/* Hero Section */}
         {/* Forzando actualización para Vercel */}
         <section className="relative py-20 px-4 sm:px-6 lg:px-8" aria-labelledby="hero-heading">
-          <div className="max-w-7xl mx-auto text-center">
+          <div className="absolute inset-0 z-0">
+            <img
+              src="/fusionbanderas.png"
+              alt="Fondo de banderas fusionadas"
+              className="w-full h-full object-cover opacity-20"
+            />
+          </div>
+          <div className="relative z-10 max-w-7xl mx-auto text-center">
             <h1
               id="hero-heading"
               className="text-4xl sm:text-5xl lg:text-6xl font-heading font-black text-foreground mb-6"
