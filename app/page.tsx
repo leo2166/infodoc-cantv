@@ -90,7 +90,7 @@ export default function HomePage() {
               <Link href="/informacion/fotos" className="w-full sm:w-auto">
                 <Button
                   size="lg"
-                  className="font-anton text-lg px-8 py-4 min-h-[56px] touch-target w-full hover:bg-yellow-400"
+                  className="font-anton text-lg px-8 py-4 min-h-[56px] touch-target w-full hover:bg-black"
                   aria-describedby="explore-info-desc"
                 >
                   Explorar Información
@@ -103,7 +103,7 @@ export default function HomePage() {
                 <Button
                   size="lg"
                   variant="aiChat"
-                  className="font-anton text-lg px-8 py-4 min-h-[56px] touch-target w-full hover:bg-yellow-400"
+                  className="font-anton text-lg px-8 py-4 min-h-[56px] touch-target w-full hover:bg-black"
                   aria-describedby="ai-chat-desc"
                 >
                   Consultar con IA
@@ -119,7 +119,7 @@ export default function HomePage() {
                 href="https://leo2166.github.io/news-scraper/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-anton text-lg px-8 py-4 h-[56px] flex items-center justify-center rounded-md bg-blue-600 text-white touch-target w-full sm:w-auto hover:bg-blue-700 transition-colors"
+                className="font-anton text-lg px-8 py-4 h-[56px] flex items-center justify-center rounded-md bg-blue-600 text-white touch-target w-full sm:w-auto hover:bg-black transition-colors"
                 aria-label="Noticias y Tasas del Dólar en Venezuela"
               >
                 Noticias y Tasas Bs/$
@@ -130,7 +130,7 @@ export default function HomePage() {
               <EmergencyGuideModal>
                 <Button
                   size="lg"
-                  className="bg-red-500 text-white font-bold hover:bg-yellow-400 text-sm px-8 py-4 min-h-[56px] touch-target w-full sm:w-auto"
+                  className="bg-red-500 text-white font-bold hover:bg-black text-sm px-8 py-4 min-h-[56px] touch-target w-full sm:w-auto"
                   aria-describedby="emergency-guide-desc"
                 >
                   <HelpCircle className="w-5 h-5 mr-2" />
