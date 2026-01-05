@@ -24,7 +24,7 @@ export default function NominaPage() {
           <div className="flex flex-col gap-8">
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/nomina01_01_2026.png"
+                src="/enero_2026.png"
                 alt="Información de nómina - Enero 2026"
                 width={800}
                 height={1120}
