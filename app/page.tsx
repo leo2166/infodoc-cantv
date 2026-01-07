@@ -93,7 +93,7 @@ export default function HomePage() {
                   className="font-anton text-lg px-8 py-4 min-h-[56px] touch-target w-full rounded-lg btn-explore flex items-center justify-center gap-2"
                   aria-describedby="explore-info-desc"
                 >
-                  Explorar Información
+                  Información CANTV
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
                   </svg>
