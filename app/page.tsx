@@ -66,13 +66,12 @@ export default function HomePage() {
 
       <main role="main">
         {/* Hero Section */}
-        {/* Forzando actualización para Vercel */}
-        <section className="relative py-20 px-4 sm:px-6 lg:px-8" aria-labelledby="hero-heading">
-          <div className="absolute inset-0 z-0">
+        <section className="relative py-20 px-4 sm:px-6 lg:px-8 hero-gradient" aria-labelledby="hero-heading">
+          <div className="absolute inset-0 z-0 overflow-hidden">
             <img
               src="/fusionbanderas.png"
               alt="Fondo de banderas fusionadas"
-              className="w-full h-full object-cover opacity-20"
+              className="w-full h-full object-cover opacity-10"
             />
           </div>
           <div className="relative z-10 max-w-7xl mx-auto text-center">
@@ -85,29 +84,31 @@ export default function HomePage() {
             <p className="text-xl sm:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
               Toda la información de interés al alcance de los jubilados de CANTV
             </p>
-            <FechaHora />
+            <div className="datetime-widget inline-block mb-8">
+              <FechaHora />
+            </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link href="/informacion/fotos" className="w-full sm:w-auto">
-                <Button
-                  size="lg"
-                  className="font-anton text-lg px-8 py-4 min-h-[56px] touch-target w-full hover:bg-black"
+                <button
+                  className="font-anton text-lg px-8 py-4 min-h-[56px] touch-target w-full rounded-lg btn-explore flex items-center justify-center gap-2"
                   aria-describedby="explore-info-desc"
                 >
                   Explorar Información
-                </Button>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                  </svg>
+                </button>
               </Link>
               <span id="explore-info-desc" className="sr-only">
                 Accede a información sobre pensiones, beneficios y trámites
               </span>
               <Link href="/chat-deepseek" className="w-full sm:w-auto">
-                <Button
-                  size="lg"
-                  variant="aiChat"
-                  className="font-anton text-lg px-8 py-4 min-h-[56px] touch-target w-full hover:bg-black"
+                <button
+                  className="font-anton text-lg px-8 py-4 min-h-[56px] touch-target w-full rounded-lg btn-ai flex items-center justify-center gap-2"
                   aria-describedby="ai-chat-desc"
                 >
-                  Consultar con IA
-                </Button>
+                  ✨ Consultar con IA
+                </button>
               </Link>
               <span id="ai-chat-desc" className="sr-only">
                 Haz preguntas a asistentes de inteligencia artificial
@@ -119,23 +120,22 @@ export default function HomePage() {
                 href="https://leo2166.github.io/news-scraper/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-anton text-lg px-8 py-4 h-[56px] flex items-center justify-center rounded-md bg-blue-600 text-white touch-target w-full sm:w-auto hover:bg-black transition-colors"
+                className="font-anton text-lg px-8 py-4 h-[56px] flex items-center justify-center rounded-lg btn-news touch-target w-full sm:w-auto gap-2"
                 aria-label="Noticias y Tasas del Dólar en Venezuela"
               >
-                Noticias y Tasas Bs/$
+                📰 Noticias y Tasas Bs/$
               </a>
             </div>
             {/* New Emergency Text Link */}
-            <div className="mt-8 text-center">
+            <div className="mt-8 flex flex-col items-center justify-center text-center">
               <EmergencyGuideModal>
-                <Button
-                  size="lg"
-                  className="bg-red-500 text-white font-bold hover:bg-black text-sm px-8 py-4 min-h-[56px] touch-target w-full sm:w-auto"
+                <button
+                  className="font-bold text-sm px-8 py-4 min-h-[56px] touch-target w-full sm:w-auto rounded-lg btn-emergency flex items-center justify-center gap-2"
                   aria-describedby="emergency-guide-desc"
                 >
-                  <HelpCircle className="w-5 h-5 mr-2" />
+                  <HelpCircle className="w-5 h-5" />
                   <span>¿Qué hacer en caso de emergencia? CLIC AQUÍ</span>
-                </Button>
+                </button>
               </EmergencyGuideModal>
               <span id="emergency-guide-desc" className="sr-only">
                 Guía completa sobre qué hacer en caso de emergencia. Haz clic aquí para más información.
@@ -149,36 +149,38 @@ export default function HomePage() {
         </section>
 
         {/* Quick Links */}
-        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-muted/30" aria-labelledby="quick-links-heading">
+        <section className="py-16 px-4 sm:px-6 lg:px-8" aria-labelledby="quick-links-heading">
           <div className="max-w-7xl mx-auto">
             <h2 id="quick-links-heading" className="text-3xl font-heading font-bold text-center mb-12">
               Accesos Rápidos
             </h2>
             <div className="grid md:grid-cols-3 gap-8" role="list">
-              {quickLinks.map((link) => {
+              {quickLinks.map((link, index) => {
                 const Icon = link.icon
+                // Asignar clase de tarjeta según el tipo
+                const cardColorClass = link.href === '/emergencias' ? 'card-emergency'
+                  : link.href === '/nomina' ? 'card-nomina'
+                    : 'card-funeraria'
                 return (
                   <div key={link.href} role="listitem">
                     <Link href={link.href} aria-describedby={`link-desc-${link.href.replace("/", "")}`}>
-                      <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2">
-                        <CardHeader className="text-center">
+                      <div className={`h-full glass-card ${cardColorClass} rounded-xl p-6 cursor-pointer transition-all duration-300 focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2`}>
+                        <div className="text-center">
                           <div
-                            className={`w-16 h-16 ${link.color} rounded-full flex items-center justify-center mx-auto mb-4`}
+                            className={`w-16 h-16 ${link.color} rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg`}
                             aria-hidden="true"
                           >
                             <Icon className="w-8 h-8 text-white" />
                           </div>
-                          <CardTitle className="text-xl">{link.title}</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <CardDescription
-                            className="text-center text-base"
+                          <h3 className="text-xl font-heading font-semibold mb-2">{link.title}</h3>
+                          <p
+                            className="text-muted-foreground text-base"
                             id={`link-desc-${link.href.replace("/", "")}`}
                           >
                             {link.description}
-                          </CardDescription>
-                        </CardContent>
-                      </Card>
+                          </p>
+                        </div>
+                      </div>
                     </Link>
                   </div>
                 )

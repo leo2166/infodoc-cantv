@@ -22,13 +22,13 @@ export default function EmergenciasPage() {
             Números de Contacto para Emergencias
           </h1>
           <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
-          <Image
-            src="/NE.jpg"
-            alt="Números de Emergencia"
-            width={1200}
-            height={800}
-            className="rounded-lg shadow-lg"
-          />
+            <Image
+              src="/emergencias.webp"
+              alt="Números de Emergencia"
+              width={1200}
+              height={800}
+              className="rounded-lg shadow-lg"
+            />
           </div>
         </div>
       </main>
