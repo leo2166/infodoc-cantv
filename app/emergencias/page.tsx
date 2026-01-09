@@ -38,35 +38,52 @@ export default function EmergenciasPage() {
           <div className="bg-white px-4 py-8 sm:p-12 rounded-2xl shadow-[0_10px_40px_rgba(0,92,185,0.15)] border border-gray-100">
 
             {/* ENCABEZADO */}
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start mb-8 gap-6 relative">
               {/* Izquierda: Título y Logo */}
-              <div className="flex flex-col gap-6">
-                <h1 className="text-5xl sm:text-6xl font-extrabold text-[#005CB9] tracking-tight">
+              <div className="flex flex-col gap-4 w-full sm:w-auto">
+                <h1 className="text-5xl sm:text-6xl font-extrabold text-[#005CB9] tracking-tight text-center sm:text-left">
                   Infodoc
                 </h1>
 
-                {/* Logo CANTV */}
-                <div className="bg-[#005CB9] rounded-3xl w-[140px] h-[140px] flex items-center justify-center shadow-lg">
-                  <Image
-                    src="/logocantv.png"
-                    alt="CANTV"
-                    width={130}
-                    height={80}
-                    className="object-contain"
-                    priority
-                  />
+                {/* Contenedor Logo + Texto Móvil */}
+                <div className="flex flex-row sm:flex-col items-center sm:items-start gap-4 sm:gap-6 justify-center sm:justify-start">
+
+                  {/* Logo CANTV */}
+                  <div className="bg-[#005CB9] rounded-3xl w-[100px] h-[100px] sm:w-[140px] sm:h-[140px] flex-shrink-0 flex items-center justify-center shadow-lg">
+                    <Image
+                      src="/logocantv.png"
+                      alt="CANTV"
+                      width={130}
+                      height={80}
+                      className="object-contain w-20 h-20 sm:w-32 sm:h-24"
+                      priority
+                    />
+                  </div>
+
+                  {/* Texto visible SOLO EN MÓVIL (al lado del logo) */}
+                  <div className="block sm:hidden text-left flex-grow">
+                    <h2 className="text-2xl font-extrabold text-[#005CB9] leading-tight">
+                      Números de
+                    </h2>
+                    <h2 className="text-2xl font-extrabold text-[#005CB9] leading-tight">
+                      Emergencia
+                    </h2>
+                    <p className="text-4xl font-extrabold text-[#005CB9] mt-1 leading-none">
+                      24 hrs
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              {/* Derecha: Título Emergencia */}
-              <div className="text-left sm:text-right">
-                <h2 className="text-4xl sm:text-5xl font-extrabold text-[#005CB9] leading-tight">
+              {/* Derecha: Texto visible SOLO EN DESKTOP (alineado a la derecha) */}
+              <div className="hidden sm:block text-right mt-6 sm:mt-0">
+                <h2 className="text-5xl font-extrabold text-[#005CB9] leading-tight">
                   Números de
                 </h2>
-                <h2 className="text-4xl sm:text-5xl font-extrabold text-[#005CB9] leading-tight">
+                <h2 className="text-5xl font-extrabold text-[#005CB9] leading-tight">
                   Emergencia
                 </h2>
-                <p className="text-5xl sm:text-6xl font-extrabold text-[#005CB9] mt-2">
+                <p className="text-6xl font-extrabold text-[#005CB9] mt-2">
                   24 hrs
                 </p>
               </div>
@@ -86,22 +103,24 @@ export default function EmergenciasPage() {
             </div>
 
             {/* LISTA DE NÚMEROS */}
-            <div className="flex flex-col items-center gap-2 text-center">
-              {emergencyNumbers.map((item, index) => {
-                if (item.display === "sep") return <div key={index} className="h-6" />
+            <div className="flex justify-center">
+              <div className="flex flex-col items-start gap-2 text-left pl-8">
+                {emergencyNumbers.map((item, index) => {
+                  if (item.display === "sep") return <div key={index} className="h-6" />
 
-                return (
-                  <a
-                    key={index}
-                    href={`tel:${item.tel}`}
-                    className="group transition-all duration-200 active:scale-95 hover:scale-105"
-                  >
-                    <span className={`text-3xl sm:text-5xl text-black leading-tight group-hover:text-[#005CB9] transition-colors ${item.bold ? 'font-extrabold' : 'font-semibold'}`}>
-                      {item.display}
-                    </span>
-                  </a>
-                )
-              })}
+                  return (
+                    <a
+                      key={index}
+                      href={`tel:${item.tel}`}
+                      className="group transition-all duration-200 active:scale-95 hover:scale-105"
+                    >
+                      <span className={`text-3xl sm:text-5xl text-black leading-tight group-hover:text-[#005CB9] transition-colors ${item.bold ? 'font-extrabold' : 'font-semibold'}`}>
+                        {item.display}
+                      </span>
+                    </a>
+                  )
+                })}
+              </div>
             </div>
 
           </div>
