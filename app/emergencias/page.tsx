@@ -90,7 +90,7 @@ export default function EmergenciasPage() {
             </div>
 
             {/* SEPARADOR DE PUNTOS */}
-            <div className="flex justify-between items-center gap-1 sm:gap-2 mb-12 overflow-hidden">
+            <div className="flex justify-between items-center gap-1 sm:gap-2 mb-6 overflow-hidden">
               {[...Array(16)].map((_, i) => (
                 <div
                   key={i}
@@ -101,6 +101,11 @@ export default function EmergenciasPage() {
                 />
               ))}
             </div>
+
+            {/* TEXTO GUÍA */}
+            <h3 className="text-center text-red-600 font-extrabold text-lg sm:text-xl mb-8 uppercase tracking-wide">
+              Clic en el número que desea marcar
+            </h3>
 
             {/* LISTA DE NÚMEROS */}
             <div className="flex justify-center">
