@@ -24,8 +24,8 @@ export default function NominaPage() {
           <div className="flex flex-col gap-8">
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/enero_2026.png"
-                alt="Información de nómina - Enero 2026"
+                src="/1.webp"
+                alt="Información de nómina"
                 width={800}
                 height={1120}
                 priority
@@ -34,8 +34,8 @@ export default function NominaPage() {
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/CNC_DIC2025.png"
-                alt="Información de nómina - Diciembre 2025"
+                src="/2.webp"
+                alt="Información de nómina"
                 width={800}
                 height={1120}
                 className="rounded-md object-contain"
