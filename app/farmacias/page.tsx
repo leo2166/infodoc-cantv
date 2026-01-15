@@ -17,8 +17,8 @@ export default function FarmaciasPage() {
     { name: "Farmaexpress", contact: "04126913703", type: "whatsapp", location: "Delicias" },
     { name: "Maraplus", contact: "04246998400", type: "telegram", location: "Delicias" },
     { name: "SAAS", contact: "04122267724", type: "whatsapp", location: "Bella Vista" },
-    { name: "Nueva Goajira", contact: "04120701895", type: "whatsapp", location: "Rómulo" },
-    { name: "Farmaclic", contact: "04124755829", type: "whatsapp", location: "Halcox a arriba" }
+    { name: "Nueva Goajira", contact: "04120701895", type: "whatsapp", location: "Pomona" },
+    { name: "Farmaclic", contact: "04124755829", type: "whatsapp", location: "Haticos" }
   ]
 
   // Función para generar el enlace correcto según el tipo
@@ -89,8 +89,40 @@ export default function FarmaciasPage() {
           {/* Contenedor de la tabla */}
           <div className="bg-card rounded-b-2xl shadow-lg overflow-hidden">
             <div className="p-6 sm:p-8">
-              {/* Tabla responsive */}
-              <div className="overflow-x-auto">
+              {/* Vista de tarjetas para móvil */}
+              <div className="block sm:hidden space-y-4">
+                {farmacias.map((farmacia, index) => (
+                  <div
+                    key={index}
+                    className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm"
+                  >
+                    <div className="flex items-start justify-between mb-2">
+                      <h3 className="font-bold text-lg text-foreground">
+                        {farmacia.name}
+                      </h3>
+                      <div className="flex-shrink-0 ml-2">
+                        {getIcon(farmacia.type)}
+                      </div>
+                    </div>
+                    <a
+                      href={getContactLink(farmacia)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-lg font-bold text-primary hover:text-primary/80 hover:underline transition-all active:scale-95 inline-block"
+                    >
+                      {formatContact(farmacia)}
+                    </a>
+                    {farmacia.location && (
+                      <p className="text-sm text-muted-foreground mt-1">
+                        📍 {farmacia.location}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Tabla para desktop */}
+              <div className="hidden sm:block overflow-x-auto">
                 <table className="w-full">
                   <thead>
                     <tr className="bg-blue-50">
