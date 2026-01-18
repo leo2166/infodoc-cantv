@@ -8,6 +8,7 @@ import { FileText, Newspaper, MessageCircle, Phone, Mail, MapPin, Users, Shield,
 import Link from "next/link"
 import { ChatWidget } from "@/components/chat-widget"
 import { PWAInstallPrompt } from "@/components/pwa-install-prompt"
+import { RippleBackground } from "@/components/ui/ripple-background"
 import FechaHora from '@/components/FechaHora';
 import { EmergencyGuideModal } from "@/components/emergency-guide-modal";
 
@@ -64,7 +65,8 @@ export default function HomePage() {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <main role="main">
+      <main role="main" className="relative">
+
         {/* Hero Section */}
         <section className="relative py-20 px-4 sm:px-6 lg:px-8 hero-gradient" aria-labelledby="hero-heading">
           <div className="absolute inset-0 z-0 overflow-hidden">
@@ -74,6 +76,7 @@ export default function HomePage() {
               className="w-full h-full object-cover opacity-10"
             />
           </div>
+          <RippleBackground />
           <div className="relative z-10 max-w-7xl mx-auto text-center">
             <h1
               id="hero-heading"

@@ -140,6 +140,20 @@
   --font-heading: "Montserrat", ui-sans-serif, system-ui, sans-serif;
   --font-anton: "Anton", ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  
+  --animate-ripple: ripple 3s linear infinite;
+  
+  @keyframes ripple {
+    0% {
+      transform: scale(0.1);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(3);
+      opacity: 0;
+    }
+  }
 }
 
 @layer base {
