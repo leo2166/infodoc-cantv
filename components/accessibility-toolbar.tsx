@@ -23,11 +23,23 @@ export function AccessibilityToolbar() {
 
   // Close toolbar when clicking outside
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (toolbarRef.current && !toolbarRef.current.contains(event.target as Node)) {
+    function handleClickOutside(event: MouseEvent | TouchEvent) {
+      const target = event.target as Node;
+
+      // Ignore clicks/touches inside Radix UI portals and select dropdowns
+      const element = target as Element;
+      const isInRadixUI =
+        element.closest?.('[data-radix-portal]') ||
+        element.closest?.('[data-radix-popper-content-wrapper]') ||
+        element.closest?.('[role="listbox"]') ||
+        element.closest?.('[role="option"]');
+
+      if (isInRadixUI) return;
+
+      if (toolbarRef.current && !toolbarRef.current.contains(target)) {
         // Check if the click is on the toggle button itself to avoid immediate reopening
         const toggleButton = document.querySelector('[aria-label="Abrir herramientas de accesibilidad"], [aria-label="Cerrar herramientas de accesibilidad"]');
-        if (toggleButton && toggleButton.contains(event.target as Node)) {
+        if (toggleButton && toggleButton.contains(target)) {
           return;
         }
         setIsOpen(false)
@@ -36,12 +48,15 @@ export function AccessibilityToolbar() {
 
     if (isOpen) {
       document.addEventListener("mousedown", handleClickOutside)
+      document.addEventListener("touchstart", handleClickOutside)
     } else {
       document.removeEventListener("mousedown", handleClickOutside)
+      document.removeEventListener("touchstart", handleClickOutside)
     }
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside)
+      document.removeEventListener("touchstart", handleClickOutside)
     }
   }, [isOpen])
 
