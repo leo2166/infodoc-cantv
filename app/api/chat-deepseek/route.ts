@@ -1,72 +1,49 @@
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const { message } = await req.json();
-  const MAX_RETRIES = 5;
+  let message;
+  try {
+    const body = await req.json();
+    message = body.message;
+  } catch (e) {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
 
-  // The user has placed their OpenRouter key in this environment variable.
-  const openRouterApiKey = process.env.DEEPSEEK_API_KEY;
+  const apiKey = process.env.GOOGLE_API_KEY;
 
-  if (!openRouterApiKey) {
+  if (!apiKey) {
     return NextResponse.json(
-      { error: "API key not configured. Please set DEEPSEEK_API_KEY in your environment variables." },
+      { error: "GOOGLE_API_KEY not configured." },
       { status: 500 }
     );
   }
 
-  for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
-    try {
-      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${openRouterApiKey}`,
-          "HTTP-Referer": "https://infodoc-cantv.vercel.app", // Recommended by OpenRouter
-          "X-Title": "InfoDoc CANTV", // Recommended by OpenRouter
-        },
-        body: JSON.stringify({
-          model: "deepseek/deepseek-chat", // Using OpenRouter's model identifier
-          messages: [
-            { role: "system", content: "Eres un asistente de IA amigable para una aplicación web informativa. Tu objetivo es ser claro y útil." },
-            { role: "user", content: message },
-          ],
-        }),
-      });
+  try {
+    const genAI = new GoogleGenerativeAI(apiKey);
+    // Usamos gemini-1.5-flash que es rápido y gratuito
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-      if (!response.ok) {
-        const errorBody = await response.json();
-        // Check for rate limit status code (429)
-        if (response.status === 429) {
-          throw new Error("Rate limit exceeded");
-        }
-        throw new Error(errorBody.error?.message || "Failed to fetch response from OpenRouter");
-      }
+    const systemInstruction = "Eres un asistente de IA para jubilados de CANTV. Tu objetivo es ser claro, útil y directo. \n\nIMPORTANTE:\n1. Responde SIEMPRE en formato MARKDOWN.\n2. Usa negritas, listas y tablas para organizar la información.\n3. NO generes código HTML.\n4. Mantén un tono respetuoso y profesional.\n5. SALUDO: Si el input del usuario es un saludo simple (como 'Hola', 'Buenos días'), responde ÚNICAMENTE con: 'Hola, Soy tu asistente de IA, diseñado para ayudar con cualquier pregunta o información que necesiten. Mi objetivo es ser claro, útil y directo para ti.'";
 
-      const data = await response.json();
-      const text = data.choices[0]?.message?.content || "No se pudo obtener una respuesta.";
+    // Gemini no soporta "system" role en chatSession de la misma manera que OpenAI en versiones viejas, 
+    // pero podemos concatenarlo o usar systemInstruction si el modelo lo permite.
+    // Para simplificar, lo enviamos como parte del prompt o usamos la API de chat con systemInstruction.
 
-      return NextResponse.json({ text });
+    // O mejor, enviamos un prompt simple con el contexto.
+    const fullPrompt = `${systemInstruction}\n\nPregunta del usuario: ${message}`;
 
-    } catch (error: any) {
-      console.error(`Attempt ${attempt + 1} failed:`, error);
+    const result = await model.generateContent(fullPrompt);
+    const response = await result.response;
+    const text = response.text();
 
-      const isRateLimitError = error.message?.includes("Rate limit exceeded");
+    return NextResponse.json({ text });
 
-      if (isRateLimitError && attempt < MAX_RETRIES - 1) {
-        const delay = Math.pow(2, attempt) * 1000 + Math.random() * 1000; // Exponential backoff with jitter
-        console.log(`Rate limit hit. Retrying in ${delay.toFixed(0)}ms...`);
-        await new Promise(resolve => setTimeout(resolve, delay));
-      } else {
-        return NextResponse.json(
-          { error: `Internal Server Error: ${error.message}` },
-          { status: 500 }
-        );
-      }
-    }
+  } catch (error: any) {
+    console.error("Error in Gemini API:", error);
+    return NextResponse.json(
+      { error: `Internal Server Error: ${error.message}` },
+      { status: 500 }
+    );
   }
-
-  return NextResponse.json(
-    { error: "Internal Server Error: All retry attempts failed." },
-    { status: 500 }
-  );
 }

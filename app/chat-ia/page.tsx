@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export default function ChatPage() {
   const [message, setMessage] = useState("");
@@ -66,12 +68,20 @@ export default function ChatPage() {
               {
                 chatHistory.map((msg, index) => {
                   const isUser = msg.startsWith("Tú:");
-                  const content = isUser ? msg.substring(3) : msg.substring(10).replace(/\n/g, "<br />");
+                  const content = isUser ? msg.substring(3) : msg.substring(10);
                   const sender = isUser ? "Tú" : "Asistente";
                   return (
                     <div key={index} className={`p-2 my-2 rounded-lg ${isUser ? "bg-blue-100 dark:bg-blue-900 ml-auto" : "bg-gray-200 dark:bg-gray-700 mr-auto"}`}>
                       <p className="font-bold">{sender}</p>
-                      <span dangerouslySetInnerHTML={{ __html: content }} />
+                      {isUser ? (
+                        <p>{content}</p>
+                      ) : (
+                        <div className="prose dark:prose-invert max-w-none">
+                          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                            {content}
+                          </ReactMarkdown>
+                        </div>
+                      )}
                     </div>
                   );
                 })
