@@ -61,13 +61,20 @@ document.addEventListener("touchstart", handleClickOutside)
 
 **Estado:** ✅ Resuelto y verificado en desktop y móvil.
 
-## 🤖 Estado Actual: Prototipo Bootie (RAG)
+## 🤖 Estado Actual: Prototipo Bootie (RAG) v1.1
 Debido a bloqueos de red y validación de API, se está trabajando en un prototipo aislado: `c:\Users\lf\proyectos\bootie-dev`.
 
-- **Estado:** Conexión exitosa a Gemini verificada.
+- **Estado:** ✅ Producción (v1.1)
+- **Mejoras Clave (21/01/2026):**
+  - **RAG Optimizado**: Documentos en Markdown limpio (sin HTML), tablas formateadas.
+  - **Chatbot Rendering**: Se reemplazó `dangerouslySetInnerHTML` por `react-markdown` para evitar inyección de HTML y errores de visualización.
+  - **Resiliencia**: Arquitectura de 3 capas (DeepSeek -> Gemini -> Local).
+  - **Identidad**: Prompt maestro con reglas de tono y precisión.
 - **Parche Crítico:** Se requiere forzar IPv4 en Node.js (`dns.setDefaultResultOrder('ipv4first')`) para conectar desde Venezuela con VPN.
-- **Próximo Paso:** Cargar documentos en `bootie-dev/documents` y ejecutar `npm run ingest`.
+- **Workflow:** 
+  1. `npm run convert` (DOCX -> MD)
+  2. `npm run ingest` (MD -> JSON)
 
 ---
-*Para ver detalles específicos del prototipo, consultar `c:\Users\lf\proyectos\bootie-dev\BOOTIE_MEMORY.md`.*
+*Para ver detalles técnicos profundos, consultar `c:\Users\lf\proyectos\bootie-dev\BOOTIE_MEMORY.md`.*
 
