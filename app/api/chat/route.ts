@@ -9,6 +9,8 @@ dns.setDefaultResultOrder('ipv4first');
 
 const apiKey = process.env.GOOGLE_API_KEY;
 const deepseekApiKey = process.env.DEEPSEEK_API_KEY;
+const openRouterApiKey = process.env.OPENROUTER_API_KEY;
+const openRouterModel = process.env.OPENROUTER_MODEL || "google/gemma-3-27b-it:free";
 
 // No lanzamos error si falta google_api_key para permitir que build corra, pero logueamos
 if (!apiKey) {
@@ -46,7 +48,12 @@ async function callDeepSeek(systemPrompt: string, context: string, query: string
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("❌ [DeepSeek] Error HTTP", response.status, ":", errorText);
+      // Si es error de créditos (402), logueamos específico
+      if (response.status === 402) {
+        console.error("❌ [DeepSeek] Sin saldo (402). Saltando...");
+      } else {
+        console.error("❌ [DeepSeek] Error HTTP", response.status, ":", errorText);
+      }
       return null;
     }
 
@@ -62,6 +69,54 @@ async function callDeepSeek(systemPrompt: string, context: string, query: string
     }
   } catch (e: any) {
     console.error("❌ [DeepSeek] Excepción:", e.message || e);
+    return null;
+  }
+}
+
+// Función para llamar a OpenRouter (Capa Gratuita de Respaldo)
+async function callOpenRouter(systemPrompt: string, context: string, query: string) {
+  if (!openRouterApiKey) {
+    console.log("⚠️ OPENROUTER_API_KEY no configurada");
+    return null;
+  }
+
+  try {
+    console.log(`🚀 [OpenRouter] Enviando petición (${openRouterModel})...`);
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${openRouterApiKey}`,
+        "Content-Type": "application/json",
+        "HTTP-Referer": "https://infodoc-cantv.vercel.app",
+        "X-Title": "InfoDoc CANTV",
+      },
+      body: JSON.stringify({
+        model: openRouterModel,
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: `CONTEXTO:\n${context}\n\nPREGUNTA: ${query}\n\nRESPUESTA:` }
+        ]
+      })
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("❌ [OpenRouter] Error HTTP", response.status, ":", errorText);
+      return null;
+    }
+
+    const data = await response.json();
+    const content = data.choices?.[0]?.message?.content;
+
+    if (content) {
+      console.log("✅ [OpenRouter] Respuesta exitosa");
+      return content;
+    } else {
+      console.error("❌ [OpenRouter] Respuesta vacía:", JSON.stringify(data));
+      return null;
+    }
+  } catch (e: any) {
+    console.error("❌ [OpenRouter] Excepción:", e.message || e);
     return null;
   }
 }
@@ -176,7 +231,6 @@ export async function POST(req: NextRequest) {
       // Capa 1: Intentar DeepSeek (Calidad Superior)
       console.log("\n🔷 [CAPA 1] Intentando DeepSeek...");
       console.time("deepseek_api");
-      // Nota: Podríamos omitir DeepSeek si sabemos que no hay quota, pero lo intentamos por si acaso.
       const deepseekResponse = await callDeepSeek(systemPrompt, context, message);
       console.timeEnd("deepseek_api");
 
@@ -190,9 +244,11 @@ export async function POST(req: NextRequest) {
 
       // Capa 2: Fallback a Gemini Lite (si DeepSeek falla)
       console.log("\n🔶 [CAPA 2] DeepSeek falló, intentando Gemini...");
+      let geminiSuccess = false;
+      let geminiResponseText = "";
+
       console.time("gemini_api");
       try {
-        // Gemini requiere GOOGLE_API_KEY
         if (!apiKey) throw new Error("Google API Key not configured");
 
         const result = await genAI.models.generateContent({
@@ -204,27 +260,46 @@ export async function POST(req: NextRequest) {
             ]
           }
         });
-        console.timeEnd("gemini_api");
-        console.timeEnd("chat_total");
 
-        const text = result.text || "No pude procesar tu respuesta en este momento.";
-
-        console.log("✅ [CAPA 2] Respondiendo con Gemini");
-        return NextResponse.json({
-          response: `${text}\n\n*— Respondido por Gemini Flash Lite*`
-        });
+        geminiResponseText = result.text || "";
+        if (geminiResponseText && !geminiResponseText.includes("Error")) {
+          geminiSuccess = true;
+        }
       } catch (apiError: any) {
         console.error("❌ [CAPA 2] Error en Gemini:", apiError.message || apiError);
-
-        // Capa 3: Fallback Estructurado Local (Si todo falla)
-        console.log("\n🔴 [CAPA 3] Ambas IAs fallaron, usando fallback local");
-        const fallbackResponse = "Disculpe, mis sistemas de IA están algo saturados, pero aquí tiene la información exacta de mi base de datos:\n\n" +
-          currentInfo.join("\n\n---\n\n") +
-          "\n\n*— Información directa de la base de datos*";
-
-        console.timeEnd("chat_total");
-        return NextResponse.json({ response: fallbackResponse });
       }
+      console.timeEnd("gemini_api");
+
+      if (geminiSuccess) {
+        console.log("✅ [CAPA 2] Respondiendo con Gemini");
+        return NextResponse.json({
+          response: `${geminiResponseText}\n\n*— Respondido por Gemini Flash Lite*`
+        });
+      }
+
+      // Capa 3: Fallback a OpenRouter (Gratuito/Respaldo)
+      console.log("\n🟣 [CAPA 3] Gemini falló, intentando OpenRouter (Respaldo)...");
+      console.time("openrouter_api");
+      const openRouterResponse = await callOpenRouter(systemPrompt, context, message);
+      console.timeEnd("openrouter_api");
+
+      if (openRouterResponse) {
+        console.log("✅ [CAPA 3] Respondiendo con OpenRouter");
+        console.timeEnd("chat_total");
+        return NextResponse.json({
+          response: `${openRouterResponse}\n\n*— Respondido por OpenRouter (Gemma 3)*`
+        });
+      }
+
+      // Capa 4: Fallback Estructurado Local (Si todo falla)
+      console.log("\n🔴 [CAPA 4] TODAS las IAs fallaron, usando fallback local");
+      const fallbackResponse = "Disculpe, mis sistemas de IA están saturados por el momento (Límites de cuota excedidos). Pero aquí tiene la información exacta de mi base de datos:\n\n" +
+        currentInfo.join("\n\n---\n\n") +
+        "\n\n*— Información directa de la base de datos (Modo Respaldo)*";
+
+      console.timeEnd("chat_total");
+      return NextResponse.json({ response: fallbackResponse });
+
     } else {
       console.log("⚠️ No se encontró info específica. Enviando mensaje de fallback directo.");
       console.timeEnd("chat_total");
