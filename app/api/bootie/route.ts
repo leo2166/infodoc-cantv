@@ -171,22 +171,24 @@ Respuesta INCORRECTA (NUNCA HAGAS ESTO):
 
 export async function POST(req: NextRequest) {
     try {
-        const { message } = await req.json();
+        const body = await req.json();
+        const messages = body.messages || [];
+        const lastMessage = body.message || (messages.length > 0 ? messages[messages.length - 1].content : "");
 
-        if (!message || typeof message !== "string") {
+        if (!lastMessage || typeof lastMessage !== "string") {
             return NextResponse.json(
                 { error: "Se requiere un mensaje válido" },
                 { status: 400 }
             );
         }
 
-        console.log("\n🤖 [BOOTIE API] Nueva consulta:", message.substring(0, 50) + "...");
-        console.time("bootie_total");
+        console.log("\n🤖 [BOOTIE API] Nueva consulta:", lastMessage.substring(0, 50) + "...");
+        console.time("chat_total");
         const kb = loadKnowledgeBase();
 
         // 1. Manejo especial de Saludos
         const greetings = ["hola", "buenos dias", "buenas tardes", "buenas noches", "hey", "saludos"];
-        const isGreeting = greetings.some(g => message.toLowerCase().trim().startsWith(g)) && message.length < 15;
+        const isGreeting = greetings.some(g => lastMessage.toLowerCase().trim().startsWith(g)) && lastMessage.length < 15;
 
         if (isGreeting) {
             console.log("👋 Saludo detectado, respuesta rápida.");
@@ -197,7 +199,7 @@ export async function POST(req: NextRequest) {
 
         // 2. Manejo especial de Agradecimientos
         const thankYouPhrases = ["gracias", "muchas gracias", "te agradezco", "mil gracias", "thank you", "thanks"];
-        const isThanking = thankYouPhrases.some(phrase => message.toLowerCase().trim().includes(phrase)) && message.length < 40;
+        const isThanking = thankYouPhrases.some(phrase => lastMessage.toLowerCase().trim().includes(phrase)) && lastMessage.length < 40;
 
         if (isThanking) {
             console.log("🙏 Agradecimiento detectado, respuesta amigable.");
@@ -208,7 +210,7 @@ export async function POST(req: NextRequest) {
 
         // 3. Manejo especial de Despedidas
         const farewellPhrases = ["chao", "adiós", "adios", "hasta luego", "nos vemos", "bye", "hasta pronto", "me voy"];
-        const isFarewell = farewellPhrases.some(phrase => message.toLowerCase().trim().includes(phrase)) && message.length < 30;
+        const isFarewell = farewellPhrases.some(phrase => lastMessage.toLowerCase().trim().includes(phrase)) && lastMessage.length < 30;
 
         if (isFarewell) {
             console.log("👋 Despedida detectada, respuesta cálida.");
@@ -225,7 +227,8 @@ export async function POST(req: NextRequest) {
         }
 
         console.time("kb_search");
-        const relevantSections = findRelevantSections(message, kb);
+        // Usamos solo el ULTIMO mensaje para buscar en la base de conocimiento para no "contaminar" la busqueda con temas viejos
+        const relevantSections = findRelevantSections(lastMessage, kb);
         console.timeEnd("kb_search");
 
         if (relevantSections.length > 0) {
@@ -261,7 +264,7 @@ export async function POST(req: NextRequest) {
                         const completion = await groq.chat.completions.create({
                             messages: [
                                 { role: "system", content: systemPrompt },
-                                { role: "user", content: `CONTEXTO:\n${context}\n\nPREGUNTA: ${message}` }
+                                { role: "user", content: `CONTEXTO:\n${context}\n\nPREGUNTA: ${lastMessage}` }
                             ],
                             model: "llama-3.1-8b-instant",
                             temperature: 0.7,
@@ -286,7 +289,7 @@ export async function POST(req: NextRequest) {
                             const completion = await groq.chat.completions.create({
                                 messages: [
                                     { role: "system", content: systemPrompt },
-                                    { role: "user", content: `CONTEXTO:\n${context}\n\nPREGUNTA: ${message}` }
+                                    { role: "user", content: `CONTEXTO:\n${context}\n\nPREGUNTA: ${lastMessage}` }
                                 ],
                                 model: "llama-3.3-70b-versatile",
                                 temperature: 0.7,
@@ -315,7 +318,7 @@ export async function POST(req: NextRequest) {
                         const completion = await gemma3.chat.completions.create({
                             messages: [
                                 { role: "system", content: systemPrompt },
-                                { role: "user", content: `CONTEXTO:\n${context}\n\nPREGUNTA: ${message}` }
+                                { role: "user", content: `CONTEXTO:\n${context}\n\nPREGUNTA: ${lastMessage}` }
                             ],
                             model: "google/gemma-3-27b-it",
                             temperature: 0.7,
@@ -342,7 +345,7 @@ export async function POST(req: NextRequest) {
                     if (!genAI) throw new Error("Google GenAI client not initialized");
                     const result = await genAI.models.generateContent({
                         model: "gemini-2.0-flash",
-                        contents: `${systemPrompt}\n\nCONTEXTO:\n${context}\n\nPREGUNTA: ${message}\n\nRESPUESTA:`,
+                        contents: `${systemPrompt}\n\nCONTEXTO:\n${context}\n\nPREGUNTA: ${lastMessage}\n\nRESPUESTA:`,
                     });
                     console.timeEnd("gemini_2.0");
                     console.timeEnd("bootie_total");

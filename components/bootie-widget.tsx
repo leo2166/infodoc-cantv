@@ -70,10 +70,16 @@ export default function BootieWidget() {
 
         try {
             // Usa el endpoint /api/bootie (separado del chat principal)
+            // Enviamos el historial completo para mantener contexto
+            const updatedMessages = [...messages, userMessage];
+
             const response = await fetch("/api/bootie", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message: input }),
+                body: JSON.stringify({
+                    message: input, // Mantenemos para compatibilidad
+                    messages: updatedMessages // Nuevo campo con historial
+                }),
             });
 
             const data = await response.json();
