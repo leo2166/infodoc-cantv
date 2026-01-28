@@ -105,5 +105,60 @@ Debido a bloqueos de red y validación de API, se está trabajando en un prototi
 *Para ver detalles técnicos profundos, consultar `c:\Users\lf\proyectos\bootie-dev\BOOTIE_MEMORY.md`.*
 
 
-## 📜 Reglas de Usuario
-*   **Idioma:** Siempre usar **ESPAÑOL** para la comunicación y documentación.
+
+## 🚨 Incidencia y Recuperación (26/01/2026)
+**Evento:** Regresión accidental de producción (se sobrescribió versión estable con una versión antigua/rota).
+**Solución de Emergencia:**
+1.  **Identificación:** Se localizó commit estable del Sábado 24/01 5:13 PM (`5cf0ddd` / `b38b827`).
+2.  **Restauración:** `git reset --hard` + limpieza de secretos en historial + `git push --force`.
+3.  **Resultado:** Producción restaurada y funcional con las 3 capas de IA activas.
+4.  **Respaldo de Seguridad:** Se creó la carpeta `back_security_version` con el snapshot exacto de los archivos fuente que "salvaron la vida" del proyecto.
+
+---
+**Versión Estable (Snapshot):** `b38b827`
+**Ubicación de Respaldo:** `c:\Users\lf\proyectos\infodoc-cantv\back_security_version`
+
+## 🤖 Integración de Bootie (28/01/2026)
+
+### Arquitectura Implementada
+Bootie se integró como un **widget flotante independiente** que aparece solo en la página principal (`/`).
+
+**Decisión Técnica:** Se optó por **Opción C (Integración de Componentes)** en lugar de copiar la carpeta completa de bootie-dev, para evitar:
+- Conflictos de 2 proyectos Next.js anidados
+- Duplicación de node_modules (+400MB)
+- Complejidad de mantenimiento
+
+### Archivos Creados/Modificados
+| Archivo | Acción | Descripción |
+|---------|--------|-------------|
+| `components/bootie-widget.tsx` | Modificado | Añadido `usePathname()` para solo mostrar en `/`, endpoint cambiado a `/api/bootie` |
+| `app/api/bootie/route.ts` | **Nuevo** | API de 6 capas de IA separada del chat principal |
+| `app/layout.tsx` | Modificado | Añadido `<BootieWidget />` al layout |
+
+### Sistema de 6 Capas de Bootie
+```
+CAPA 1: Gemini 2.5 Flash (Principal)
+CAPA 2: Groq Llama 3.1 8B (Ultra rápido)
+CAPA 3: Groq Llama 3.3 70B (Más inteligente)
+CAPA 4: Gemma 3 27B (OpenRouter)
+CAPA 5: Gemini 2.0 Flash (Respaldo)
+CAPA 6: Procesador Local (Nunca falla)
+```
+
+### Respaldos de Seguridad Creados
+- **Rama Git:** `backup-pre-bootie-integration-2026-01-28`
+- **Tag Git:** `v1.0-pre-bootie`
+- **Carpeta:** `backup_28_ene_2026/`
+
+### Variables de Entorno Requeridas
+| Variable | Capa | Estado |
+|----------|------|--------|
+| `GOOGLE_API_KEY` o `GEMINI_API_KEY` | 1 y 5 | ✅ Requerida |
+| `GROQ_API_KEY` | 2 y 3 | ✅ Requerida |
+| `OPENROUTER_API_KEY` | 4 | ⚠️ Opcional |
+
+### Estado
+- ✅ Build exitoso (`npm run build`)
+- ✅ Widget solo visible en `/`
+- ✅ APIs separadas (`/api/chat` vs `/api/bootie`)
+- 🔄 Pendiente: Prueba en servidor local y deploy a Vercel

@@ -14,6 +14,7 @@ function generateKeywords(filename) {
     if (name.includes('carta')) keywords.push('seguro', 'clinica', 'cobertura', 'aval');
     if (name.includes('contacto')) keywords.push('telefono', 'numero', 'llamada', 'correo', 'ubicacion');
     if (name.includes('emergencia')) keywords.push('ambulancia', 'clinica', 'urgencia');
+    if (name.includes('funeraria') || name.includes('funerarios')) keywords.push('funeraria', 'entierro', 'velorio', 'cementerio', 'cremacion', 'fallecimiento', 'sepulio');
 
     return keywords;
 }

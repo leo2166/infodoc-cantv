@@ -177,6 +177,8 @@ const systemPrompt = `Eres un asistente institucional llamado Bootie. Tu funció
 4. Si no encuentras información en la base de conocimientos, responde: “No tengo información específica sobre eso en mi base de datos actual. ¿hay algo más en que te pueda ayudar o puede reformular su pregunta?” 
 5. Mantén un tono respetuoso, claro y directo. Evita tecnicismos innecesarios.
 
+6. **Sinónimos y Entidades**: Si el usuario menciona "funeraria", "funeraria el rosal" o "servicios funerarios el rosal", entiende que se refieren exactamente a la misma información sobre Servicios Funerarios El Rosal y proporciona la información correspondiente.
+
 Ejemplo de respuesta ideal: 
 Usuario: “¿Qué necesito para el reembolso de gastos por medicamentos?” 
 Respuesta: “Para el reembolso por medicamentos, debe presentar: Informe médico vigente, récipes, indicaciones y factura original 
@@ -228,22 +230,84 @@ export async function POST(req: NextRequest) {
       // Guardamos la info para el fallback
       const currentInfo = relevantSections;
 
-      // Capa 1: Intentar DeepSeek (Calidad Superior)
-      console.log("\n🔷 [CAPA 1] Intentando DeepSeek...");
+      // Capa 1: OpenRouter (Prioridad Temporal por Fallos en otras capas)
+      console.log("\n🟣 [CAPA 1] Intentando OpenRouter (Prioridad)...");
+      console.time("openrouter_api");
+      const openRouterResponse = await callOpenRouter(systemPrompt, context, message);
+      console.timeEnd("openrouter_api");
+
+      if (openRouterResponse) {
+        console.log("✅ [CAPA 1] Respondiendo con OpenRouter");
+        console.timeEnd("chat_total");
+        return NextResponse.json({
+          response: `${openRouterResponse}\n\n*— Respondido por OpenRouter (${openRouterModel})*`
+        });
+      }
+
+      // Capa 2: OpenRouter Respaldo (Llama 3.3 70B - Si Gemma falla)
+      console.log("\n🟣 [CAPA 2] OpenRouter (Gemma) falló, intentando OpenRouter (Llama 3.3)...");
+      const backupOpenRouterModel = "meta-llama/llama-3.3-70b-instruct:free";
+
+      // Reutilizamos la función pero forzamos el modelo temporalmente
+      // Nota: Idealmente pasaríamos modelo como param, pero por simplicidad modificamos la llamada o creamos una interna
+      // Para no duplicar lógica complicada, hacemos una llamada fetch directa simple aquí para el backup
+      let backupSuccess = false;
+      if (openRouterApiKey) {
+        try {
+          console.time("openrouter_backup_api");
+          const resBackup = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+            method: "POST",
+            headers: {
+              "Authorization": `Bearer ${openRouterApiKey}`,
+              "Content-Type": "application/json",
+              "HTTP-Referer": "https://infodoc-cantv.vercel.app",
+              "X-Title": "InfoDoc CANTV",
+            },
+            body: JSON.stringify({
+              model: backupOpenRouterModel,
+              messages: [
+                { role: "system", content: systemPrompt },
+                { role: "user", content: `CONTEXTO:\n${context}\n\nPREGUNTA: ${message}\n\nRESPUESTA:` }
+              ]
+            })
+          });
+
+          if (resBackup.ok) {
+            const dataBackup = await resBackup.json();
+            const contentBackup = dataBackup.choices?.[0]?.message?.content;
+            if (contentBackup) {
+              console.log("✅ [CAPA 2] Respondiendo con OpenRouter (Backup Llama 3)");
+              console.timeEnd("openrouter_backup_api");
+              console.timeEnd("chat_total");
+              return NextResponse.json({
+                response: `${contentBackup}\n\n*— Respondido por OpenRouter (Llama 3.3)*`
+              });
+            }
+          } else {
+            console.error("❌ [CAPA 2] Error HTTP Backup:", resBackup.status);
+          }
+          console.timeEnd("openrouter_backup_api");
+        } catch (e) {
+          console.error("❌ [CAPA 2] Excepción:", e);
+        }
+      }
+
+      // Capa 3: Intentar DeepSeek (Si OpenRouter falla)
+      console.log("\n🔷 [CAPA 3] OpenRouter (Backup) falló, intentando DeepSeek...");
       console.time("deepseek_api");
       const deepseekResponse = await callDeepSeek(systemPrompt, context, message);
       console.timeEnd("deepseek_api");
 
       if (deepseekResponse) {
-        console.log("✅ [CAPA 1] Respondiendo con DeepSeek");
+        console.log("✅ [CAPA 3] Respondiendo con DeepSeek");
         console.timeEnd("chat_total");
         return NextResponse.json({
           response: `${deepseekResponse}\n\n*— Respondido por DeepSeek AI*`
         });
       }
 
-      // Capa 2: Fallback a Gemini Lite (si DeepSeek falla)
-      console.log("\n🔶 [CAPA 2] DeepSeek falló, intentando Gemini...");
+      // Capa 4: Fallback a Gemini Lite (Último recurso)
+      console.log("\n🔶 [CAPA 4] DeepSeek falló, intentando Gemini...");
       let geminiSuccess = false;
       let geminiResponseText = "";
 
@@ -266,39 +330,23 @@ export async function POST(req: NextRequest) {
           geminiSuccess = true;
         }
       } catch (apiError: any) {
-        console.error("❌ [CAPA 2] Error en Gemini:", apiError.message || apiError);
+        console.error("❌ [CAPA 4] Error en Gemini:", apiError.message || apiError);
       }
       console.timeEnd("gemini_api");
 
       if (geminiSuccess) {
-        console.log("✅ [CAPA 2] Respondiendo con Gemini");
+        console.log("✅ [CAPA 4] Respondiendo con Gemini");
         return NextResponse.json({
           response: `${geminiResponseText}\n\n*— Respondido por Gemini Flash Lite*`
         });
       }
 
-      // Capa 3: Fallback a OpenRouter (Gratuito/Respaldo)
-      console.log("\n🟣 [CAPA 3] Gemini falló, intentando OpenRouter (Respaldo)...");
-      console.time("openrouter_api");
-      const openRouterResponse = await callOpenRouter(systemPrompt, context, message);
-      console.timeEnd("openrouter_api");
-
-      if (openRouterResponse) {
-        console.log("✅ [CAPA 3] Respondiendo con OpenRouter");
-        console.timeEnd("chat_total");
-        return NextResponse.json({
-          response: `${openRouterResponse}\n\n*— Respondido por OpenRouter (Gemma 3)*`
-        });
-      }
-
-      // Capa 4: Fallback Estructurado Local (Si todo falla)
-      console.log("\n🔴 [CAPA 4] TODAS las IAs fallaron, usando fallback local");
-      const fallbackResponse = "Disculpe, mis sistemas de IA están saturados por el momento (Límites de cuota excedidos). Pero aquí tiene la información exacta de mi base de datos:\n\n" +
-        currentInfo.join("\n\n---\n\n") +
-        "\n\n*— Información directa de la base de datos (Modo Respaldo)*";
+      // Final Fallback: Mensaje de error educado (SIN DATOS CRUDOS)
+      console.log("\n🔴 [FINAL] TODAS las IAs fallaron. Enviando mensaje de error seguro.");
+      const secureFallbackValues = "Lo siento, en este momento todos mis sistemas de inteligencia están saturados o no disponibles. \n\nPor favor intenta nuevamente en unos minutos. Si la emergencia persiste, comunícate directamente con los canales oficiales de CANTV.";
 
       console.timeEnd("chat_total");
-      return NextResponse.json({ response: fallbackResponse });
+      return NextResponse.json({ response: secureFallbackValues });
 
     } else {
       console.log("⚠️ No se encontró info específica. Enviando mensaje de fallback directo.");

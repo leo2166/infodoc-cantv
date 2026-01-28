@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 
@@ -10,6 +11,12 @@ interface Message {
 }
 
 export default function BootieWidget() {
+    const pathname = usePathname();
+
+    // Solo renderiza si está en home
+    if (pathname !== '/') {
+        return null;
+    }
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([
         {
@@ -62,7 +69,8 @@ export default function BootieWidget() {
         setIsLoading(true);
 
         try {
-            const response = await fetch("/api/chat", {
+            // Usa el endpoint /api/bootie (separado del chat principal)
+            const response = await fetch("/api/bootie", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ message: input }),
@@ -113,7 +121,7 @@ export default function BootieWidget() {
                     aria-label="Abrir chat con Bootie"
                 >
                     {!isOpen ? (
-                        <img src="/bootie.png" alt="Bootie" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                        <img src="/bootieFgris.png" alt="Bootie" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                     ) : (
                         <div className="bg-gradient-to-br from-blue-500 to-purple-600 w-full h-full flex items-center justify-center">
                             <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -131,7 +139,7 @@ export default function BootieWidget() {
                     <div className="bg-gradient-to-r from-blue-600 to-purple-700 text-white p-4 flex items-center justify-between shadow-lg">
                         <div className="flex items-center gap-3">
                             <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center p-0.5 shadow-inner overflow-hidden border-2 border-white/20">
-                                <img src="/bootie.png" alt="Bootie Avatar" className="w-full h-full object-cover" />
+                                <img src="/bootieFgris.png" alt="Bootie Avatar" className="w-full h-full object-cover" />
                             </div>
                             <div>
                                 <h3 className="font-bold text-lg leading-tight notranslate" translate="no">Bootie</h3>
@@ -154,7 +162,7 @@ export default function BootieWidget() {
                             >
                                 {msg.role === "assistant" && (
                                     <div className="w-8 h-8 rounded-full bg-white flex-shrink-0 border border-gray-100 shadow-sm overflow-hidden flex items-center justify-center">
-                                        <img src="/bootie.png" alt="B" className="w-full h-full object-cover" />
+                                        <img src="/bootieFgris.png" alt="B" className="w-full h-full object-cover" />
                                     </div>
                                 )}
                                 <div
@@ -174,7 +182,7 @@ export default function BootieWidget() {
                         {isLoading && (
                             <div className="flex items-end gap-2">
                                 <div className="w-8 h-8 rounded-full bg-white flex-shrink-0 border border-gray-100 shadow-sm overflow-hidden flex items-center justify-center">
-                                    <img src="/bootie.png" alt="B" className="w-full h-full object-cover animate-pulse" />
+                                    <img src="/bootieFgris.png" alt="B" className="w-full h-full object-cover animate-pulse" />
                                 </div>
                                 <div className="bg-white dark:bg-gray-700 rounded-2xl px-5 py-3 shadow-sm border border-gray-100 dark:border-gray-600 rounded-bl-none">
                                     <div className="flex space-x-1.5">

@@ -6,6 +6,7 @@ import Script from "next/script"
 import "./globals.css"
 import { AccessibilityToolbar } from "@/components/accessibility-toolbar"
 import { ThemeProvider } from "@/components/theme-provider"
+import BootieWidget from "@/components/bootie-widget"
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -99,6 +100,7 @@ export default function RootLayout({
           </a>
           <div id="main-content">{children}</div>
           <AccessibilityToolbar />
+          <BootieWidget />
         </ThemeProvider>
         <Analytics />
       </body>
