@@ -161,4 +161,57 @@ CAPA 6: Procesador Local (Nunca falla)
 - ✅ Build exitoso (`npm run build`)
 - ✅ Widget solo visible en `/`
 - ✅ APIs separadas (`/api/chat` vs `/api/bootie`)
+- ✅ Bug de variable `message` corregido (31/01/2026)
+- ✅ Capas de IA reordenadas por inteligencia (31/01/2026)
 - 🔄 Pendiente: Prueba en servidor local y deploy a Vercel
+
+## 🎯 Optimización de Capas de IA en Bootie (31/01/2026)
+**Problema Reportado:** Respuestas inconsistentes sobre fechas de pago, algunas con errores, otras correctas con formato negrita.
+
+**Causas Identificadas:**
+1. **Bug Crítico:** Variable `message` undefined en línea 247 de `/api/bootie/route.ts` causaba que Gemini 2.5 Flash (Capa 1) fallara siempre.
+2. **Orden Subóptimo:** Llama 3.1 8B (rápido pero impreciso) estaba en Capa 2, antes que modelos más inteligentes.
+
+**Soluciones Implementadas:**
+1. ✅ Corregido bug: `message` → `lastMessage` 
+2. ✅ Reordenadas capas priorizando **INTELIGENCIA sobre VELOCIDAD**
+
+**Nuevo Orden de Capas:**
+```
+CAPA 1: Gemini 2.5 Flash (Principal - Google, excelente calidad)
+CAPA 2: Groq Llama 3.3 70B (MÁS INTELIGENTE - 70B parámetros)
+CAPA 3: Gemma 3 27B (Inteligente - 27B parámetros)
+CAPA 4: Gemini 2.0 Flash (Respaldo Google)
+CAPA 5: Groq Llama 3.1 8B (Rápido - último respaldo IA)
+CAPA 6: Procesador Local (Fallback final)
+```
+
+**Archivos Modificados:**
+- `app/api/bootie/route.ts` (endpoint principal con historial)
+- `app/api/chat-bootie/route.ts` (endpoint legacy)
+
+**Resultado Esperado:** Respuestas más precisas, consistentes y con mejor formato markdown (negrita, listas).
+
+## 🐛 Corrección de Consistencia del Chat (28/01/2026 - Tarde)
+**Problema:** El usuario reportó respuestas inconsistentes (ej: números de jubilados en lugar de RRHH) y pérdida de contexto.
+**Causas:**
+1.  **API Stateless:** El chat no recordaba mensajes anteriores, impidiendo preguntas de seguimiento.
+2.  **Keywords Débiles:** La hoja de "Emergencia/RRHH" no tenía palabras clave como "gestión" o "humana", confiando solo en búsquedas genéricas que fallaban.
+
+**Solución Implementada:**
+-   **Frontend:** `bootie-widget.tsx` actualizado para enviar el historial completo de mensajes.
+-   **Backend:** `route.ts` modificado para:
+    -   Usar solo el **último mensaje** para la búsqueda RAG (evita contaminación de contexto).
+    -   Pasar el **historial completo** a la IA (permite conversación fluida).
+-   **Datos:** Se corrigió `knowledge-base.json` agregando keywords explícitas (`gestion`, `humana`, `rrhh`).
+
+## 🚀 Automatización de Carga de Documentos (28/01/2026 - Noche)
+**Objetivo:** Permitir al usuario subir archivos Word (`.docx`) y actualizar la base de conocimientos sin tocar código.
+
+**Implementación:**
+-   **Nueva Ruta Admin:** `/admin/upload` (Interfaz Drag & Drop).
+-   **Backend:** `/api/admin/upload`
+    1.  Recibe el archivo y lo guarda en `raw_docs`.
+    2.  Usa librería `mammoth` para convertir a Markdown limpio.
+    3.  Ejecuta automáticamente el script `build-kb.js` para regenerar la base de datos.
+-   **Script Mejorado:** `scripts/build-kb.js` ahora apunta correctamente a la raíz y aplica lógica de keywords inteligentes.

@@ -251,10 +251,10 @@ export async function POST(req: NextRequest) {
             } catch (error1: any) {
                 console.error("❌ [CAPA 1] Error:", error1.message || error1);
 
-                // CAPA 2: Groq Llama 3.1 8B (Ultra rápido)
+                // CAPA 2: Groq Llama 3.3 70B (MÁS INTELIGENTE - 70B parámetros)
                 if (groq) {
-                    console.log("\n🟢 [CAPA 2] Intentando Groq Llama 3.1 8B (ultra rápido)...");
-                    console.time("groq_3.1_8b");
+                    console.log("\n🟣 [CAPA 2] Intentando Groq Llama 3.3 70B (más inteligente - 70B)...");
+                    console.time("groq_3.3_70b");
 
                     try {
                         const completion = await groq.chat.completions.create({
@@ -262,52 +262,26 @@ export async function POST(req: NextRequest) {
                                 { role: "system", content: systemPrompt },
                                 { role: "user", content: `CONTEXTO:\n${context}\n\nPREGUNTA: ${message}` }
                             ],
-                            model: "llama-3.1-8b-instant",
+                            model: "llama-3.3-70b-versatile",
                             temperature: 0.7,
                             max_tokens: 1024,
                         });
 
-                        console.timeEnd("groq_3.1_8b");
+                        console.timeEnd("groq_3.3_70b");
                         console.timeEnd("chat_total");
 
                         const text = completion.choices[0]?.message?.content || "No pude procesar tu respuesta.";
-                        console.log("✅ [CAPA 2] Respondiendo con Groq Llama 3.1 8B");
+                        console.log("✅ [CAPA 2] Respondiendo con Groq Llama 3.3 70B");
                         return NextResponse.json({ response: text });
 
                     } catch (error2: any) {
                         console.error("❌ [CAPA 2] Error:", error2.message || error2);
-
-                        // CAPA 3: Groq Llama 3.3 70B (Más inteligente, GRATIS)
-                        console.log("\n🟣 [CAPA 3] Intentando Groq Llama 3.3 70B (más inteligente)...");
-                        console.time("groq_3.3_70b");
-
-                        try {
-                            const completion = await groq.chat.completions.create({
-                                messages: [
-                                    { role: "system", content: systemPrompt },
-                                    { role: "user", content: `CONTEXTO:\n${context}\n\nPREGUNTA: ${message}` }
-                                ],
-                                model: "llama-3.3-70b-versatile",
-                                temperature: 0.7,
-                                max_tokens: 1024,
-                            });
-
-                            console.timeEnd("groq_3.3_70b");
-                            console.timeEnd("chat_total");
-
-                            const text = completion.choices[0]?.message?.content || "No pude procesar tu respuesta.";
-                            console.log("✅ [CAPA 3] Respondiendo con Groq Llama 3.3 70B");
-                            return NextResponse.json({ response: text });
-
-                        } catch (error3: any) {
-                            console.error("❌ [CAPA 3] Error:", error3.message || error3);
-                        }
                     }
                 }
 
-                // CAPA 4: Gemma 3 27B (via OpenRouter - más inteligente)
+                // CAPA 3: Gemma 3 27B (via OpenRouter - Inteligente, 27B parámetros)
                 if (gemma3) {
-                    console.log("\n🔵 [CAPA 4] Intentando Gemma 3 27B...");
+                    console.log("\n🔵 [CAPA 3] Intentando Gemma 3 27B (inteligente - 27B)...");
                     console.time("gemma3");
 
                     try {
@@ -325,16 +299,16 @@ export async function POST(req: NextRequest) {
                         console.timeEnd("chat_total");
 
                         const text = completion.choices[0]?.message?.content || "No pude procesar tu respuesta.";
-                        console.log("✅ [CAPA 4] Respondiendo con Gemma 3 27B");
+                        console.log("✅ [CAPA 3] Respondiendo con Gemma 3 27B");
                         return NextResponse.json({ response: text });
 
-                    } catch (error4: any) {
-                        console.error("❌ [CAPA 4] Error:", error4.message || error4);
+                    } catch (error3: any) {
+                        console.error("❌ [CAPA 3] Error:", error3.message || error3);
                     }
                 }
 
-                // CAPA 5: Gemini 2.0 Flash (Último respaldo IA)
-                console.log("\n🔶 [CAPA 5] Intentando Gemini 2.0 Flash...");
+                // CAPA 4: Gemini 2.0 Flash (Respaldo de Google)
+                console.log("\n🔶 [CAPA 4] Intentando Gemini 2.0 Flash...");
                 console.time("gemini_2.0");
 
                 try {
@@ -347,11 +321,39 @@ export async function POST(req: NextRequest) {
                     console.timeEnd("chat_total");
 
                     const text = result.text || "No pude procesar tu respuesta en este momento.";
-                    console.log("✅ [CAPA 5] Respondiendo con Gemini 2.0");
+                    console.log("✅ [CAPA 4] Respondiendo con Gemini 2.0");
                     return NextResponse.json({ response: text });
 
-                } catch (error5: any) {
-                    console.error("❌ [CAPA 5] Error:", error5.message || error5);
+                } catch (error4: any) {
+                    console.error("❌ [CAPA 4] Error:", error4.message || error4);
+
+                    // CAPA 5: Groq Llama 3.1 8B (Rápido pero menos preciso - ÚLTIMO RESPALDO IA)
+                    if (groq) {
+                        console.log("\n🟢 [CAPA 5] Intentando Groq Llama 3.1 8B (rápido - último respaldo IA)...");
+                        console.time("groq_3.1_8b");
+
+                        try {
+                            const completion = await groq.chat.completions.create({
+                                messages: [
+                                    { role: "system", content: systemPrompt },
+                                    { role: "user", content: `CONTEXTO:\n${context}\n\nPREGUNTA: ${message}` }
+                                ],
+                                model: "llama-3.1-8b-instant",
+                                temperature: 0.7,
+                                max_tokens: 1024,
+                            });
+
+                            console.timeEnd("groq_3.1_8b");
+                            console.timeEnd("chat_total");
+
+                            const text = completion.choices[0]?.message?.content || "No pude procesar tu respuesta.";
+                            console.log("✅ [CAPA 5] Respondiendo con Groq Llama 3.1 8B");
+                            return NextResponse.json({ response: text });
+
+                        } catch (error5: any) {
+                            console.error("❌ [CAPA 5] Error:", error5.message || error5);
+                        }
+                    }
 
                     // CAPA 6: Procesador Local Inteligente
                     console.log("\n🔴 [CAPA 6] Todas las IAs fallaron, procesando localmente...");
