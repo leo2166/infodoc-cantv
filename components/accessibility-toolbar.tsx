@@ -130,7 +130,7 @@ export function AccessibilityToolbar({ inline = false }: { inline?: boolean }) {
 
   return (
     <>
-      <div className={inline ? "" : "fixed top-16 right-4 z-40 hidden md:block"}>
+      <div className={inline ? "" : "fixed top-4 right-4 z-40 hidden md:block"}>
         <Button
           onClick={() => setIsOpen(!isOpen)}
           variant="outline"
