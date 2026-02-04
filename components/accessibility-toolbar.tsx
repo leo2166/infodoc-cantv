@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/select"
 import { ZoomIn, ZoomOut, Contrast, Type, Settings, X, RefreshCw } from "lucide-react"
 
-export function AccessibilityToolbar() {
+export function AccessibilityToolbar({ inline = false }: { inline?: boolean }) {
   const [isOpen, setIsOpen] = useState(false)
   const [fontSize, setFontSize] = useState(100)
   const { theme, setTheme } = useTheme()
@@ -130,7 +130,7 @@ export function AccessibilityToolbar() {
 
   return (
     <>
-      <div className="fixed top-20 right-4 z-40 hidden md:block">
+      <div className={inline ? "" : "fixed top-20 right-4 z-40 hidden md:block"}>
         <Button
           onClick={() => setIsOpen(!isOpen)}
           variant="outline"

@@ -53,7 +53,7 @@ export function Navigation() {
         <div className="flex items-center space-x-2">
           {/* Accessibility Button - Mobile Only */}
           <div className="md:hidden">
-            <AccessibilityToolbar />
+            <AccessibilityToolbar inline={true} />
           </div>
 
           {/* Mobile Navigation */}
