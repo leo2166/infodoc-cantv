@@ -24,13 +24,13 @@ export const NewsTicker: React.FC<NewsTickerProps> = ({
             animation: `scroll-left ${speed}s linear infinite`,
           }}
         >
-          <span className="text-sm md:text-base font-semibold px-8">
+          <span className="text-base md:text-lg font-semibold px-8">
             📢 {message}
           </span>
-          <span className="text-sm md:text-base font-semibold px-8">
+          <span className="text-base md:text-lg font-semibold px-8">
             📢 {message}
           </span>
-          <span className="text-sm md:text-base font-semibold px-8">
+          <span className="text-base md:text-lg font-semibold px-8">
             📢 {message}
           </span>
         </div>
