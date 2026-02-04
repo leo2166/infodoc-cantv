@@ -8,9 +8,10 @@ import { FileText, Newspaper, MessageCircle, Phone, Mail, MapPin, Users, Shield,
 import Link from "next/link"
 import { ChatWidget } from "@/components/chat-widget"
 import { PWAInstallPrompt } from "@/components/pwa-install-prompt"
-import { RippleBackground } from "@/components/ui/ripple-background"
+// import { RippleBackground } from "@/components/ui/ripple-background"  // Comentado temporalmente
 import FechaHora from '@/components/FechaHora';
 import { EmergencyGuideModal } from "@/components/emergency-guide-modal";
+import { NewsTicker } from "@/components/news-ticker";
 
 export default function HomePage() {
 
@@ -76,7 +77,16 @@ export default function HomePage() {
               className="w-full h-full object-cover opacity-10"
             />
           </div>
-          <RippleBackground />
+          {/* <RippleBackground /> */}  {/* Animación de ondas comentada temporalmente */}
+
+          {/* News Ticker Banner */}
+          <div className="absolute top-0 left-0 right-0 z-20">
+            <NewsTicker
+              message="Desde el 2 de Febrero, hasta el 6 de marzo estará vigente el proceso de actualización de >> Fe de vida <<, acude a las oficinas de Gestión Humana de tu Región."
+              speed={38}
+            />
+          </div>
+
           <div className="relative z-10 max-w-7xl mx-auto text-center">
             <h1
               id="hero-heading"
