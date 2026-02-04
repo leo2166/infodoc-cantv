@@ -99,7 +99,6 @@ export default function RootLayout({
             Saltar al contenido principal
           </a>
           <div id="main-content">{children}</div>
-          <div id="main-content">{children}</div>
           {/* AccessibilityToolbar removed from here, now in Navigation */}
           <BootieWidget />
         </ThemeProvider>
