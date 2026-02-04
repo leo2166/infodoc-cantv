@@ -130,7 +130,7 @@ export function AccessibilityToolbar() {
 
   return (
     <>
-      <div className="fixed top-20 right-4 z-40">
+      <div className="fixed top-20 right-4 z-40 hidden md:block">
         <Button
           onClick={() => setIsOpen(!isOpen)}
           variant="outline"

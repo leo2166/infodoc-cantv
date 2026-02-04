@@ -2,9 +2,10 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { Menu, X, Newspaper, MessageCircle, Home, Info } from "lucide-react"
+import { Menu, X, Newspaper, MessageCircle, Home, Info, Settings } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { AccessibilityToolbar } from "@/components/accessibility-toolbar"
 
 
 const navLinks = [
@@ -50,6 +51,11 @@ export function Navigation() {
         </nav>
 
         <div className="flex items-center space-x-2">
+          {/* Accessibility Button - Mobile Only */}
+          <div className="md:hidden">
+            <AccessibilityToolbar />
+          </div>
+
           {/* Mobile Navigation */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="md:hidden">
