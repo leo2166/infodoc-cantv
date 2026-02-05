@@ -213,5 +213,47 @@ CAPA 6: Procesador Local (Fallback final)
 -   **Backend:** `/api/admin/upload`
     1.  Recibe el archivo y lo guarda en `raw_docs`.
     2.  Usa librería `mammoth` para convertir a Markdown limpio.
-    3.  Ejecuta automáticamente el script `build-kb.js` para regenerar la base de datos.
--   **Script Mejorado:** `scripts/build-kb.js` ahora apunta correctamente a la raíz y aplica lógica de keywords inteligentes.
+
+## 📢 Cintillo Informativo Noticiero y Ajustes UI (04/02/2026)
+**Objetivo:** Mostrar mensaje importante "Fe de Vida" de forma llamativa (scroll horizontal) y resolver conflictos de UI.
+
+**Implementación Tecnológica:**
+- **Nuevo Componente:** `components/news-ticker.tsx` (CSS puro para animaciones performantes).
+- **Características:**
+    - Loop infinito perfecto con CSS `@keyframes`.
+    - Pausa al hacer hover.
+    - Responsive: Texto 16px (móvil) / 18px (desktop).
+    - Velocidad optimizada para adultos mayores (38 segundos).
+
+**Resolución de Conflicto UI (Botón Accesibilidad):**
+**Problema:** El botón de accesibilidad flotante (`top-20 right-4`) tapaba el cintillo en móviles y daba problemas de diseño en desktop.
+**Solución Definitiva:**
+    - Se eliminó el botón flotante de `RootLayout`.
+    - Se integró `AccessibilityToolbar` dentro de `Navigation` (`components/navigation.tsx`).
+    - **Resultado:** El botón ahora vive dentro de la barra de navegación (junto al menú en móvil, a la derecha en desktop), alineado y sin solapamientos.
+
+**Archivos Clave Modificados:**
+- `app/page.tsx`: Inserción del cintillo en Hero Section.
+- `components/navigation.tsx`: Inclusión del botón de accesibilidad.
+- `components/news-ticker.tsx`: Lógica de animación.
+
+**Tag de Seguridad:** `v1.1-pre-news-ticker`
+
+## 🐛 Corrección de Duplicación de Páginas (04/02/2026)
+**Problema Crítico:** Todas las páginas se duplicaban al hacer scroll, tanto en desktop como móvil.
+**Causa Raíz:** El archivo `app/layout.tsx` tenía el contenedor `{children}` duplicado en las líneas 101-102.
+**Impacto:** 
+- Renderizado doble de todo el contenido
+- IDs HTML duplicados (`main-content`)
+- Problemas de accesibilidad
+- Posible impacto negativo en SEO
+
+**Solución Implementada:**
+- Eliminada la línea duplicada `<div id="main-content">{children}</div>` en `app/layout.tsx` (línea 102).
+- Commit: `6753d22` - "Fix: Eliminar duplicación de contenido en layout.tsx"
+- Desplegado a producción vía Git push automático a Vercel.
+
+**Archivos Modificados:**
+- `app/layout.tsx`: Corrección de duplicación de contenedor principal.
+
+**Estado:** ✅ Corregido y desplegado en producción
