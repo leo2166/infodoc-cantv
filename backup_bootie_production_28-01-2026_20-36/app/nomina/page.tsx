@@ -19,13 +19,13 @@ export default function NominaPage() {
             </Link>
           </div>
           <h1 className="text-3xl sm:text-4xl font-heading font-bold text-foreground mb-8 text-center">
-            Nómina Cantv 2026
+            Nómina Cantv
           </h1>
           <div className="flex flex-col gap-8">
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/febrero.webp"
-                alt="Cronograma de pago CANTV - Febrero 2026"
+                src="/1.webp"
+                alt="Información de nómina"
                 width={800}
                 height={1120}
                 priority
@@ -34,17 +34,8 @@ export default function NominaPage() {
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/marzo.webp"
-                alt="Cronograma de pago CANTV - Marzo 2026"
-                width={800}
-                height={1120}
-                className="rounded-md object-contain"
-              />
-            </div>
-            <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
-              <Image
-                src="/abril.webp"
-                alt="Cronograma de pago CANTV - Abril 2026"
+                src="/2.webp"
+                alt="Información de nómina"
                 width={800}
                 height={1120}
                 className="rounded-md object-contain"

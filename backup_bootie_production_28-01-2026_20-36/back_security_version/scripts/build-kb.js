@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const DOCS_DIR = path.resolve(__dirname, '../../bootie-dev/documents');
-const OUTPUT_FILE = path.resolve(__dirname, '../knowledge-base.json');
+const OUTPUT_FILE = path.resolve(__dirname, '../lib/knowledge-base.json');
 
 function generateKeywords(filename) {
     const name = filename.replace('.md', '').replace(/-/g, ' ');
@@ -13,8 +13,7 @@ function generateKeywords(filename) {
     if (name.includes('reembolso')) keywords.push('medico', 'gasto', 'factura', 'salud', 'dinero');
     if (name.includes('carta')) keywords.push('seguro', 'clinica', 'cobertura', 'aval');
     if (name.includes('contacto')) keywords.push('telefono', 'numero', 'llamada', 'correo', 'ubicacion');
-    if (name.includes('emergencia')) keywords.push('ambulancia', 'clinica', 'urgencia', 'gestion', 'humana', 'rrhh', 'recursos');
-    if (name.includes('funeraria') || name.includes('funerarios')) keywords.push('funeraria', 'entierro', 'velorio', 'cementerio', 'cremacion', 'fallecimiento', 'sepulio');
+    if (name.includes('emergencia')) keywords.push('ambulancia', 'clinica', 'urgencia');
 
     return keywords;
 }

@@ -35,10 +35,6 @@
         "ambulancia",
         "clinica",
         "urgencia",
-        "gestion",
-        "humana",
-        "rrhh",
-        "recursos",
         "funeraria",
         "entierro",
         "velorio",
@@ -80,5 +76,5 @@
       ]
     }
   },
-  "lastUpdated": "2026-01-29T00:39:18.229Z"
+  "lastUpdated": "2026-01-28T17:38:52.258Z"
 }
