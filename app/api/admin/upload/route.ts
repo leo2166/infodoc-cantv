@@ -5,6 +5,7 @@ import path from 'path';
 import mammoth from 'mammoth';
 import { exec } from 'child_process';
 import util from 'util';
+import { processDocument } from '@/lib/document-processor';
 
 const execPromise = util.promisify(exec);
 
@@ -41,27 +42,17 @@ export async function POST(req: NextRequest) {
         fs.writeFileSync(rawFilePath, buffer);
         console.log(`✅ Archivo guardado en: ${rawFilePath}`);
 
-        // 2. Convertir a Markdown (.md)
-        let markdown = "";
-        try {
-            const result = await mammoth.convertToMarkdown({ buffer: buffer });
-            markdown = result.value;
-            const messages = result.messages; // Advertencias, si las hay
-            if (messages.length > 0) {
-                console.warn("⚠️ Advertencias de mammoth:", messages);
-            }
-        } catch (err: any) {
-            console.error("❌ Error convirtiendo docx:", err);
-            return NextResponse.json({ error: "Error al convertir el archivo a Markdown", details: err.message }, { status: 500 });
+        // 2. Procesamiento Inteligente (IA)
+        console.log("🧠 Iniciando procesamiento inteligente con IA...");
+        const result = await processDocument(buffer, file.type);
+
+        if (!result.success) {
+            console.error("❌ Error en procesamiento IA:", result.error);
+            return NextResponse.json({ error: result.error || "Error al procesar el archivo" }, { status: 500 });
         }
 
-        if (!markdown) {
-            return NextResponse.json({ error: "El archivo parece estar vacío o no se pudo extraer texto." }, { status: 400 });
-        }
+        const cleanMarkdown = result.markdown;
 
-        // Limpieza básica del Markdown generado
-        // Mammoth a veces genera muchos saltos de línea innecesarios
-        const cleanMarkdown = markdown.replace(/\n\s*\n/g, '\n\n').trim();
         const mdFilename = filename.replace(/\.docx?$/i, '.md');
         const mdFilePath = path.join(DOCS_DIR, mdFilename);
 
