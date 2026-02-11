@@ -257,3 +257,38 @@ CAPA 6: Procesador Local (Fallback final)
 - `app/layout.tsx`: Corrección de duplicación de contenedor principal.
 
 **Estado:** ✅ Corregido y desplegado en producción
+
+## 📅 Actualización de Nómina CANTV (08/02/2026)
+**Objetivo:** Actualizar la sección de nómina para mostrar los cronogramas de febrero, marzo y abril 2026, convirtiendo las imágenes a formato WebP para optimizar el rendimiento.
+
+**Cambios Implementados:**
+1. **Conversión a WebP:** Se convirtieron 3 imágenes PNG a formato WebP (calidad 85%) usando la librería `sharp`:
+   - `2.png` → `febrero.webp`
+   - `Nomina Marzo 2026.png` → `marzo.webp`
+   - `Nomina Abril 2026.png` → `abril.webp`
+
+2. **Actualización de Página:** Se modificó `app/nomina/page.tsx` para:
+   - Mostrar 3 meses (antes solo 2)
+   - Orden ascendente: Febrero → Marzo → Abril
+   - Actualizado título a "Nómina Cantv 2026"
+   - Mejorados textos alt para accesibilidad
+
+3. **Limpieza de Archivos:** Se eliminaron archivos obsoletos:
+   - Imágenes de enero: `1.png`, `enero_2026.png`, `nomina01_01_2026.png`
+   - Archivos antiguos: `1.webp`, `2.webp`
+   - PNG originales convertidos
+
+**Archivos Creados:**
+- `scripts/convert-to-webp.js`: Script de conversión reutilizable para futuros meses
+- `public/febrero.webp`, `public/marzo.webp`, `public/abril.webp`
+
+**Archivos Modificados:**
+- `app/nomina/page.tsx`: Actualización de componente para 3 meses
+
+**Beneficios:**
+- ⚡ Mayor velocidad de carga (WebP reduce tamaño 25-35% vs PNG)
+- 🗂️ Mejor organización (orden cronológico ascendente)
+- ♿ Mejor accesibilidad (textos alt descriptivos)
+
+**Commit:** `cb52d93` - "feat: Update nomina section with Feb-Apr 2026 calendars in WebP format"
+**Estado:** ✅ Desplegado y verificado en producción
