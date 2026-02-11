@@ -7,6 +7,9 @@
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start",
+    "start": "next start",
+    "sync:bootie": "node scripts/sync-bootie.js",
+    "upload:all": "npm run sync:bootie && git add . && git commit -m \"Sync Bootie KB & Upload\" && git push origin main",
     "migrate:r2": "tsx scripts/migrate-to-r2.ts",
     "migrate:r2:additional": "tsx scripts/migrate-additional-to-r2.ts"
   },
