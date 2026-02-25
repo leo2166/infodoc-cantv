@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { usePathname } from "next/navigation";
+
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 
@@ -11,12 +11,7 @@ interface Message {
 }
 
 export default function BootieWidget() {
-    const pathname = usePathname();
 
-    // Solo renderiza si está en home
-    if (pathname !== '/') {
-        return null;
-    }
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([
         {
@@ -69,17 +64,10 @@ export default function BootieWidget() {
         setIsLoading(true);
 
         try {
-            // Usa el endpoint /api/bootie (separado del chat principal)
-            // Enviamos el historial completo para mantener contexto
-            const updatedMessages = [...messages, userMessage];
-
-            const response = await fetch("/api/bootie", {
+            const response = await fetch("/api/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    message: input, // Mantenemos para compatibilidad
-                    messages: updatedMessages // Nuevo campo con historial
-                }),
+                body: JSON.stringify({ message: input }),
             });
 
             const data = await response.json();
@@ -106,6 +94,8 @@ export default function BootieWidget() {
             setIsLoading(false);
         }
     };
+
+
 
     return (
         <>

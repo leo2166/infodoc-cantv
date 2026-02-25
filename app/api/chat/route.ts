@@ -1,4 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
+import Groq from "groq-sdk";
+import OpenAI from "openai";
 import dns from 'node:dns';
 import fs from "fs";
 import path from "path";
@@ -8,359 +10,394 @@ import { NextRequest, NextResponse } from "next/server";
 dns.setDefaultResultOrder('ipv4first');
 
 const apiKey = process.env.GOOGLE_API_KEY;
-const deepseekApiKey = process.env.DEEPSEEK_API_KEY;
+const groqApiKey = process.env.GROQ_API_KEY;
 const openRouterApiKey = process.env.OPENROUTER_API_KEY;
-const openRouterModel = process.env.OPENROUTER_MODEL || "google/gemma-3-27b-it:free";
 
-// No lanzamos error si falta google_api_key para permitir que build corra, pero logueamos
 if (!apiKey) {
-  console.warn("⚠️ GOOGLE_API_KEY no está configurada");
+    console.warn("⚠️ GOOGLE_API_KEY no está configurada (esto puede ser normal durante el build)");
 }
 
-const genAI = new GoogleGenAI({ apiKey: apiKey || "dummy" });
+const genAI = apiKey ? new GoogleGenAI({ apiKey }) : null;
+const groq = groqApiKey ? new Groq({ apiKey: groqApiKey }) : null;
 
-// Función para llamar a DeepSeek (vía OpenRouter)
-async function callDeepSeek(systemPrompt: string, context: string, query: string) {
-  if (!deepseekApiKey) {
-    console.log("⚠️ DEEPSEEK_API_KEY no configurada");
-    return null;
-  }
-
-  try {
-    console.log("🚀 [DeepSeek] Enviando petición a OpenRouter...");
-    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${deepseekApiKey}`,
-        "Content-Type": "application/json",
-        "HTTP-Referer": "https://infodoc-cantv.vercel.app",
-        "X-Title": "InfoDoc CANTV",
-      },
-      body: JSON.stringify({
-        model: "deepseek/deepseek-chat",
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: `CONTEXTO:\n${context}\n\nPREGUNTA: ${query}\n\nRESPUESTA:` }
-        ],
-        temperature: 0.3
-      })
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      // Si es error de créditos (402), logueamos específico
-      if (response.status === 402) {
-        console.error("❌ [DeepSeek] Sin saldo (402). Saltando...");
-      } else {
-        console.error("❌ [DeepSeek] Error HTTP", response.status, ":", errorText);
-      }
-      return null;
-    }
-
-    const data = await response.json();
-    const content = data.choices?.[0]?.message?.content;
-
-    if (content) {
-      console.log("✅ [DeepSeek] Respuesta exitosa");
-      return content;
-    } else {
-      console.error("❌ [DeepSeek] Respuesta vacía:", JSON.stringify(data));
-      return null;
-    }
-  } catch (e: any) {
-    console.error("❌ [DeepSeek] Excepción:", e.message || e);
-    return null;
-  }
-}
-
-// Función para llamar a OpenRouter (Capa Gratuita de Respaldo)
-async function callOpenRouter(systemPrompt: string, context: string, query: string) {
-  if (!openRouterApiKey) {
-    console.log("⚠️ OPENROUTER_API_KEY no configurada");
-    return null;
-  }
-
-  try {
-    console.log(`🚀 [OpenRouter] Enviando petición (${openRouterModel})...`);
-    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${openRouterApiKey}`,
-        "Content-Type": "application/json",
-        "HTTP-Referer": "https://infodoc-cantv.vercel.app",
-        "X-Title": "InfoDoc CANTV",
-      },
-      body: JSON.stringify({
-        model: openRouterModel,
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: `CONTEXTO:\n${context}\n\nPREGUNTA: ${query}\n\nRESPUESTA:` }
-        ]
-      })
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("❌ [OpenRouter] Error HTTP", response.status, ":", errorText);
-      return null;
-    }
-
-    const data = await response.json();
-    const content = data.choices?.[0]?.message?.content;
-
-    if (content) {
-      console.log("✅ [OpenRouter] Respuesta exitosa");
-      return content;
-    } else {
-      console.error("❌ [OpenRouter] Respuesta vacía:", JSON.stringify(data));
-      return null;
-    }
-  } catch (e: any) {
-    console.error("❌ [OpenRouter] Excepción:", e.message || e);
-    return null;
-  }
-}
+// Gemma 3 27B via OpenRouter (más inteligente)
+const gemma3 = openRouterApiKey ? new OpenAI({
+    apiKey: openRouterApiKey,
+    baseURL: "https://openrouter.ai/api/v1",
+}) : null;
 
 interface KnowledgeBase {
-  sheets: {
-    [key: string]: {
-      titulo: string;
-      contenido: string;
-      keywords: string[];
+    sheets: {
+        [key: string]: {
+            titulo: string;
+            contenido: string;
+            keywords: string[];
+        };
     };
-  };
-  lastUpdated: string;
+    lastUpdated: string;
 }
 
 // Cargar la base de conocimiento
 function loadKnowledgeBase(): KnowledgeBase | null {
-  try {
-    // AJUSTE PARA INFODOC: Ruta en /lib/
-    const kbPath = path.join(process.cwd(), "lib", "knowledge-base.json");
-    if (fs.existsSync(kbPath)) {
-      const data = fs.readFileSync(kbPath, "utf-8");
-      return JSON.parse(data);
-    } else {
-      console.error("❌ Conocimiento no encontrado en:", kbPath);
+    try {
+        const kbPath = path.join(process.cwd(), "knowledge-base.json");
+        if (fs.existsSync(kbPath)) {
+            const data = fs.readFileSync(kbPath, "utf-8");
+            return JSON.parse(data);
+        }
+    } catch (e) {
+        console.error("Error cargando knowledge base:", e);
     }
-  } catch (e) {
-    console.error("Error cargando knowledge base:", e);
-  }
-  return null;
+    return null;
 }
 
 // Buscar información relevante basada en palabras clave en las "hojas"
 function findRelevantSections(query: string, kb: KnowledgeBase): string[] {
-  const queryLower = query.toLowerCase();
-  const queryWords = queryLower.split(/\s+/).filter(w => w.length > 3);
-  const relevantSections: string[] = [];
+    const queryLower = query.toLowerCase();
+    const queryWords = queryLower.split(/\s+/).filter(w => w.length > 3);
+    const relevantSections: string[] = [];
 
-  for (const [key, sheet] of Object.entries(kb.sheets)) {
-    // Verificar si alguna keyword de la hoja está en la consulta
-    const matchKeyword = sheet.keywords.some(kw => queryLower.includes(kw.toLowerCase()));
+    for (const [key, sheet] of Object.entries(kb.sheets)) {
+        const matchKeyword = sheet.keywords.some(kw => queryLower.includes(kw.toLowerCase()));
+        const matchTitle = queryWords.some(word => sheet.titulo.toLowerCase().includes(word));
 
-    // Verificar si alguna palabra de la consulta está en el título o contenido
-    const matchTitle = queryWords.some(word => sheet.titulo.toLowerCase().includes(word));
-
-    if (matchKeyword || matchTitle) {
-      relevantSections.push(sheet.contenido);
+        if (matchKeyword || matchTitle) {
+            relevantSections.push(sheet.contenido);
+        }
     }
-  }
 
-  return relevantSections;
+    return relevantSections;
 }
 
-const systemPrompt = `Eres un asistente institucional llamado Bootie. Tu función es responder preguntas de jubilados de CANTV sobre salud, reembolsos, atención y servicios disponibles. Tienes acceso a una base de conocimientos cargada en formato \`.md\` con secciones bien definidas. Tu comportamiento debe seguir estas reglas: 
-1. **Responde con precisión y brevedad**, extrayendo solo la sección relevante del documento cuando el usuario mencione palabras clave como “reembolso”, “farmacia”, “hospitalización”, “consulta médica”, etc. 
-2. **No muestres el documento completo**, solo la parte que responde directamente a la pregunta.
-3. Si la pregunta es ambigua, responde con una lista de opciones claras para que el usuario elija. 
-4. Si no encuentras información en la base de conocimientos, responde: “No tengo información específica sobre eso en mi base de datos actual. ¿hay algo más en que te pueda ayudar o puede reformular su pregunta?” 
-5. Mantén un tono respetuoso, claro y directo. Evita tecnicismos innecesarios.
+// Obtener fecha actual para contexto temporal
+function getCurrentDateContext() {
+    const now = new Date();
+    const monthNames = ["enero", "febrero", "marzo", "abril", "mayo", "junio",
+        "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+    const currentMonth = monthNames[now.getMonth()];
+    const currentYear = now.getFullYear();
+    return { currentMonth, currentYear, monthNames };
+}
 
-6. **Sinónimos y Entidades**: Si el usuario menciona "funeraria", "funeraria el rosal" o "servicios funerarios el rosal", entiende que se refieren exactamente a la misma información sobre Servicios Funerarios El Rosal y proporciona la información correspondiente.
+const { currentMonth, currentYear } = getCurrentDateContext();
 
-Ejemplo de respuesta ideal: 
-Usuario: “¿Qué necesito para el reembolso de gastos por medicamentos?” 
-Respuesta: “Para el reembolso por medicamentos, debe presentar: Informe médico vigente, récipes, indicaciones y factura original 
-Para enviarlo a reembolsogss@cantv.com.ve .”`;
+const systemPrompt = `Eres un asistente institucional llamado Bootie. Tu función es responder preguntas de jubilados de CANTV sobre salud, reembolsos, atención y servicios disponibles. 
+
+CONTEXTO TEMPORAL ACTUAL:
+- Mes actual: ${currentMonth} ${currentYear}
+- IMPORTANTE: Cuando te pregunten sobre fechas de pago SIN especificar mes, asume que preguntan por el MES ACTUAL (${currentMonth}).
+
+REGLAS CRÍTICAS - DEBES SEGUIRLAS SIEMPRE:
+
+1. **NUNCA envíes markdown crudo**: 
+   - NO uses headers markdown (# ## ###)
+   - NO copies tablas markdown (| columna | columna |)
+   - NO incluyas HTML (<br>, <table>, etc.)
+   - NO muestres el documento completo
+
+2. **Convierte TODO a lenguaje natural conversacional**:
+   - Si el documento tiene una TABLA, conviértela a una LISTA de viñetas
+   - Si hay contactos, preséntalos como: "Puede contactar a [Nombre] ([Cargo]) al [teléfono] o por email a [correo]"
+   - Si hay requisitos en lista, usa viñetas simples (*)
+
+3. **Responde con precisión y brevedad**: Extrae solo la información relevante que responde directamente a la pregunta.
+
+4. **Formato de respuesta preferido**:
+   - Usa viñetas simples (*) para listas
+   - Usa negrita (**texto**) para resaltar información importante
+   - Mantén los links de email pero en texto plano o formato markdown link
+   - Separa secciones con saltos de línea, NO con "---"
+
+5. Si la pregunta es ambigua, responde con una lista de opciones claras.
+
+6. Si no encuentras información, responde: "No tengo información específica sobre eso en mi base de datos actual. ¿Hay algo más en que te pueda ayudar?"
+
+7. Mantén un tono respetuoso, claro y directo. Evita tecnicismos innecesarios.
+
+8. **REGLAS DE CORTESÍA**:
+   - Si el usuario dice "gracias", "muchas gracias" o similar, responde: "¡Estamos para servir! ¿Hay algo más en que te pueda ayudar?"
+   - Si el usuario se despide ("chao", "adiós", "hasta luego", "bye", "nos vemos"), responde: "¡Nos vemos en otra oportunidad! Que tengas un excelente día. 😊"
+   - Siempre muestra empatía y calidez con el usuario para que se sienta bien atendido
+
+9. **REGLAS INTELIGENTES DE FECHAS Y PAGOS**:
+   - Si preguntan "¿Cuándo pagan?" SIN especificar mes → Muestra SOLO las fechas del MES ACTUAL (${currentMonth} ${currentYear})
+   - Si preguntan por un mes específico (ej: "¿Cuándo pagan en marzo?") → Muestra SOLO ese mes
+   - NO muestres todo el calendario del año, solo la información relevante del mes solicitado o actual
+   - Si preguntan por un mes del que NO tienes información, responde: "Solo tengo el calendario de [lista meses disponibles]. ¿Cuál te interesa?"
+   
+10. **CLARIFICACIONES ESPECÍFICAS**:
+    - En los números de emergencia CANTV, aclara explícitamente que el número **0800-Cantv-00** y otros son generales, PERO el número **\*426** (asterisco 426) es exclusivo para llamar desde **Movilnet** (Asegúrate de incluir el símbolo * antes del número).
+
+EJEMPLOS DE RESPUESTAS SOBRE FECHAS:
+
+Usuario: "¿Cuándo pagan?" (pregunta genérica, sin mes)
+Respuesta CORRECTA para ${currentMonth}:
+"Para ${currentMonth} de ${currentYear}, las fechas de pago programadas son:
+
+*   El [fecha] se paga el **Bono Alimentario**.
+*   El [fecha] se paga la **primera quincena**.
+*   El [fecha] se paga el **Bono Vital**.
+*   El [fecha] se paga la **segunda quincena**.
+
+¿Necesitas información de otro mes?"
+
+Respuesta INCORRECTA (NUNCA HAGAS ESTO):
+[Mostrar todo el calendario del año 2026 completo]
+
+---
+
+EJEMPLO DE RESPUESTA DE CONTACTOS:
+
+Usuario: "¿Dónde puedo contactar al departamento de jubilados?"
+
+Respuesta CORRECTA:
+"Aquí están los contactos del departamento de Atención al Jubilado:
+
+* **Armando Parodi** (Consultor): 0212-5006282 | aparodo1@cantv.com.ve
+* **Efren Boada** (Consultor): 0212-5004067 | eboada01@cantv.com.ve
+* **Noami Chacón** (Analista): 0212-4512810 | nchaco01@cantv.com.ve
+* **Yesenia Parra** (Analista): yparra07@cantv.com.ve
+* **Horacio Méndez** (Consultor): 0212-5004572 | hmendez01@cantv.com.ve
+* **Yoilet Molina** (Analista): 0212-5006965 | ymolino4@cantv.com.ve
+
+¿Necesita algo más?"
+
+Respuesta INCORRECTA (NUNCA HAGAS ESTO):
+"# ATENCIÓN AL JUBILADO - CONTACTOS
+| Cargo | Nombre | Contacto |
+|-------|--------|----------|
+..."
+`;
 
 export async function POST(req: NextRequest) {
-  try {
-    const { message } = await req.json();
+    try {
+        const { message } = await req.json();
 
-    if (!message || typeof message !== "string") {
-      return NextResponse.json(
-        { error: "Se requiere un mensaje válido" },
-        { status: 400 }
-      );
-    }
+        if (!message || typeof message !== "string") {
+            return NextResponse.json(
+                { error: "Se requiere un mensaje válido" },
+                { status: 400 }
+            );
+        }
 
-    console.time("chat_total");
-    const kb = loadKnowledgeBase();
+        console.time("chat_total");
+        const kb = loadKnowledgeBase();
 
-    // 1. Manejo especial de Saludos (para ahorrar tokens y evitar cuota)
-    const greetings = ["hola", "buenos dias", "buenas tardes", "buenas noches", "hey", "saludos"];
-    const isGreeting = greetings.some(g => message.toLowerCase().trim().startsWith(g)) && message.length < 15;
+        // 1. Manejo especial de Saludos
+        const greetings = ["hola", "buenos dias", "buenas tardes", "buenas noches", "hey", "saludos"];
+        const isGreeting = greetings.some(g => message.toLowerCase().trim().startsWith(g)) && message.length < 15;
 
-    if (isGreeting) {
-      console.log("👋 Saludo detectado, respuesta rápida.");
-      return NextResponse.json({
-        response: "¡Hola! Mi nombre es Bootie. Estoy listo para ayudarte con información de CANTV. ¿Qué necesitas saber hoy?"
-      });
-    }
+        if (isGreeting) {
+            console.log("👋 Saludo detectado, respuesta rápida.");
+            return NextResponse.json({
+                response: "¡Hola! Mi nombre es Bootie. Estoy listo para ayudarte con información de CANTV. ¿Qué necesitas saber hoy?"
+            });
+        }
 
-    if (!kb) {
-      return NextResponse.json(
-        { error: "No hay base de conocimiento cargada." },
-        { status: 500 }
-      );
-    }
+        // 2. Manejo especial de Agradecimientos
+        const thankYouPhrases = ["gracias", "muchas gracias", "te agradezco", "mil gracias", "thank you", "thanks"];
+        const isThanking = thankYouPhrases.some(phrase => message.toLowerCase().trim().includes(phrase)) && message.length < 40;
 
-    // Buscar secciones relevantes en las hojas
-    console.time("kb_search");
-    const relevantSections = findRelevantSections(message, kb);
-    console.timeEnd("kb_search");
+        if (isThanking) {
+            console.log("🙏 Agradecimiento detectado, respuesta amigable.");
+            return NextResponse.json({
+                response: "¡Estamos para servir! ¿Hay algo más en que te pueda ayudar? 😊"
+            });
+        }
 
-    // Construir contexto
-    let context = "";
-    if (relevantSections.length > 0) {
-      console.log(`✅ Secciones encontradas: ${relevantSections.length}`);
-      context = "INFORMACIÓN DEL DOCUMENTO:\n\n" + relevantSections.join("\n\n---\n\n");
+        // 3. Manejo especial de Despedidas
+        const farewellPhrases = ["chao", "adiós", "adios", "hasta luego", "nos vemos", "bye", "hasta pronto", "me voy"];
+        const isFarewell = farewellPhrases.some(phrase => message.toLowerCase().trim().includes(phrase)) && message.length < 30;
 
-      // Guardamos la info para el fallback
-      const currentInfo = relevantSections;
+        if (isFarewell) {
+            console.log("👋 Despedida detectada, respuesta cálida.");
+            return NextResponse.json({
+                response: "¡Nos vemos en otra oportunidad! Que tengas un excelente día. 😊"
+            });
+        }
 
-      // Capa 1: OpenRouter (Prioridad Temporal por Fallos en otras capas)
-      console.log("\n🟣 [CAPA 1] Intentando OpenRouter (Prioridad)...");
-      console.time("openrouter_api");
-      const openRouterResponse = await callOpenRouter(systemPrompt, context, message);
-      console.timeEnd("openrouter_api");
+        if (!kb) {
+            return NextResponse.json(
+                { error: "No hay base de conocimiento cargada." },
+                { status: 500 }
+            );
+        }
 
-      if (openRouterResponse) {
-        console.log("✅ [CAPA 1] Respondiendo con OpenRouter");
-        console.timeEnd("chat_total");
-        return NextResponse.json({
-          response: `${openRouterResponse}\n\n*— Respondido por OpenRouter (${openRouterModel})*`
-        });
-      }
+        console.time("kb_search");
+        const relevantSections = findRelevantSections(message, kb);
+        console.timeEnd("kb_search");
 
-      // Capa 2: OpenRouter Respaldo (Llama 3.3 70B - Si Gemma falla)
-      console.log("\n🟣 [CAPA 2] OpenRouter (Gemma) falló, intentando OpenRouter (Llama 3.3)...");
-      const backupOpenRouterModel = "meta-llama/llama-3.3-70b-instruct:free";
+        if (relevantSections.length > 0) {
+            console.log(`✅ Secciones encontradas: ${relevantSections.length}`);
+            const context = "INFORMACIÓN DEL DOCUMENTO:\n\n" + relevantSections.join("\n\n---\n\n");
+            const currentInfo = relevantSections;
 
-      // Reutilizamos la función pero forzamos el modelo temporalmente
-      // Nota: Idealmente pasaríamos modelo como param, pero por simplicidad modificamos la llamada o creamos una interna
-      // Para no duplicar lógica complicada, hacemos una llamada fetch directa simple aquí para el backup
-      let backupSuccess = false;
-      if (openRouterApiKey) {
-        try {
-          console.time("openrouter_backup_api");
-          const resBackup = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-            method: "POST",
-            headers: {
-              "Authorization": `Bearer ${openRouterApiKey}`,
-              "Content-Type": "application/json",
-              "HTTP-Referer": "https://infodoc-cantv.vercel.app",
-              "X-Title": "InfoDoc CANTV",
-            },
-            body: JSON.stringify({
-              model: backupOpenRouterModel,
-              messages: [
-                { role: "system", content: systemPrompt },
-                { role: "user", content: `CONTEXTO:\n${context}\n\nPREGUNTA: ${message}\n\nRESPUESTA:` }
-              ]
-            })
-          });
+            // CAPA 1: Gemini 2.5 Flash (Principal)
+            console.log("\n🔷 [CAPA 1] Intentando Gemini 2.5 Flash...");
+            console.time("gemini_2.5");
 
-          if (resBackup.ok) {
-            const dataBackup = await resBackup.json();
-            const contentBackup = dataBackup.choices?.[0]?.message?.content;
-            if (contentBackup) {
-              console.log("✅ [CAPA 2] Respondiendo con OpenRouter (Backup Llama 3)");
-              console.timeEnd("openrouter_backup_api");
-              console.timeEnd("chat_total");
-              return NextResponse.json({
-                response: `${contentBackup}\n\n*— Respondido por OpenRouter (Llama 3.3)*`
-              });
+            try {
+                if (!genAI) throw new Error("Google GenAI client not initialized");
+                const result = await genAI.models.generateContent({
+                    model: "gemini-2.5-flash",
+                    contents: `${systemPrompt}\n\nCONTEXTO:\n${context}\n\nPREGUNTA: ${message}\n\nRESPUESTA:`,
+                });
+                console.timeEnd("gemini_2.5");
+                console.timeEnd("chat_total");
+
+                const text = result.text || "No pude procesar tu respuesta en este momento.";
+                console.log("✅ [CAPA 1] Respondiendo con Gemini 2.5");
+                return NextResponse.json({ response: text });
+            } catch (error1: any) {
+                console.error("❌ [CAPA 1] Error:", error1.message || error1);
+
+                // CAPA 2: Groq Llama 3.1 8B (Ultra rápido)
+                if (groq) {
+                    console.log("\n🟢 [CAPA 2] Intentando Groq Llama 3.1 8B (ultra rápido)...");
+                    console.time("groq_3.1_8b");
+
+                    try {
+                        const completion = await groq.chat.completions.create({
+                            messages: [
+                                { role: "system", content: systemPrompt },
+                                { role: "user", content: `CONTEXTO:\n${context}\n\nPREGUNTA: ${message}` }
+                            ],
+                            model: "llama-3.1-8b-instant",
+                            temperature: 0.7,
+                            max_tokens: 1024,
+                        });
+
+                        console.timeEnd("groq_3.1_8b");
+                        console.timeEnd("chat_total");
+
+                        const text = completion.choices[0]?.message?.content || "No pude procesar tu respuesta.";
+                        console.log("✅ [CAPA 2] Respondiendo con Groq Llama 3.1 8B");
+                        return NextResponse.json({ response: text });
+
+                    } catch (error2: any) {
+                        console.error("❌ [CAPA 2] Error:", error2.message || error2);
+
+                        // CAPA 3: Groq Llama 3.3 70B (Más inteligente, GRATIS)
+                        console.log("\n🟣 [CAPA 3] Intentando Groq Llama 3.3 70B (más inteligente)...");
+                        console.time("groq_3.3_70b");
+
+                        try {
+                            const completion = await groq.chat.completions.create({
+                                messages: [
+                                    { role: "system", content: systemPrompt },
+                                    { role: "user", content: `CONTEXTO:\n${context}\n\nPREGUNTA: ${message}` }
+                                ],
+                                model: "llama-3.3-70b-versatile",
+                                temperature: 0.7,
+                                max_tokens: 1024,
+                            });
+
+                            console.timeEnd("groq_3.3_70b");
+                            console.timeEnd("chat_total");
+
+                            const text = completion.choices[0]?.message?.content || "No pude procesar tu respuesta.";
+                            console.log("✅ [CAPA 3] Respondiendo con Groq Llama 3.3 70B");
+                            return NextResponse.json({ response: text });
+
+                        } catch (error3: any) {
+                            console.error("❌ [CAPA 3] Error:", error3.message || error3);
+                        }
+                    }
+                }
+
+                // CAPA 4: Gemma 3 27B (via OpenRouter - más inteligente)
+                if (gemma3) {
+                    console.log("\n🔵 [CAPA 4] Intentando Gemma 3 27B...");
+                    console.time("gemma3");
+
+                    try {
+                        const completion = await gemma3.chat.completions.create({
+                            messages: [
+                                { role: "system", content: systemPrompt },
+                                { role: "user", content: `CONTEXTO:\n${context}\n\nPREGUNTA: ${message}` }
+                            ],
+                            model: "google/gemma-3-27b-it",
+                            temperature: 0.7,
+                            max_tokens: 1024,
+                        });
+
+                        console.timeEnd("gemma3");
+                        console.timeEnd("chat_total");
+
+                        const text = completion.choices[0]?.message?.content || "No pude procesar tu respuesta.";
+                        console.log("✅ [CAPA 4] Respondiendo con Gemma 3 27B");
+                        return NextResponse.json({ response: text });
+
+                    } catch (error4: any) {
+                        console.error("❌ [CAPA 4] Error:", error4.message || error4);
+                    }
+                }
+
+                // CAPA 5: Gemini 2.0 Flash (Último respaldo IA)
+                console.log("\n🔶 [CAPA 5] Intentando Gemini 2.0 Flash...");
+                console.time("gemini_2.0");
+
+                try {
+                    if (!genAI) throw new Error("Google GenAI client not initialized");
+                    const result = await genAI.models.generateContent({
+                        model: "gemini-2.0-flash",
+                        contents: `${systemPrompt}\n\nCONTEXTO:\n${context}\n\nPREGUNTA: ${message}\n\nRESPUESTA:`,
+                    });
+                    console.timeEnd("gemini_2.0");
+                    console.timeEnd("chat_total");
+
+                    const text = result.text || "No pude procesar tu respuesta en este momento.";
+                    console.log("✅ [CAPA 5] Respondiendo con Gemini 2.0");
+                    return NextResponse.json({ response: text });
+
+                } catch (error5: any) {
+                    console.error("❌ [CAPA 5] Error:", error5.message || error5);
+
+                    // CAPA 6: Procesador Local Inteligente
+                    console.log("\n🔴 [CAPA 6] Todas las IAs fallaron, procesando localmente...");
+
+                    let processedInfo = "";
+                    for (const section of currentInfo) {
+                        const cleanSection = section
+                            .replace(/^#+\s/gm, "")
+                            .replace(/\|.*\|/g, "")
+                            .replace(/^\s*[-*]\s/gm, "• ")
+                            .replace(/<br>/g, ", ")
+                            .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+                            .split("\n")
+                            .filter(line => line.trim().length > 10)
+                            .slice(0, 5)
+                            .join("\n");
+
+                        processedInfo += cleanSection + "\n\n";
+                    }
+
+                    const fallbackResponse = `Lo siento, mis sistemas de IA están temporalmente saturados, pero encontré esta información relevante:\n\n${processedInfo.trim()}\n\n💡 Consejo: Intenta reformular tu pregunta en unos minutos para obtener una respuesta más detallada.`;
+
+                    console.timeEnd("chat_total");
+                    return NextResponse.json({ response: fallbackResponse });
+                }
             }
-          } else {
-            console.error("❌ [CAPA 2] Error HTTP Backup:", resBackup.status);
-          }
-          console.timeEnd("openrouter_backup_api");
-        } catch (e) {
-          console.error("❌ [CAPA 2] Excepción:", e);
+        } else {
+            console.log("⚠️ No se encontró info específica.");
+            console.timeEnd("chat_total");
+            return NextResponse.json({
+                response: "Disculpa esa informacion no se encuentra en mi base de datos, en que mas te puedo ayudar..."
+            });
         }
-      }
 
-      // Capa 3: Intentar DeepSeek (Si OpenRouter falla)
-      console.log("\n🔷 [CAPA 3] OpenRouter (Backup) falló, intentando DeepSeek...");
-      console.time("deepseek_api");
-      const deepseekResponse = await callDeepSeek(systemPrompt, context, message);
-      console.timeEnd("deepseek_api");
+    } catch (error: any) {
+        console.error("Error en API de chat:", error);
 
-      if (deepseekResponse) {
-        console.log("✅ [CAPA 3] Respondiendo con DeepSeek");
-        console.timeEnd("chat_total");
-        return NextResponse.json({
-          response: `${deepseekResponse}\n\n*— Respondido por DeepSeek AI*`
-        });
-      }
+        let userErrorMessage = "Algo salió mal en mi sistema.";
 
-      // Capa 4: Fallback a Gemini Lite (Último recurso)
-      console.log("\n🔶 [CAPA 4] DeepSeek falló, intentando Gemini...");
-      let geminiSuccess = false;
-      let geminiResponseText = "";
-
-      console.time("gemini_api");
-      try {
-        if (!apiKey) throw new Error("Google API Key not configured");
-
-        const result = await genAI.models.generateContent({
-          model: "gemini-2.0-flash-lite",
-          contents: {
-            role: "user",
-            parts: [
-              { text: `${systemPrompt}\n\nCONTEXTO:\n${context}\n\nPREGUNTA: ${message}\n\nRESPUESTA:` }
-            ]
-          }
-        });
-
-        geminiResponseText = result.text || "";
-        if (geminiResponseText && !geminiResponseText.includes("Error")) {
-          geminiSuccess = true;
+        if (error.status === 429 || (error.message && error.message.includes("quota"))) {
+            userErrorMessage = "He agotado mi energía (cuota) por hoy. Por favor, intenta de nuevo en unos minutos.";
         }
-      } catch (apiError: any) {
-        console.error("❌ [CAPA 4] Error en Gemini:", apiError.message || apiError);
-      }
-      console.timeEnd("gemini_api");
 
-      if (geminiSuccess) {
-        console.log("✅ [CAPA 4] Respondiendo con Gemini");
-        return NextResponse.json({
-          response: `${geminiResponseText}\n\n*— Respondido por Gemini Flash Lite*`
-        });
-      }
-
-      // Final Fallback: Mensaje de error educado (SIN DATOS CRUDOS)
-      console.log("\n🔴 [FINAL] TODAS las IAs fallaron. Enviando mensaje de error seguro.");
-      const secureFallbackValues = "Lo siento, en este momento todos mis sistemas de inteligencia están saturados o no disponibles. \n\nPor favor intenta nuevamente en unos minutos. Si la emergencia persiste, comunícate directamente con los canales oficiales de CANTV.";
-
-      console.timeEnd("chat_total");
-      return NextResponse.json({ response: secureFallbackValues });
-
-    } else {
-      console.log("⚠️ No se encontró info específica. Enviando mensaje de fallback directo.");
-      console.timeEnd("chat_total");
-      return NextResponse.json({
-        response: "Disculpa esa informacion no se encuentra en mi base de datos, en que mas te puedo ayudar..."
-      });
+        return NextResponse.json(
+            { error: userErrorMessage, details: error.message },
+            { status: 500 }
+        );
     }
-
-  } catch (error: any) {
-    console.error("Error en API de chat:", error);
-    return NextResponse.json(
-      { error: "Algo salió mal en mi sistema.", details: error.message },
-      { status: 500 }
-    );
-  }
 }
