@@ -76,8 +76,25 @@ if (imagenDetectada) {
 console.log('\n=======================================');
 if (copiados > 0) {
     console.log(`🎉 ${copiados} archivos sincronizados desde bootie-dev.`);
-    console.log('👀 Revisa localhost antes de hacer git push.');
 } else {
     console.log('⚠️ No se encontraron archivos para sincronizar.');
 }
 console.log('=======================================\n');
+
+// Reconstruir la base de conocimientos automáticamente
+const { execSync } = require('child_process');
+const buildScript = path.join(INFODOC_DIR, 'scripts', 'build-kb.js');
+if (fs.existsSync(buildScript)) {
+    console.log('📚 Reconstruyendo base de conocimientos...');
+    try {
+        const output = execSync(`node "${buildScript}"`, { encoding: 'utf8' });
+        console.log(output);
+        console.log('✅ Base de conocimientos actualizada.');
+    } catch (err) {
+        console.error('❌ Error al reconstruir la KB:', err.message);
+    }
+} else {
+    console.warn('⚠️ No se encontró scripts/build-kb.js. La KB no fue reconstruida.');
+}
+
+console.log('👀 Revisa localhost antes de hacer git push.\n');
