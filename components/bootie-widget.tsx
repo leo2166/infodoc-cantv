@@ -67,7 +67,7 @@ export default function BootieWidget() {
             const response = await fetch("/api/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message: input }),
+                body: JSON.stringify({ message: input, history: messages }), // Enviamos historial para contexto
             });
 
             const data = await response.json();
@@ -76,9 +76,16 @@ export default function BootieWidget() {
                 throw new Error(data.error);
             }
 
+            // Aceptamos 'response' (formato local) o 'content' (formato común en LLMs)
+            const content = data.response || data.content;
+
+            if (!content) {
+                throw new Error("No se recibió respuesta del servidor");
+            }
+
             const assistantMessage: Message = {
                 role: "assistant",
-                content: data.response,
+                content: content,
             };
             setMessages((prev) => [...prev, assistantMessage]);
             playBeep(); // ¡Bip! al recibir respuesta
