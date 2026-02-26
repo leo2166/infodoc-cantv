@@ -100,7 +100,7 @@ export default function RootLayout({
           </a>
           <div id="main-content">{children}</div>
           {/* AccessibilityToolbar removed from here, now in Navigation */}
-          <BootieWidget />
+          {/* <BootieWidget /> */}
         </ThemeProvider>
         <Analytics />
       </body>
