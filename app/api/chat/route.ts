@@ -9,12 +9,7 @@ export async function POST(req: NextRequest) {
 
         console.log(`\n➡️  Redirigiendo consulta a Bootie Externo: ${bootieUrl}`);
 
-        // La ruta en el standalone es /api/chat-bootie (según el análisis previo)
-        // Pero el usuario dijo bootie-dev.vercel.app, así que probaremos con /api/chat primero
-        // o si sabemos que el standalone usa chat-bootie, usamos esa.
-        // Revisando route.ts local, su nombre es chat-bootie.
-
-        const response = await fetch(`${bootieUrl}/api/chat-bootie`, {
+        const response = await fetch(`${bootieUrl}/api/chat`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -22,12 +17,15 @@ export async function POST(req: NextRequest) {
             body: JSON.stringify(body),
         });
 
-        const data = await response.json();
+        console.log(`Status: ${response.status} ${response.statusText}`);
+        const responseText = await response.text();
+        console.log(`Raw Response: ${responseText.substring(0, 200)}...`);
 
         if (!response.ok) {
-            throw new Error(data.error || "Error en el servidor de Bootie");
+            throw new Error(`Error ${response.status}: ${responseText || "Sin respuesta del servidor"}`);
         }
 
+        const data = JSON.parse(responseText);
         return NextResponse.json(data);
 
     } catch (error: any) {

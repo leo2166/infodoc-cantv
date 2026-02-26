@@ -24,15 +24,15 @@ export default function GhzPage() {
               </Button>
             </Link>
           </div>
-          
+
           <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
             <Image
-            src="/GH_Z.jpg"
-            alt="Gerencia de Talento Humano"
-            width={1200}
-            height={800}
-            className="rounded-lg shadow-lg"
-          />
+              src="/Gestion humana actualizado.png"
+              alt="Gerencia de Talento Humano"
+              width={1200}
+              height={800}
+              className="rounded-lg shadow-lg"
+            />
           </div>
         </div>
       </main>
