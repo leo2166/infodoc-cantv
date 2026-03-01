@@ -39,10 +39,7 @@ export default function EnlacesInteresPage() {
       title: "Banco Provincial",
       href: "http://www.provincial.com",
     },
-    {
-      title: "Preferencia Musical",
-      href: "https://lfplayer.vercel.app",
-    },
+
   ]
 
   return (
