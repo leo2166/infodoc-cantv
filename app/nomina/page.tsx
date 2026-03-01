@@ -24,8 +24,8 @@ export default function NominaPage() {
           <div className="flex flex-col gap-8">
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/Nomina cantv febrero 2026.png"
-                alt="Cronograma de pago CANTV - Febrero 2026"
+                src="/Nomina_año_2026.png"
+                alt="Cronograma de pago CANTV - Anual 2026"
                 width={800}
                 height={1120}
                 priority
@@ -34,7 +34,7 @@ export default function NominaPage() {
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/marzo.webp"
+                src="/Nomina_03_2026.png"
                 alt="Cronograma de pago CANTV - Marzo 2026"
                 width={800}
                 height={1120}
@@ -43,8 +43,80 @@ export default function NominaPage() {
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/Nomina cantv abril 2026.png"
+                src="/Nomina_04_2026.png"
                 alt="Cronograma de pago CANTV - Abril 2026"
+                width={800}
+                height={1120}
+                className="rounded-md object-contain"
+              />
+            </div>
+            <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
+              <Image
+                src="/Nomina_05_2026.png"
+                alt="Cronograma de pago CANTV - Mayo 2026"
+                width={800}
+                height={1120}
+                className="rounded-md object-contain"
+              />
+            </div>
+            <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
+              <Image
+                src="/Nomina_06_2026.png"
+                alt="Cronograma de pago CANTV - Junio 2026"
+                width={800}
+                height={1120}
+                className="rounded-md object-contain"
+              />
+            </div>
+            <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
+              <Image
+                src="/Nomina_07_2026.png"
+                alt="Cronograma de pago CANTV - Julio 2026"
+                width={800}
+                height={1120}
+                className="rounded-md object-contain"
+              />
+            </div>
+            <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
+              <Image
+                src="/Nomina_08_2026.png"
+                alt="Cronograma de pago CANTV - Agosto 2026"
+                width={800}
+                height={1120}
+                className="rounded-md object-contain"
+              />
+            </div>
+            <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
+              <Image
+                src="/Nomina_09_2026.png"
+                alt="Cronograma de pago CANTV - Septiembre 2026"
+                width={800}
+                height={1120}
+                className="rounded-md object-contain"
+              />
+            </div>
+            <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
+              <Image
+                src="/Nomina_10_2026.png"
+                alt="Cronograma de pago CANTV - Octubre 2026"
+                width={800}
+                height={1120}
+                className="rounded-md object-contain"
+              />
+            </div>
+            <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
+              <Image
+                src="/Nomina_11_2026.png"
+                alt="Cronograma de pago CANTV - Noviembre 2026"
+                width={800}
+                height={1120}
+                className="rounded-md object-contain"
+              />
+            </div>
+            <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
+              <Image
+                src="/Nomina_12_2026.png"
+                alt="Cronograma de pago CANTV - Diciembre 2026"
                 width={800}
                 height={1120}
                 className="rounded-md object-contain"
