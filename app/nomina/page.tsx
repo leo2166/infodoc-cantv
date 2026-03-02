@@ -79,7 +79,7 @@ export default function NominaPage() {
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/Nomina_08_2026.png"
+                src="/8.jpg"
                 alt="Cronograma de pago CANTV - Agosto 2026"
                 width={800}
                 height={1120}
@@ -88,7 +88,7 @@ export default function NominaPage() {
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/Nomina_09_2026.png"
+                src="/9.jpg"
                 alt="Cronograma de pago CANTV - Septiembre 2026"
                 width={800}
                 height={1120}
@@ -97,7 +97,7 @@ export default function NominaPage() {
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/Nomina_10_2026.png"
+                src="/10.jpg"
                 alt="Cronograma de pago CANTV - Octubre 2026"
                 width={800}
                 height={1120}
@@ -106,7 +106,7 @@ export default function NominaPage() {
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/Nomina_11_2026.png"
+                src="/11.jpg"
                 alt="Cronograma de pago CANTV - Noviembre 2026"
                 width={800}
                 height={1120}
@@ -115,7 +115,7 @@ export default function NominaPage() {
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/Nomina_12_2026.png"
+                src="/12.jpg"
                 alt="Cronograma de pago CANTV - Diciembre 2026"
                 width={800}
                 height={1120}
