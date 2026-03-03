@@ -81,14 +81,22 @@ export default function DocumentosPage() {
                 </div>
               </CardHeader>
               <CardContent>
-                {/* Modificado para usar la descarga programática */}
-                <Button
-                  className="w-full sm:w-auto"
-                  onClick={(e) => handleDownload(e, doc.href, doc.fileName)}
-                >
-                  <FileText className="w-4 h-4 mr-2" />
-                  Descargar Documento (PDF)
-                </Button>
+                {doc.href.includes("AutorizacionBolsa") ? (
+                  <Link href="/documentos/autorizacion-bolsa">
+                    <Button className="w-full sm:w-auto">
+                      <FileText className="w-4 h-4 mr-2" />
+                      Ver Opciones de Descarga
+                    </Button>
+                  </Link>
+                ) : (
+                  <Button
+                    className="w-full sm:w-auto"
+                    onClick={(e) => handleDownload(e, doc.href, doc.fileName)}
+                  >
+                    <FileText className="w-4 h-4 mr-2" />
+                    Descargar Documento (PDF)
+                  </Button>
+                )}
               </CardContent>
             </Card>
           ))}
