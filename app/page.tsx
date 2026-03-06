@@ -83,7 +83,7 @@ export default function HomePage() {
           {/* News Ticker Banner */}
           <div className="absolute top-0 left-0 right-0 z-20">
             <NewsTicker
-              message="Desde el 2 de Febrero, hasta el 6 de marzo estará vigente el proceso de actualización de >> Fe de vida <<, acude a las oficinas de Gestión Humana de tu Región."
+              message="Todo derecho que no se reclama se pierde, por eso es importante la protesta activa con la participación de todos, hay que salir a la calle a visibilizar el descontento general"
               speed={38}
             />
           </div>

@@ -12,7 +12,7 @@ interface NewsTickerProps {
 export const NewsTicker: React.FC<NewsTickerProps> = ({
   message,
   speed = 30,
-  backgroundColor = "bg-red-600",
+  backgroundColor = "bg-blue-600",
   textColor = "text-white",
 }) => {
   return (
