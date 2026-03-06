@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { FileText, Newspaper, MessageCircle, Phone, Mail, MapPin, Users, Shield, Clock, HelpCircle, ArrowDown } from "lucide-react"
+import { FileText, Newspaper, MessageCircle, Phone, Mail, MapPin, Users, Shield, Clock, HelpCircle, ArrowDown, FileSearch } from "lucide-react"
 import Link from "next/link"
 import { ChatWidget } from "@/components/chat-widget"
 import { PWAInstallPrompt } from "@/components/pwa-install-prompt"
@@ -107,10 +107,8 @@ export default function HomePage() {
                   className="font-anton text-lg px-8 py-4 min-h-[56px] touch-target w-full rounded-lg btn-explore flex items-center justify-center gap-2"
                   aria-describedby="explore-info-desc"
                 >
+                  <FileSearch className="w-5 h-5 mr-1" />
                   Información CANTV
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                  </svg>
                 </button>
               </Link>
               <span id="explore-info-desc" className="sr-only">
