@@ -68,7 +68,7 @@ export function AnnouncementModal() {
                 <div className="announcement-divider" />
 
                 <p className="announcement-body">
-                    Cantv informa que se da prórroga para la asistencia del proceso de actualización de data y fe de vida
+                    Cantv informa que se da prórroga para la asistencia al proceso de actualización de data y fe de vida
                 </p>
 
                 <div className="announcement-date-badge">
