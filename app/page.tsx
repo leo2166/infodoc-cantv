@@ -13,7 +13,7 @@ import FechaHora from '@/components/FechaHora';
 import { EmergencyGuideModal } from "@/components/emergency-guide-modal";
 import { NewsTicker } from "@/components/news-ticker";
 import BootieWidget from "@/components/bootie-widget";
-import { AnnouncementModal } from "@/components/announcement-modal";
+// import { AnnouncementModal } from "@/components/announcement-modal";  // Modal de anuncio con cuenta regresiva — comentado, disponible para uso futuro
 
 export default function HomePage() {
 
@@ -66,7 +66,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <AnnouncementModal />
+      {/* <AnnouncementModal /> */}  {/* Pantalla de anuncio con cuenta regresiva — comentada, disponible para uso futuro */}
       <Navigation />
 
       <main role="main" className="relative">
