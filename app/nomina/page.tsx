@@ -43,7 +43,7 @@ export default function NominaPage() {
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/Nomina_04_2026.png"
+                src="/Abril_2_2026.png"
                 alt="Cronograma de pago CANTV - Abril 2026"
                 width={800}
                 height={1120}
