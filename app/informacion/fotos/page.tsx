@@ -9,7 +9,7 @@ import { ArrowLeft } from "lucide-react";
 
 const imageList = [
   {
-    src: '/emergencias.webp',
+    src: '/servicios_de_salud.jpg',
     alt: 'Estetoscopio sobre una mesa simbolizando servicios de salud',
     title: 'Gerencia Servicios de Salud',
     href: '/informacion/salud'
