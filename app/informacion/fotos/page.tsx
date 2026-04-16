@@ -9,7 +9,7 @@ import { ArrowLeft } from "lucide-react";
 
 const imageList = [
   {
-    src: 'https://images.pexels.com/photos/4154/clinic-doctor-health-hospital.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    src: '/emergencias.webp',
     alt: 'Estetoscopio sobre una mesa simbolizando servicios de salud',
     title: 'Gerencia Servicios de Salud',
     href: '/informacion/salud'
