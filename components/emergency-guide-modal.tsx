@@ -65,7 +65,7 @@ export function EmergencyGuideModal({ children }: EmergencyGuideModalProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center justify-center my-4">
           <div className="flex flex-col items-center">
             <Image
-              src="https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/EM1.png"
+              src="/en_caso_de.jpg"
               alt="Persona mayor llamando a emergencias y operadora de call center atendiendo"
               width={600}
               height={400}
