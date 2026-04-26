@@ -335,7 +335,7 @@ export default function AutorizacionBolsaPage() {
                                                 onChange={handleInputChange}
                                                 placeholder="Ej: Zulia"
                                                 readOnly={option === 2}
-                                                className={`placeholder:text-muted-foreground/30 border-2 border-sky-200 rounded-md ${option === 2 ? "bg-muted cursor-not-allowed" : "bg-[#EFF6FF]"}`}
+                                                className={`placeholder:text-muted-foreground/30 border-2 border-red-200 rounded-md ${option === 2 ? "bg-muted cursor-not-allowed" : "bg-[#FFF5F5]"}`}
                                             />
                                         </div>
                                         <div className="space-y-2">
@@ -346,7 +346,7 @@ export default function AutorizacionBolsaPage() {
                                                 value={formData.ciudad}
                                                 onChange={handleInputChange}
                                                 placeholder={option === 2 ? "Ej: Maracaibo" : "Ej: Cabimas"}
-                                                className="placeholder:text-muted-foreground/30 bg-[#EFF6FF] border-2 border-sky-200 rounded-md"
+                                                className="placeholder:text-muted-foreground/30 bg-[#FFF5F5] border-2 border-red-200 rounded-md"
                                             />
                                         </div>
                                     </div>
@@ -359,7 +359,7 @@ export default function AutorizacionBolsaPage() {
                                             value={formData.nombre}
                                             onChange={handleInputChange}
                                             placeholder="Ej: Juan Pérez"
-                                            className="placeholder:text-muted-foreground/30 bg-[#EFF6FF] border-2 border-sky-200 rounded-md"
+                                            className="placeholder:text-muted-foreground/30 bg-[#FFF5F5] border-2 border-red-200 rounded-md"
                                         />
                                     </div>
 
@@ -372,7 +372,7 @@ export default function AutorizacionBolsaPage() {
                                                 value={formData.cedula}
                                                 onChange={handleInputChange}
                                                 placeholder="Ej: V-12.345.678"
-                                                className="placeholder:text-muted-foreground/30 bg-[#EFF6FF] border-2 border-sky-200 rounded-md"
+                                                className="placeholder:text-muted-foreground/30 bg-[#FFF5F5] border-2 border-red-200 rounded-md"
                                             />
                                         </div>
                                         <div className="space-y-2">
@@ -383,7 +383,7 @@ export default function AutorizacionBolsaPage() {
                                                 value={formData.telefono}
                                                 onChange={handleInputChange}
                                                 placeholder="Ej: 0412-1234567"
-                                                className="placeholder:text-muted-foreground/30 bg-[#EFF6FF] border-2 border-sky-200 rounded-md"
+                                                className="placeholder:text-muted-foreground/30 bg-[#FFF5F5] border-2 border-red-200 rounded-md"
                                             />
                                         </div>
                                     </div>
