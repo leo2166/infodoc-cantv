@@ -352,7 +352,7 @@ export default function AutorizacionBolsaPage() {
                                     </div>
 
                                     <div className="space-y-2">
-                                        <Label htmlFor="nombre">Tu Nombre Completo</Label>
+                                        <Label htmlFor="nombre">Nombre Completo</Label>
                                         <Input
                                             id="nombre"
                                             name="nombre"
@@ -365,7 +365,7 @@ export default function AutorizacionBolsaPage() {
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div className="space-y-2">
-                                            <Label htmlFor="cedula">Tu Cédula</Label>
+                                            <Label htmlFor="cedula">Cédula</Label>
                                             <Input
                                                 id="cedula"
                                                 name="cedula"
