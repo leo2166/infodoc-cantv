@@ -319,116 +319,130 @@ export default function AutorizacionBolsaPage() {
                                 <CardDescription>Completa los campos para generar el documento PDF.</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                                {/* ═══ SECCIÓN TITULAR ═══ */}
+                                <div className="rounded-lg border-2 border-[#0044FF] p-4 space-y-4 shadow-[0_0_8px_0px_rgba(0,68,255,0.25)]">
+                                    <p className="text-sm font-bold tracking-wide" style={{ color: "#7B1C1C" }}>
+                                        Datos del Titular
+                                    </p>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="gestionHumana">Estado/Región (Gestión Humana)</Label>
+                                            <Input
+                                                id="gestionHumana"
+                                                name="gestionHumana"
+                                                value={formData.gestionHumana}
+                                                onChange={handleInputChange}
+                                                placeholder="Ej: Zulia"
+                                                readOnly={option === 2}
+                                                className={`placeholder:text-muted-foreground/30 border-2 border-sky-200 rounded-md ${option === 2 ? "bg-muted cursor-not-allowed" : "bg-[#EFF6FF]"}`}
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="ciudad">Ciudad (Donde firmas)</Label>
+                                            <Input
+                                                id="ciudad"
+                                                name="ciudad"
+                                                value={formData.ciudad}
+                                                onChange={handleInputChange}
+                                                placeholder={option === 2 ? "Ej: Maracaibo" : "Ej: Cabimas"}
+                                                className="placeholder:text-muted-foreground/30 bg-[#EFF6FF] border-2 border-sky-200 rounded-md"
+                                            />
+                                        </div>
+                                    </div>
+
                                     <div className="space-y-2">
-                                        <Label htmlFor="gestionHumana">Estado/Región (Gestión Humana)</Label>
+                                        <Label htmlFor="nombre">Tu Nombre Completo</Label>
                                         <Input
-                                            id="gestionHumana"
-                                            name="gestionHumana"
-                                            value={formData.gestionHumana}
+                                            id="nombre"
+                                            name="nombre"
+                                            value={formData.nombre}
                                             onChange={handleInputChange}
-                                            placeholder="Ej: Zulia"
-                                            readOnly={option === 2}
-                                            className={`placeholder:text-muted-foreground/30 ${option === 2 ? "bg-muted cursor-not-allowed" : ""}`}
+                                            placeholder="Ej: Juan Pérez"
+                                            className="placeholder:text-muted-foreground/30 bg-[#EFF6FF] border-2 border-sky-200 rounded-md"
                                         />
                                     </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="ciudad">Ciudad (Donde firmas)</Label>
-                                        <Input
-                                            id="ciudad"
-                                            name="ciudad"
-                                            value={formData.ciudad}
-                                            onChange={handleInputChange}
-                                            placeholder={option === 2 ? "Ej: Maracaibo" : "Ej: Cabimas"}
-                                            className="placeholder:text-muted-foreground/30"
-                                        />
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="cedula">Tu Cédula</Label>
+                                            <Input
+                                                id="cedula"
+                                                name="cedula"
+                                                value={formData.cedula}
+                                                onChange={handleInputChange}
+                                                placeholder="Ej: V-12.345.678"
+                                                className="placeholder:text-muted-foreground/30 bg-[#EFF6FF] border-2 border-sky-200 rounded-md"
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="telefono">Teléfono de Contacto</Label>
+                                            <Input
+                                                id="telefono"
+                                                name="telefono"
+                                                value={formData.telefono}
+                                                onChange={handleInputChange}
+                                                placeholder="Ej: 0412-1234567"
+                                                className="placeholder:text-muted-foreground/30 bg-[#EFF6FF] border-2 border-sky-200 rounded-md"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div className="space-y-2">
-                                    <Label htmlFor="nombre">Tu Nombre Completo</Label>
-                                    <Input
-                                        id="nombre"
-                                        name="nombre"
-                                        value={formData.nombre}
-                                        onChange={handleInputChange}
-                                        placeholder="Ej: Juan Pérez"
-                                        className="placeholder:text-muted-foreground/30"
-                                    />
-                                </div>
+                                {/* ═══ SECCIÓN AUTORIZADO ═══ */}
+                                <div className="rounded-lg border-2 border-[#15803d] p-4 space-y-4 shadow-[0_0_8px_0px_rgba(21,128,61,0.2)]">
+                                    <p className="text-sm font-bold tracking-wide" style={{ color: "#15803d" }}>
+                                        Datos del Autorizado (Persona que retira)
+                                    </p>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div className="space-y-2">
-                                        <Label htmlFor="cedula">Tu Cédula</Label>
+                                        <Label htmlFor="autorizadoNombre">Nombre del Autorizado</Label>
                                         <Input
-                                            id="cedula"
-                                            name="cedula"
-                                            value={formData.cedula}
+                                            id="autorizadoNombre"
+                                            name="autorizadoNombre"
+                                            value={formData.autorizadoNombre}
                                             onChange={handleInputChange}
-                                            placeholder="Ej: V-12.345.678"
-                                            className="placeholder:text-muted-foreground/30"
+                                            placeholder="Ej: María Rodríguez"
+                                            className="placeholder:text-muted-foreground/30 bg-[#F0FDF4] border-2 border-green-200 rounded-md"
                                         />
                                     </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="autorizadoCedula">Cédula del Autorizado</Label>
+                                            <Input
+                                                id="autorizadoCedula"
+                                                name="autorizadoCedula"
+                                                value={formData.autorizadoCedula}
+                                                onChange={handleInputChange}
+                                                placeholder="Ej: V-9.999.999"
+                                                className="placeholder:text-muted-foreground/30 bg-[#F0FDF4] border-2 border-green-200 rounded-md"
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="mes">Mes del Beneficio</Label>
+                                            <Input
+                                                id="mes"
+                                                name="mes"
+                                                value={formData.mes}
+                                                onChange={handleInputChange}
+                                                placeholder="Ej: Marzo 2026"
+                                                className="placeholder:text-muted-foreground/30 bg-[#F0FDF4] border-2 border-green-200 rounded-md"
+                                            />
+                                        </div>
+                                    </div>
+
                                     <div className="space-y-2">
-                                        <Label htmlFor="telefono">Teléfono de Contacto</Label>
+                                        <Label htmlFor="centroOperativo">Centro Operativo (Donde se retira)</Label>
                                         <Input
-                                            id="telefono"
-                                            name="telefono"
-                                            value={formData.telefono}
+                                            id="centroOperativo"
+                                            name="centroOperativo"
+                                            value={formData.centroOperativo}
                                             onChange={handleInputChange}
-                                            placeholder="Ej: 0412-1234567"
-                                            className="placeholder:text-muted-foreground/30"
+                                            placeholder="Ej: Sabaneta"
+                                            className="placeholder:text-muted-foreground/30 bg-[#F0FDF4] border-2 border-green-200 rounded-md"
                                         />
                                     </div>
-                                </div>
-
-                                <div className="space-y-2 pt-2 border-t">
-                                    <Label htmlFor="autorizadoNombre">Nombre del Autorizado (Persona que retira)</Label>
-                                    <Input
-                                        id="autorizadoNombre"
-                                        name="autorizadoNombre"
-                                        value={formData.autorizadoNombre}
-                                        onChange={handleInputChange}
-                                        placeholder="Ej: María Rodríguez"
-                                        className="placeholder:text-muted-foreground/30"
-                                    />
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div className="space-y-2">
-                                        <Label htmlFor="autorizadoCedula">Cédula del Autorizado</Label>
-                                        <Input
-                                            id="autorizadoCedula"
-                                            name="autorizadoCedula"
-                                            value={formData.autorizadoCedula}
-                                            onChange={handleInputChange}
-                                            placeholder="Ej: V-9.999.999"
-                                            className="placeholder:text-muted-foreground/30"
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="mes">Mes del Beneficio</Label>
-                                        <Input
-                                            id="mes"
-                                            name="mes"
-                                            value={formData.mes}
-                                            onChange={handleInputChange}
-                                            placeholder="Ej: Marzo 2026"
-                                            className="placeholder:text-muted-foreground/30"
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="space-y-2">
-                                    <Label htmlFor="centroOperativo">Centro Operativo (Donde se retira)</Label>
-                                    <Input
-                                        id="centroOperativo"
-                                        name="centroOperativo"
-                                        value={formData.centroOperativo}
-                                        onChange={handleInputChange}
-                                        placeholder="Ej: Sabaneta"
-                                        className="placeholder:text-muted-foreground/30"
-                                    />
                                 </div>
 
                                 <div className="pt-4 flex gap-4">
