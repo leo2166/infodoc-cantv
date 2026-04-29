@@ -122,6 +122,20 @@ export default function NominaPage() {
                 className="rounded-md object-contain"
               />
             </div>
+            <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md">
+              <h2 className="text-2xl font-heading font-semibold text-foreground mb-4 text-center">
+                Distribución de Ingresos CANTV
+              </h2>
+              <div className="flex justify-center">
+                <Image
+                  src="/Distribucion de ingresos Cantv.png"
+                  alt="Distribución de Ingresos CANTV"
+                  width={800}
+                  height={1120}
+                  className="rounded-md object-contain"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </main>
