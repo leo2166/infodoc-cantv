@@ -124,12 +124,12 @@ export default function NominaPage() {
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md">
               <h2 className="text-2xl font-heading font-semibold text-foreground mb-4 text-center">
-                Distribución de Ingresos CANTV
+                Aumento Salarial 2026
               </h2>
               <div className="flex justify-center">
                 <Image
-                  src="/Distribucion de ingresos Cantv.png"
-                  alt="Distribución de Ingresos CANTV"
+                  src="/aumento salarial 2026_1.png"
+                  alt="Aumento Salarial CANTV 2026"
                   width={800}
                   height={1120}
                   className="rounded-md object-contain"
