@@ -32,24 +32,7 @@ export default function NominaPage() {
                 className="rounded-md object-contain"
               />
             </div>
-            <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
-              <Image
-                src="/marzo_2026.png"
-                alt="Cronograma de pago CANTV - Marzo 2026"
-                width={800}
-                height={1120}
-                className="rounded-md object-contain"
-              />
-            </div>
-            <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
-              <Image
-                src="/Abril_2_2026.png"
-                alt="Cronograma de pago CANTV - Abril 2026"
-                width={800}
-                height={1120}
-                className="rounded-md object-contain"
-              />
-            </div>
+
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
                 src="/Mayo_2026_act.png"
