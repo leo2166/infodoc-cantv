@@ -2,7 +2,7 @@ import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import Link from "next/link"
-import { ArrowLeft, FileText, Shield, Pill } from "lucide-react"
+import { ArrowLeft, FileText, Shield, Pill, CalendarDays } from "lucide-react"
 
 const healthServices = [
   {
@@ -22,6 +22,12 @@ const healthServices = [
     description: "Información sobre el programa Farmacantv.",
     icon: Pill,
     href: "/informacion/salud/farmacantv", // Enlace activado
+  },
+  {
+    title: "Citas médicas",
+    description: "Información sobre citas médicas y atención de salud.",
+    icon: CalendarDays,
+    href: "/infodoc_citas_medicas.jpg",
   },
 ]
 
