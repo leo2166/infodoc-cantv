@@ -4,6 +4,10 @@ import OpenAI from "openai";
 import { NextRequest, NextResponse } from "next/server";
 import dns from 'node:dns';
 
+// Módulos de búsqueda inteligente
+import { searchTavily } from "@/lib/tavily-search";
+import { classifyQuery, getCurrentDateContext, buildEnrichedPrompt } from "@/lib/query-classifier";
+
 // Forzar IPv4 para evitar problemas con VPN/CANTV
 dns.setDefaultResultOrder('ipv4first');
 
@@ -11,33 +15,31 @@ dns.setDefaultResultOrder('ipv4first');
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
 const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
 const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
+const QWEN_API_KEY_NUEVA = process.env.QWEN_API_KEY_NUEVA;
 
-const SYSTEM_PROMPT = "Eres Bootie, un asistente de IA útil y directo para jubilados de CANTV. Responde siempre en Español, usando Markdown simple. Tu principal deber es proveer información exacta. Si no sabes algo, búscalo en internet antes de responder.";
+const SYSTEM_PROMPT = "Eres un asistente de Inteligencia Artificial avanzado. Responde siempre en Español, usando Markdown simple. Tu principal deber es proveer información exacta y actualizada. Cuando se te proporcione información obtenida de internet, úsala como fuente principal y cita las fuentes al final de tu respuesta.";
 
 // --- Layer 1: Qwen (vía OpenRouter con Búsqueda Web) ---
 async function callQwen(query: string) {
-  if (!OPENROUTER_API_KEY) {
-    console.log("⚠️ [Qwen] API Key de OpenRouter no configurada");
+  if (!QWEN_API_KEY_NUEVA) {
+    console.log("⚠️ [Qwen] API Key de Qwen (QWEN_API_KEY_NUEVA) no configurada");
     return null;
   }
 
   try {
-    console.log("🚀 [Qwen] Intentando conexión con OpenRouter (Búsqueda Web)...");
+    console.log("🚀 [Qwen] Intentando conexión con OpenRouter...");
     const openai = new OpenAI({
-      apiKey: OPENROUTER_API_KEY,
+      apiKey: QWEN_API_KEY_NUEVA,
       baseURL: "https://openrouter.ai/api/v1",
     });
 
     const completion = await openai.chat.completions.create({
-      model: "qwen/qwen-plus", // Qwen Plus es muy robusto para respuestas generales y web
+      model: "qwen/qwen-plus",
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
         { role: "user", content: query }
       ],
       temperature: 0.3,
-      // @ts-ignore - Plugin específico de OpenRouter para buscar en la web
-      plugins: [{ id: "web", max_results: 3 }]
     });
 
     const response = completion.choices[0]?.message?.content || null;
@@ -63,13 +65,12 @@ async function callGroq(query: string) {
     console.log("🚀 [Groq] Attempting connection...");
     const groq = new Groq({ apiKey: GROQ_API_KEY });
 
-    // Usamos Llama 3.3 70B Versatile (actualizado - reemplazo del 3.1)
     const completion = await groq.chat.completions.create({
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
         { role: "user", content: query }
       ],
-      model: "llama-3.3-70b-versatile", // Modelo actualizado
+      model: "llama-3.3-70b-versatile",
       temperature: 0.3,
     });
 
@@ -85,7 +86,7 @@ async function callGroq(query: string) {
   }
 }
 
-// --- Layer 2: DeepSeek (API Directa) ---
+// --- Layer 3: DeepSeek (API Directa) ---
 async function callDeepSeek(query: string) {
   if (!DEEPSEEK_API_KEY) {
     console.log("⚠️ [DeepSeek] API Key no configurada");
@@ -133,7 +134,7 @@ async function callDeepSeek(query: string) {
   }
 }
 
-// --- Layer 3: Gemini (Google AI) ---
+// --- Layer 4: Gemini (Google AI) ---
 async function callGemini(query: string) {
   if (!GOOGLE_API_KEY) {
     console.log("⚠️ [Gemini] API Key no configurada");
@@ -141,13 +142,9 @@ async function callGemini(query: string) {
   }
 
   try {
-    console.log("🚀 [Gemini] Attempting connection (con Google Search)...");
+    console.log("🚀 [Gemini] Attempting connection...");
     const genAI = new GoogleGenerativeAI(GOOGLE_API_KEY);
-    // Activamos la herramienta nativa de Google Search Grounding
-    const model = genAI.getGenerativeModel({ 
-      model: "gemini-2.0-flash",
-      tools: [{ googleSearch: {} }] // Esto le da acceso a internet en tiempo real
-    });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
     const result = await model.generateContent(`${SYSTEM_PROMPT}\n\nUser: ${query}`);
     const response = await result.response;
@@ -164,8 +161,34 @@ async function callGemini(query: string) {
   }
 }
 
+// ─── Función principal que llama a las IAs en cascada ────────────────────────
+async function callAICascade(enrichedQuery: string): Promise<{ text: string; source: string } | null> {
+  // CAPA 1: Qwen
+  console.log("🔶 [CAPA 1] Intentando Qwen...");
+  const qwenResponse = await callQwen(enrichedQuery);
+  if (qwenResponse) return { text: qwenResponse, source: "Qwen" };
+
+  // CAPA 2: DeepSeek
+  console.log("🔷 [CAPA 2] Intentando DeepSeek...");
+  const deepseekResponse = await callDeepSeek(enrichedQuery);
+  if (deepseekResponse) return { text: deepseekResponse, source: "DeepSeek" };
+
+  // CAPA 3: Groq
+  console.log("🟡 [CAPA 3] Intentando Groq...");
+  const groqResponse = await callGroq(enrichedQuery);
+  if (groqResponse) return { text: groqResponse, source: "Groq (Llama 3)" };
+
+  // CAPA 4: Gemini
+  console.log("🟢 [CAPA 4] Intentando Gemini...");
+  const geminiResponse = await callGemini(enrichedQuery);
+  if (geminiResponse) return { text: geminiResponse, source: "Gemini" };
+
+  return null;
+}
+
+// ─── Handler principal ────────────────────────────────────────────────────────
 export async function POST(req: NextRequest) {
-  let message;
+  let message: string;
   try {
     const body = await req.json();
     message = body.message;
@@ -179,32 +202,49 @@ export async function POST(req: NextRequest) {
 
   console.log("\n🔵 Nueva consulta:", message);
 
-  // CAPA 1: Try Qwen (OpenRouter con Web Search)
-  console.log("🟣 [CAPA 1] Intentando Qwen (OpenRouter)...");
-  const qwenResponse = await callQwen(message);
-  if (qwenResponse) {
-    return NextResponse.json({ text: qwenResponse + "\n\n*— vía Qwen (Búsqueda Web)*" });
+  // ── PASO 1: Clasificar la consulta ──────────────────────────────────────────
+  const queryType = classifyQuery(message);
+  let enrichedPrompt: string;
+  let searchLabel = "";
+
+  // ── PASO 2: Enriquecer el prompt según el tipo de consulta ──────────────────
+  if (queryType === "date_query") {
+    // La fecha la resuelve el servidor directamente, sin internet
+    const dateCtx = getCurrentDateContext();
+    enrichedPrompt = buildEnrichedPrompt(message, null, dateCtx);
+    console.log("📅 [Sistema] Fecha inyectada:", dateCtx);
+    searchLabel = " *(fecha del servidor)*";
+
+  } else if (queryType === "web_search") {
+    // Buscar en Tavily y enriquecer el prompt con los resultados reales
+    console.log("🌐 [Sistema] Iniciando búsqueda en Tavily...");
+    const searchContext = await searchTavily(message);
+
+    if (searchContext) {
+      enrichedPrompt = buildEnrichedPrompt(message, searchContext);
+      searchLabel = " *(con búsqueda web real)*";
+      console.log("✅ [Sistema] Prompt enriquecido con resultados de Tavily");
+    } else {
+      // Tavily falló → responde igual pero sin contexto web
+      enrichedPrompt = buildEnrichedPrompt(message);
+      searchLabel = " *(búsqueda web falló, respuesta desde entrenamiento)*";
+      console.warn("⚠️ [Sistema] Tavily falló. La IA responderá desde su entrenamiento.");
+    }
+
+  } else {
+    // Conocimiento general: la IA responde directamente
+    enrichedPrompt = buildEnrichedPrompt(message);
+    searchLabel = "";
   }
 
-  // CAPA 2: Fallback to Gemini (Google Search)
-  console.log("🔶 [CAPA 2] Qwen falló, intentando Gemini (con Google Search)...");
-  const geminiResponse = await callGemini(message);
-  if (geminiResponse) {
-    return NextResponse.json({ text: geminiResponse + "\n\n*— vía Gemini (Google Search)*" });
-  }
+  // ── PASO 3: Llamar a las IAs en cascada con el prompt enriquecido ───────────
+  const result = await callAICascade(enrichedPrompt);
 
-  // CAPA 3: Fallback to DeepSeek
-  console.log("🔷 [CAPA 3] Gemini falló, intentando DeepSeek...");
-  const deepseekResponse = await callDeepSeek(message);
-  if (deepseekResponse) {
-    return NextResponse.json({ text: deepseekResponse + "\n\n*— vía DeepSeek*" });
-  }
-
-  // CAPA 4: Fallback to Groq (Llama 3)
-  console.log("🟡 [CAPA 4] DeepSeek falló, intentando Groq...");
-  const groqResponse = await callGroq(message);
-  if (groqResponse) {
-    return NextResponse.json({ text: groqResponse + "\n\n*— vía Groq (Llama 3)*" });
+  if (result) {
+    const label = searchLabel
+      ? `\n\n*— vía ${result.source}${searchLabel}*`
+      : `\n\n*— vía ${result.source}*`;
+    return NextResponse.json({ text: result.text + label });
   }
 
   // Total Failure
