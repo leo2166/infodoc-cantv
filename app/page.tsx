@@ -97,6 +97,80 @@ export default function HomePage() {
             >
               Bienvenido a <span className="text-primary">InfoDoc</span>
             </h1>
+            {/* Balón Copa Mundial 2026 */}
+            <div className="flex justify-center mb-4">
+              <a
+                href="https://copa26lf.vercel.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Copa Mundial de Fútbol 2026 ⚽"
+                aria-label="Visitar página del Mundial de Fútbol 2026"
+                className="group flex flex-col items-center gap-2 no-underline"
+              >
+                <div className="relative" style={{ width: 80, height: 80 }}>
+                  <svg
+                    viewBox="0 0 100 100"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-20 h-20 drop-shadow-xl transition-transform duration-300 group-hover:scale-110"
+                    style={{
+                      animation: 'soccerBounce 2s ease-in-out infinite',
+                      filter: 'drop-shadow(0 6px 12px rgba(0,0,0,0.35))',
+                    }}
+                    aria-hidden="true"
+                  >
+                    <defs>
+                      <radialGradient id="ballGrad" cx="38%" cy="35%" r="55%">
+                        <stop offset="0%" stopColor="#ffffff" />
+                        <stop offset="70%" stopColor="#eaeaea" />
+                        <stop offset="100%" stopColor="#a0a0a0" />
+                      </radialGradient>
+                      <clipPath id="ballClip">
+                        <circle cx="50" cy="50" r="47.5" />
+                      </clipPath>
+                    </defs>
+                    <circle cx="50" cy="50" r="47.5" fill="url(#ballGrad)" />
+                    <g clipPath="url(#ballClip)">
+                      <line x1="65.2" y1="93.0" x2="86.2" y2="77.8" stroke="#111" strokeWidth="2.5" />
+                      <line x1="95.6" y1="48.9" x2="87.6" y2="24.1" stroke="#111" strokeWidth="2.5" />
+                      <line x1="63.0" y1="6.2" x2="37.0" y2="6.2" stroke="#111" strokeWidth="2.5" />
+                      <line x1="12.4" y1="24.1" x2="13.8" y2="42.0" stroke="#111" strokeWidth="2.5" />
+                      <line x1="4.4" y1="70.9" x2="34.8" y2="93.0" stroke="#111" strokeWidth="2.5" />
+                      
+                      <line x1="50" y1="66" x2="50" y2="82" stroke="#111" strokeWidth="2.5" />
+                      <line x1="65.2" y1="54.9" x2="80.4" y2="59.9" stroke="#111" strokeWidth="2.5" />
+                      <line x1="59.4" y1="37.1" x2="68.8" y2="24.1" stroke="#111" strokeWidth="2.5" />
+                      <line x1="40.6" y1="37.1" x2="31.2" y2="24.1" stroke="#111" strokeWidth="2.5" />
+                      <line x1="34.8" y1="54.9" x2="19.6" y2="59.9" stroke="#111" strokeWidth="2.5" />
+
+                      <polygon points="50,82 34.8,93.0 30,110 70,110 65.2,93.0" fill="#111" stroke="#111" strokeWidth="1" />
+                      <polygon points="80.4,59.9 86.2,77.8 100,90 110,60 95.6,48.9" fill="#111" stroke="#111" strokeWidth="1" />
+                      <polygon points="68.8,24.1 87.6,24.1 110,10 80,-10 63.0,6.2" fill="#111" stroke="#111" strokeWidth="1" />
+                      <polygon points="31.2,24.1 37.0,6.2 20,-10 -10,10 12.4,24.1" fill="#111" stroke="#111" strokeWidth="1" />
+                      <polygon points="19.6,59.9 13.8,42.0 -10,30 -10,90 4.4,70.9" fill="#111" stroke="#111" strokeWidth="1" />
+                      
+                      <polygon points="50,66 65.2,54.9 59.4,37.1 40.6,37.1 34.8,54.9" fill="#111" stroke="#111" strokeWidth="2.5" strokeLinejoin="round" />
+                    </g>
+                    <circle cx="50" cy="50" r="47.5" fill="none" stroke="#111" strokeWidth="3" />
+                    <path d="M 50 5 A 45 45 0 0 1 85 20 A 40 40 0 0 0 15 20 A 45 45 0 0 1 50 5 Z" fill="#ffffff" opacity="0.4" />
+                  </svg>
+                </div>
+                <span
+                  className="text-xs font-bold tracking-widest uppercase text-primary group-hover:text-primary/80 transition-colors"
+                  style={{ letterSpacing: '0.15em' }}
+                >
+                  ⚽ Mundial 2026
+                </span>
+              </a>
+            </div>
+            <style>{`
+              @keyframes soccerBounce {
+                0%, 100% { transform: translateY(0) rotate(0deg); }
+                30% { transform: translateY(-14px) rotate(15deg); }
+                60% { transform: translateY(-6px) rotate(8deg); }
+                80% { transform: translateY(-10px) rotate(12deg); }
+              }
+            `}</style>
+
             <p className="text-xl sm:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
               Toda la información de interés al alcance de los jubilados de CANTV
             </p>
