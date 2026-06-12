@@ -292,3 +292,13 @@ CAPA 6: Procesador Local (Fallback final)
 
 **Commit:** `cb52d93` - "feat: Update nomina section with Feb-Apr 2026 calendars in WebP format"
 **Estado:** ✅ Desplegado y verificado en producción
+
+## 📅 Actualización de Visualización de Nómina (03/06/2026)
+**Objetivo:** Mantener la sección de nómina actualizada eliminando la información obsoleta del mes anterior.
+
+**Cambios Implementados:**
+1. **Limpieza de Interfaz:** Se eliminó el componente de imagen correspondiente al cronograma de Mayo 2026 en `app/nomina/page.tsx`.
+2. **Preservación de Datos:** El archivo de imagen `/Mayo_2026_act.png` se mantiene en el servidor para fines de archivo, eliminando únicamente su referencia visual.
+
+**Commit:** `92ccb6b` - "fix(nomina): eliminar visualización del cronograma de mayo 2026"
+**Estado:** ✅ Desplegado y verificado en producción
