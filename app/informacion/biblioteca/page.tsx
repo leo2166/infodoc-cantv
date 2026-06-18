@@ -34,8 +34,8 @@ const bookList = [
   {
     title: "Padre Rico, Padre Pobre",
     author: "Robert T. Kiyosaki",
-    href: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/LibroL5.pdf",
-    cover: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/L5.jpg"
+    href: "/LibroL5.pdf",
+    cover: "/L5.jpg"
   },
 ];
 
