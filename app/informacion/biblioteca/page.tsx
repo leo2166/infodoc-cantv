@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { Navigation } from "@/components/navigation";
 import { Button } from "@/components/ui/button";
@@ -11,25 +12,25 @@ const bookList = [
     title: "La Inteligencia Artificial explicada a los humanos",
     author: "Jordi Torres",
     href: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/LibroL1.pdf",
-    cover: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/L1.jpg"
+    cover: "/L1.jpg"
   },
   {
     title: "El poder del Metabolismo",
     author: "Frank Suárez",
     href: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/LibroL2.pdf",
-    cover: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/L2.jpg"
+    cover: "/L2.jpg"
   },
   {
     title: "Diabetes Sin Problemas",
     author: "Frank Suárez",
     href: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/LibroL3.pdf",
-    cover: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/L3.jpg"
+    cover: "/L3.jpg"
   },
   {
     title: "Dieta Cetogénica Reto Keto 28 Días",
     author: "Barbara White",
     href: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/LibroL4 .pdf",
-    cover: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/L4.jpg"
+    cover: "/L4.jpg"
   },
   {
     title: "Padre Rico, Padre Pobre",
@@ -40,6 +41,12 @@ const bookList = [
 ];
 
 export default function BibliotecaPage() {
+  const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
+
+  const handleImageError = (title: string) => {
+    setImageErrors((prev) => ({ ...prev, [title]: true }));
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
@@ -72,15 +79,16 @@ export default function BibliotecaPage() {
             >
               <Card className="h-full overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col text-center">
                 <CardHeader>
-                  {book.cover ? (
+                  {!imageErrors[book.title] && book.cover ? (
                     <img 
                       src={book.cover} 
                       alt={book.title} 
+                      onError={() => handleImageError(book.title)}
                       className="w-32 h-44 object-cover rounded-md mx-auto mb-4 shadow-sm"
                     />
                   ) : (
-                    <div className="w-16 h-16 bg-yellow-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <BookUp className="w-8 h-8 text-yellow-600" />
+                    <div className="w-32 h-44 bg-yellow-500/10 rounded-md flex items-center justify-center mx-auto mb-4 border border-dashed border-yellow-500/30">
+                      <BookUp className="w-10 h-10 text-yellow-600" />
                     </div>
                   )}
                   <CardTitle className="text-lg leading-tight">{book.title}</CardTitle>
