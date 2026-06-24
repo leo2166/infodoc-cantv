@@ -8,6 +8,10 @@ import Link from "next/link"
 export default function EnlacesInteresPage() {
   const links = [
     {
+      title: "Reporte de Averías Cantv",
+      href: "https://averiastelefonicas.cantv.com.ve/views/reporte",
+    },
+    {
       title: "Cantv",
       href: "http://www.Cantv.com.ve",
     },
