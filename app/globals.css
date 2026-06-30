@@ -264,19 +264,34 @@
     background: linear-gradient(180deg, #e0f2fe 0%, #ffffff 100%);
   }
 
+  .dark .hero-gradient {
+    background: linear-gradient(180deg, #1e3a4a 0%, #1f2937 100%);
+  }
+
   /* Glassmorphism card effect */
   /* Glassmorphism card effect */
   .glass-card {
     background: rgba(255, 255, 255, 0.95);
-    /* backdrop-filter: blur(10px); Permformance optimization */
-    /* -webkit-backdrop-filter: blur(10px); */
     border: 1px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+
+  .dark .glass-card {
+    background: rgba(55, 65, 81, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   }
 
   .glass-card:hover {
     background: rgba(255, 255, 255, 1);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px);
+    transition: all 0.3s ease;
+  }
+
+  .dark .glass-card:hover {
+    background: rgba(75, 85, 99, 1);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
     transform: translateY(-4px);
     transition: all 0.3s ease;
   }
@@ -333,11 +348,16 @@
   /* Date/time widget styling */
   .datetime-widget {
     background: rgba(255, 255, 255, 0.95);
-    /* backdrop-filter: blur(8px); Performance optimization */
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 12px;
     padding: 8px 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .dark .datetime-widget {
+    background: rgba(55, 65, 81, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   }
 
   /* Quick link card colors */
@@ -346,14 +366,29 @@
     border: 1px solid #fecaca;
   }
 
+  .dark .card-emergency {
+    background: linear-gradient(135deg, #450a0a 0%, #7f1d1d 100%);
+    border: 1px solid #991b1b;
+  }
+
   .card-nomina {
     background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
     border: 1px solid #bfdbfe;
   }
 
+  .dark .card-nomina {
+    background: linear-gradient(135deg, #0c1a4a 0%, #1e3a8a 100%);
+    border: 1px solid #1d4ed8;
+  }
+
   .card-funeraria {
     background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
     border: 1px solid #e2e8f0;
+  }
+
+  .dark .card-funeraria {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    border: 1px solid #475569;
   }
 
   /* ===== Announcement Modal ===== */
