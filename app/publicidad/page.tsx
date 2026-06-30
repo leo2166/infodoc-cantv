@@ -28,7 +28,7 @@ export default function PublicidadPage() {
             </CardHeader>
             <CardContent className="flex justify-center">
               <Image
-                src="/Repdepc.png"
+                src="/Repdepc.webp"
                 alt="Publicidad de Repuestos de PC"
                 width={800}
                 height={600} 

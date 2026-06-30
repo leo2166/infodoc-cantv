@@ -27,7 +27,7 @@ export default function AtencionJubiladoPage() {
           
           <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
             <Image
-              src="/ATJ.png"
+              src="/ATJ.webp"
               alt="Información sobre Atención al Jubilado"
               width={800} 
               height={1120}

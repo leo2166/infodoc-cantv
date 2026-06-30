@@ -39,7 +39,7 @@ export default function FarmacantvPage() {
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/Mp1.png"
+                src="/Mp1.webp"
                 alt="Medicina prepagada parte 1"
                 width={800}
                 height={1120}
@@ -48,7 +48,7 @@ export default function FarmacantvPage() {
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/Mp2.png"
+                src="/Mp2.webp"
                 alt="Medicina prepagada parte 2"
                 width={800}
                 height={1120}
@@ -57,7 +57,7 @@ export default function FarmacantvPage() {
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/Mp3.png"
+                src="/Mp3.webp"
                 alt="Medicina prepagada parte 3"
                 width={800}
                 height={1120}

@@ -30,7 +30,7 @@ export default function CartaAvalPage() {
           <div className="flex flex-col gap-8">
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/cartaAval.png"
+                src="/cartaAval.webp"
                 alt="Información sobre Carta Aval"
                 width={800}
                 height={1120}

@@ -102,7 +102,7 @@ export default function NominaPage() {
               </h2>
               <div className="flex justify-center">
                 <Image
-                  src="/Ult distribucion de nomina jubilados.png"
+                  src="/nomina-jubilados-dist.webp"
                   alt="Distribución de Nómina Jubilados CANTV"
                   width={800}
                   height={1120}

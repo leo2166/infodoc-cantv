@@ -27,7 +27,7 @@ export default function GhzPage() {
 
           <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
             <Image
-              src="/Gestion humana actualizado.png"
+              src="/gestion-humana.webp"
               alt="Gerencia de Talento Humano"
               width={1200}
               height={800}

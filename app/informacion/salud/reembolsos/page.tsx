@@ -29,7 +29,7 @@ export default function ReembolsosPage() {
           </h1>
           <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
             <Image
-              src="/reembolsos.png"
+              src="/reembolsos.webp"
               alt="Información sobre Reembolsos"
               width={800} 
               height={1120}

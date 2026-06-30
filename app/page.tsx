@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { FileText, Newspaper, MessageCircle, Phone, Mail, MapPin, Users, Shield, Clock, HelpCircle, ArrowDown, FileSearch } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { ChatWidget } from "@/components/chat-widget"
 import { PWAInstallPrompt } from "@/components/pwa-install-prompt"
 // import { RippleBackground } from "@/components/ui/ripple-background"  // Comentado temporalmente
@@ -74,10 +75,13 @@ export default function HomePage() {
         {/* Hero Section */}
         <section className="relative py-20 px-4 sm:px-6 lg:px-8 hero-gradient" aria-labelledby="hero-heading">
           <div className="absolute inset-0 z-0 overflow-hidden">
-            <img
-              src="/fusionbanderas.png"
+            <Image
+              src="/fusionbanderas.webp"
               alt="Fondo de banderas fusionadas"
-              className="w-full h-full object-cover opacity-10"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover opacity-10"
             />
           </div>
           {/* <RippleBackground /> */}  {/* Animación de ondas comentada temporalmente */}
