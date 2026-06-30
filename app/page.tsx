@@ -12,7 +12,7 @@ import { PWAInstallPrompt } from "@/components/pwa-install-prompt"
 // import { RippleBackground } from "@/components/ui/ripple-background"  // Comentado temporalmente
 import FechaHora from '@/components/FechaHora';
 import { EmergencyGuideModal } from "@/components/emergency-guide-modal";
-import { NewsTicker } from "@/components/news-ticker";
+import { NewsTicker } from "@/components/news-ticker"; // Disponible para uso futuro
 import BootieWidget from "@/components/bootie-widget";
 // import { AnnouncementModal } from "@/components/announcement-modal";  // Modal de anuncio con cuenta regresiva — comentado, disponible para uso futuro
 
@@ -86,13 +86,6 @@ export default function HomePage() {
           </div>
           {/* <RippleBackground /> */}  {/* Animación de ondas comentada temporalmente */}
 
-          {/* News Ticker Banner */}
-          <div className="absolute top-0 left-0 right-0 z-20">
-            <NewsTicker
-              message="Todo derecho que no se reclama se pierde, por eso es importante la protesta activa con la participación de todos, hay que salir a la calle a visibilizar el descontento general"
-              speed={38}
-            />
-          </div>
 
           <div className="relative z-10 max-w-7xl mx-auto text-center">
             <h1
