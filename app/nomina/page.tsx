@@ -90,12 +90,12 @@ export default function NominaPage() {
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md">
               <h2 className="text-2xl font-heading font-semibold text-foreground mb-4 text-center">
-                Distribución de Nómina - Jubilados
+                Distribución de la Nómina Actual
               </h2>
               <div className="flex justify-center">
                 <Image
-                  src="/nomina-jubilados-dist.webp"
-                  alt="Distribución de Nómina Jubilados CANTV"
+                  src="/distribucion-nomina-actual.webp"
+                  alt="Distribución de la Nómina Actual CANTV"
                   width={800}
                   height={1120}
                   className="rounded-md object-contain"
