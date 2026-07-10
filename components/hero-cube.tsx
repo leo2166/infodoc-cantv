@@ -21,7 +21,17 @@ const SIZE  = 380;   // px – tamaño del cubo
 const H     = SIZE / 2;  // mitad = distancia de cada cara al centro
 
 /* Las 4 opciones del menú en la cara frontal (2 × 2) */
-const MENU = [
+interface MenuItem {
+  label: string;
+  Icon: any;
+  bg: string;
+  color: string;
+  href: string | null;
+  external: boolean;
+  isEmergency?: boolean;
+}
+
+const MENU: MenuItem[] = [
   {
     label: 'Información\nCANTV',
     Icon: Users,
@@ -55,7 +65,7 @@ const MENU = [
     external: false,
     isEmergency: true,
   },
-] as const;
+];
 
 /* ──────────────────────────────────────────────────────────────────
    PROPS

@@ -35,7 +35,7 @@ interface GNode {
   external?: boolean;
   bg: string;
   gradEnd: string;
-  Icon: React.FC<{ size?: number; color?: string }>;
+  Icon: any;
 }
 
 const NODES: GNode[] = [

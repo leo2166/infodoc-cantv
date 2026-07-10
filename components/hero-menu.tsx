@@ -5,7 +5,19 @@ import Link from 'next/link';
 import { Users, Sparkles, Newspaper, AlertTriangle } from 'lucide-react';
 import { EmergencyGuideModal } from '@/components/emergency-guide-modal';
 
-const MENU_ITEMS = [
+interface MenuItem {
+  label: string;
+  Icon: any;
+  bg: string;
+  borderColor: string;
+  iconBg: string;
+  color: string;
+  href: string | null;
+  external: boolean;
+  isEmergency?: boolean;
+}
+
+const MENU_ITEMS: MenuItem[] = [
   {
     label: 'Información\nCANTV',
     Icon: Users,
