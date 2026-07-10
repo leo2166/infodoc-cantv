@@ -23,7 +23,7 @@ export default function ServiciosFunerariosPage() {
           </h1>
           <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
                       <Image
-                        src="/SF_ELROSAL.jpg"
+                        src="/SF_ELROSAL.webp"
                         alt="Servicios Funerarios El Rosal"
                         width={1200}
                         height={800}

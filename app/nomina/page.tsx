@@ -24,7 +24,7 @@ export default function NominaPage() {
           <div className="flex flex-col gap-8">
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/Nomina_año_2026.png"
+                src="/Nomina_año_2026.webp"
                 alt="Cronograma de pago CANTV - Anual 2026"
                 width={800}
                 height={1120}
@@ -36,7 +36,7 @@ export default function NominaPage() {
 
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/Nomina_07_2026.png"
+                src="/Nomina_07_2026.webp"
                 alt="Cronograma de pago CANTV - Julio 2026"
                 width={800}
                 height={1120}
@@ -45,7 +45,7 @@ export default function NominaPage() {
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/8.jpg"
+                src="/8.webp"
                 alt="Cronograma de pago CANTV - Agosto 2026"
                 width={800}
                 height={1120}
@@ -54,7 +54,7 @@ export default function NominaPage() {
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/9.jpg"
+                src="/9.webp"
                 alt="Cronograma de pago CANTV - Septiembre 2026"
                 width={800}
                 height={1120}
@@ -63,7 +63,7 @@ export default function NominaPage() {
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/10.jpg"
+                src="/10.webp"
                 alt="Cronograma de pago CANTV - Octubre 2026"
                 width={800}
                 height={1120}
@@ -72,7 +72,7 @@ export default function NominaPage() {
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/11.jpg"
+                src="/11.webp"
                 alt="Cronograma de pago CANTV - Noviembre 2026"
                 width={800}
                 height={1120}
@@ -81,7 +81,7 @@ export default function NominaPage() {
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/12.jpg"
+                src="/12.webp"
                 alt="Cronograma de pago CANTV - Diciembre 2026"
                 width={800}
                 height={1120}

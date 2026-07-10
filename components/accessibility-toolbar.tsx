@@ -93,12 +93,14 @@ export function AccessibilityToolbar({ inline = false }: { inline?: boolean }) {
 
     // Recargar la página una vez que el nuevo SW toma el control
     let refreshing = false;
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-      if (!refreshing) {
-        window.location.reload();
-        refreshing = true;
-      }
-    });
+    if (navigator.serviceWorker) {
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) {
+          window.location.reload();
+          refreshing = true;
+        }
+      });
+    }
 
   }, []);
 

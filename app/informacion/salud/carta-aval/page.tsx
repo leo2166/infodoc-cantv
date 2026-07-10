@@ -40,7 +40,7 @@ export default function CartaAvalPage() {
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/presupuesto.jpg"
+                src="/presupuesto.webp"
                 alt="Presupuesto de ejemplo"
                 width={800}
                 height={1120}

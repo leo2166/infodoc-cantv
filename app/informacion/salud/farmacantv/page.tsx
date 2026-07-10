@@ -30,7 +30,7 @@ export default function FarmacantvPage() {
           <div className="flex flex-col gap-8">
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
           <Image
-            src="/FarmaC.jpg"
+            src="/FarmaC.webp"
             alt="Farmacia FarmaCantv"
             width={1200}
             height={800}

@@ -1,0 +1,51 @@
+================================================================================
+📋 NOTAS Y COMANDOS RÁPIDOS DE INFODOC CANTV (HISTORIAL DE COPIA)
+================================================================================
+
+Este archivo se ha creado para que puedas copiar cualquier texto, ruta o comando
+fácilmente abriéndolo directamente en tu editor de código (VS Code).
+
+--------------------------------------------------------------------------------
+🌐 1. DIRECCIONES DEL SERVIDOR Y RECURSOS
+--------------------------------------------------------------------------------
+
+Dirección del Servidor Local en Navegador:
+http://localhost:9003
+
+Imagen de Vista Móvil Anterior en Navegador:
+http://localhost:9003/infodoc_mobile_ui.jpg
+
+Ruta del Fondo Actual (Bandera de Zulia):
+C:\Users\Lucidio\Proyectos\infodoc-cantv\public\Bzulia.png
+
+Ruta física de la Imagen de Vista Móvil Anterior:
+C:\Users\Lucidio\Proyectos\infodoc-cantv\public\infodoc_mobile_ui.jpg
+
+Ruta física del reporte de Vista Móvil:
+C:\Users\Lucidio\Proyectos\infodoc-cantv\vista_movil.md
+
+--------------------------------------------------------------------------------
+🎨 2. CAMBIOS DE DISEÑO RECIENTES (09/07/2026)
+--------------------------------------------------------------------------------
+- Fondo de pantalla cambiado de 'fusionbanderas.webp' a 'Bzulia.png' con opacidad sutil adaptada para modo claro (6%) y oscuro (2%).
+- Agregado efecto de blur/glow expansivo (difuminado de 460px radial degradado hacia las orillas) exactamente detrás del contenedor de 'HeroMenu' (menú central de 4 opciones) en 'app/page.tsx'.
+
+--------------------------------------------------------------------------------
+💻 3. COMANDOS DE CONSOLA ÚTILES
+--------------------------------------------------------------------------------
+
+Iniciar Servidor en puerto 9003:
+npx next dev -p 9003
+
+Ejecutar build del proyecto:
+npm run build
+
+Reconstruir base de conocimientos (Knowledge Base):
+node scripts/build-kb.js
+
+--------------------------------------------------------------------------------
+💾 4. REPORTE DE ANÁLISIS TÉCNICO COMPLETO
+--------------------------------------------------------------------------------
+Ruta física:
+C:\Users\Lucidio\.gemini\antigravity-cli\brain\796907d4-fd7d-4380-bc62-c4b5cb702715\analisis_completo_infodoc.md
+================================================================================

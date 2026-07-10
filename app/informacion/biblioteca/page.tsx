@@ -12,31 +12,31 @@ const bookList = [
     title: "La Inteligencia Artificial explicada a los humanos",
     author: "Jordi Torres",
     href: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/LibroL1.pdf",
-    cover: "/L1.jpg"
+    cover: "/L1.webp"
   },
   {
     title: "El poder del Metabolismo",
     author: "Frank Suárez",
     href: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/LibroL2.pdf",
-    cover: "/L2.jpg"
+    cover: "/L2.webp"
   },
   {
     title: "Diabetes Sin Problemas",
     author: "Frank Suárez",
     href: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/LibroL3.pdf",
-    cover: "/L3.jpg"
+    cover: "/L3.webp"
   },
   {
     title: "Dieta Cetogénica Reto Keto 28 Días",
     author: "Barbara White",
     href: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/LibroL4 .pdf",
-    cover: "/L4.jpg"
+    cover: "/L4.webp"
   },
   {
     title: "Padre Rico, Padre Pobre",
     author: "Robert T. Kiyosaki",
     href: "/LibroL5.pdf",
-    cover: "/L5.jpg"
+    cover: "/L5.webp"
   },
 ];
 
