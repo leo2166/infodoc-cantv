@@ -151,24 +151,25 @@ export function SidebarPanel() {
         {/* ========================================================
             WIDGET 1: FECHA Y HORA
             ======================================================== */}
-        <div className="bg-sky-100 dark:bg-sky-950/40 rounded-[20px] lg:rounded-[24px] p-3 lg:p-6 border border-sky-200/60 dark:border-sky-800/80 shadow-[0_8px_20px_rgba(0,0,0,0.06)] lg:shadow-[0_15px_40px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_20px_rgba(0,0,0,0.3)] transition-all duration-500 hover:-translate-y-1 lg:hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(0,0,0,0.12)] ease-out">
+        {/* ── MÓVIL: amarillo piolín con texto negro ── DESKTOP: sky azul ── */}
+        <div className="bg-yellow-300 lg:bg-sky-100 dark:bg-sky-950/40 rounded-[20px] lg:rounded-[24px] p-3 lg:p-6 border border-yellow-400/70 lg:border-sky-200/60 dark:border-sky-800/80 shadow-[0_8px_20px_rgba(0,0,0,0.06)] lg:shadow-[0_15px_40px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_20px_rgba(0,0,0,0.3)] transition-all duration-500 hover:-translate-y-1 lg:hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(234,179,8,0.4)] lg:hover:shadow-[0_20px_45px_rgba(0,0,0,0.12)] ease-out">
           <div className="flex items-start gap-2 lg:gap-4">
-            <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-xl bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
+            <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-xl bg-yellow-400/50 lg:bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-black lg:text-blue-600 dark:text-blue-400 shrink-0">
               <Calendar className="w-4 h-4 lg:w-5 lg:h-5" />
             </div>
             <div className="space-y-0.5 lg:space-y-1 min-w-0">
-              <span className="text-[9px] lg:text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest block">Hoy es:</span>
-              <h3 className="text-sm lg:text-base font-extrabold text-slate-800 dark:text-slate-200 leading-tight">
+              <span className="text-[9px] lg:text-[10px] font-bold text-black/60 lg:text-slate-400 dark:text-slate-500 uppercase tracking-widest block">Hoy es:</span>
+              <h3 className="text-sm lg:text-base font-extrabold text-black lg:text-slate-800 dark:text-slate-200 leading-tight">
                 {formattedDay}
               </h3>
-              <p className="text-[10px] lg:text-sm font-semibold text-slate-500 dark:text-slate-400 leading-tight">
+              <p className="text-[10px] lg:text-sm font-semibold text-black/70 lg:text-slate-500 dark:text-slate-400 leading-tight">
                 {formattedFullDate}
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-1.5 lg:gap-2.5 pt-2 lg:pt-4 border-t border-slate-100 dark:border-slate-800/60 mt-2 lg:mt-4 text-slate-700 dark:text-slate-300">
-            <Clock className="w-3 h-3 lg:w-4 lg:h-4 text-slate-400" />
+          <div className="flex items-center gap-1.5 lg:gap-2.5 pt-2 lg:pt-4 border-t border-yellow-500/40 lg:border-slate-100 dark:border-slate-800/60 mt-2 lg:mt-4 text-black lg:text-slate-700 dark:text-slate-300">
+            <Clock className="w-3 h-3 lg:w-4 lg:h-4 text-black/50 lg:text-slate-400" />
             <span className="text-xs lg:text-lg font-bold font-mono tracking-wider" suppressHydrationWarning>
               {formattedTime}
             </span>
