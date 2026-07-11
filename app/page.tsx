@@ -68,7 +68,7 @@ export default function HomePage() {
       <div
         className="fixed inset-0 z-0 pointer-events-none lg:hidden"
         style={{
-          backgroundImage: 'url(/Bzulia.png)',
+          backgroundImage: 'url(/Bzulia.webp)',
           backgroundRepeat: 'repeat-y',
           backgroundSize: '100% auto',
           opacity: 0.05,
@@ -78,9 +78,11 @@ export default function HomePage() {
       {/* ── Fondo PC: Estilo original fusionbanderas ── */}
       <div className="hidden lg:block fixed inset-0 z-0 pointer-events-none overflow-hidden">
         <img
-          src="/fusionbanderas.png"
+          src="/fusionbanderas.webp"
           alt="Fondo de banderas fusionadas"
           className="w-full h-full object-cover opacity-10"
+          loading="lazy"
+          decoding="async"
         />
       </div>
       <Navigation />

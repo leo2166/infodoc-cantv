@@ -81,12 +81,19 @@ export function SidebarPanel() {
               `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&accept-language=es`
             );
             const geoData = await geoRes.json();
+            // Intentar obtener ciudad + parroquia/barrio si está disponible
             const city =
               geoData?.address?.city ||
               geoData?.address?.town ||
               geoData?.address?.municipality ||
               MARACAIBO_CITY;
-            fetchWeather(latitude, longitude, city);
+            const suburb =
+              geoData?.address?.suburb ||
+              geoData?.address?.neighbourhood ||
+              geoData?.address?.quarter ||
+              null;
+            const displayCity = suburb ? `${city} - ${suburb}` : city;
+            fetchWeather(latitude, longitude, displayCity);
           } catch {
             fetchWeather(latitude, longitude, MARACAIBO_CITY);
           }
@@ -132,7 +139,6 @@ export function SidebarPanel() {
 
 
 
-
   // Cálculos para el Mundial de Fútbol 2026 (Final: 19 de Julio de 2026)
   const finalWorldCup = new Date(2026, 6, 19);
   const isAfterWorldCup = now ? isBefore(finalWorldCup, now) : false;
@@ -142,6 +148,9 @@ export function SidebarPanel() {
   const formattedFullDate = now ? format(now, "d 'de' MMMM 'de' yyyy", { locale: es }) : "...";
   const formattedTime = now ? format(now, "hh:mm:ss a") : "--:--:--";
 
+  // Emoji y label del tiempo para mostrar en la mitad derecha del widget móvil
+  const wInfo = weather ? weatherInfo(weather.weatherCode) : null;
+
   return (
     <div className="w-full max-w-[380px] mx-auto">
 
@@ -149,28 +158,96 @@ export function SidebarPanel() {
       <div className="flex flex-col gap-3 lg:gap-6">
 
         {/* ========================================================
-            WIDGET 1: FECHA Y HORA
+            WIDGET 1-A: FECHA + CLIMA — SOLO MÓVIL (amarillo Piolín)
             ======================================================== */}
-        {/* ── MÓVIL: amarillo piolín con texto negro ── DESKTOP: sky azul ── */}
-        <div className="bg-yellow-400 dark:bg-yellow-400 lg:bg-sky-100 lg:dark:bg-sky-950/40 rounded-[20px] lg:rounded-[24px] p-3 lg:p-6 border border-yellow-500/50 dark:border-yellow-500/50 lg:border-sky-200/60 lg:dark:border-sky-800/80 shadow-[0_8px_20px_rgba(0,0,0,0.06)] lg:shadow-[0_15px_40px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_20px_rgba(0,0,0,0.3)] transition-all duration-500 hover:-translate-y-1 lg:hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(234,179,8,0.4)] lg:hover:shadow-[0_20px_45px_rgba(0,0,0,0.12)] ease-out">
-          <div className="flex items-start gap-2 lg:gap-4">
-            <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-xl bg-yellow-500/20 dark:bg-yellow-500/20 lg:bg-blue-50 lg:dark:bg-blue-900/30 flex items-center justify-center text-black dark:text-black lg:text-blue-600 lg:dark:text-blue-400 shrink-0">
-              <Calendar className="w-4 h-4 lg:w-5 lg:h-5" />
+        <div
+          className="lg:hidden rounded-[20px] p-3 border shadow-[0_8px_20px_rgba(0,0,0,0.06)] transition-all duration-500 hover:-translate-y-1 ease-out"
+          style={{ backgroundColor: '#FFE000', borderColor: '#D4BC00' }}
+        >
+          <div className="flex items-stretch">
+
+            {/* MITAD IZQUIERDA: Fecha y Hora — ocupa exactamente el 50% */}
+            <div className="w-1/2 flex flex-col justify-between pr-3">
+              <div className="flex items-start gap-2">
+                <div className="w-7 h-7 rounded-xl bg-black/10 flex items-center justify-center text-black shrink-0">
+                  <Calendar className="w-3.5 h-3.5" />
+                </div>
+                <div className="space-y-0.5 min-w-0">
+                  <span className="text-[9px] font-bold text-black/60 uppercase tracking-widest block">Hoy es:</span>
+                  <h3 className="text-sm font-extrabold text-black leading-tight">{formattedDay}</h3>
+                  <p className="text-[10px] font-semibold text-black/80 leading-tight">{formattedFullDate}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-1.5 pt-2 border-t border-black/15 mt-2 text-black">
+                <Clock className="w-3 h-3 text-black/60" />
+                <span className="text-xs font-bold font-mono tracking-wider" suppressHydrationWarning>
+                  {formattedTime}
+                </span>
+              </div>
             </div>
-            <div className="space-y-0.5 lg:space-y-1 min-w-0">
-              <span className="text-[9px] lg:text-[10px] font-bold text-black/60 dark:text-black/60 lg:text-slate-400 lg:dark:text-slate-500 uppercase tracking-widest block">Hoy es:</span>
-              <h3 className="text-sm lg:text-base font-extrabold text-black dark:text-black lg:text-slate-800 lg:dark:text-slate-200 leading-tight">
-                {formattedDay}
-              </h3>
-              <p className="text-[10px] lg:text-sm font-semibold text-black/80 dark:text-black/80 lg:text-slate-500 lg:dark:text-slate-400 leading-tight">
-                {formattedFullDate}
-              </p>
+
+            {/* DIVISOR VERTICAL */}
+            <div className="w-px bg-black/20 self-stretch mx-1 shrink-0" />
+
+            {/* MITAD DERECHA: Clima — ocupa exactamente el 50% */}
+            <div className="w-1/2 flex flex-col justify-between pl-3">
+              <div className="flex items-start gap-2">
+                <div className="w-7 h-7 rounded-xl bg-black/10 flex items-center justify-center shrink-0 text-base leading-none">
+                  {wInfo ? wInfo.emoji : '🌡️'}
+                </div>
+                <div className="space-y-0.5 min-w-0">
+                  <span className="text-[9px] font-bold text-black/60 uppercase tracking-widest block">Tiempo:</span>
+                  {weatherLoading ? (
+                    <div className="flex items-center gap-1 py-0.5">
+                      <Loader2 className="w-3 h-3 text-black/60 animate-spin" />
+                      <span className="text-[10px] text-black/60">Cargando...</span>
+                    </div>
+                  ) : weatherError ? (
+                    <p className="text-[10px] font-bold text-red-700">Sin datos</p>
+                  ) : weather ? (
+                    <>
+                      <h3 className="text-sm font-extrabold text-black leading-tight">{weather.temperature}°C</h3>
+                      <p className="text-[10px] font-semibold text-black/80 leading-tight">{wInfo?.label}</p>
+                    </>
+                  ) : null}
+                </div>
+              </div>
+              <div className="pt-2 border-t border-black/15 mt-2">
+                <div className="flex items-center gap-1 mb-1">
+                  <Droplets className="w-3 h-3 text-black/60 shrink-0" />
+                  <span className="text-[10px] font-semibold text-black/70">
+                    Hum: <strong className="text-black">{weather ? `${weather.humidity}%` : '--'}</strong>
+                  </span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <MapPin className="w-3 h-3 text-black/60 shrink-0" />
+                  <span className="text-[10px] font-semibold text-black/70 truncate">
+                    {weather?.city ?? 'Maracaibo'}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* ========================================================
+            WIDGET 1-B: FECHA — SOLO DESKTOP (sky azul, diseño original)
+            ======================================================== */}
+        <div className="hidden lg:block bg-sky-100 dark:bg-sky-950/40 rounded-[24px] p-6 border border-sky-200/60 dark:border-sky-800/80 shadow-[0_15px_40px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_20px_rgba(0,0,0,0.3)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(0,0,0,0.12)] ease-out">
+          <div className="flex items-start gap-4">
+            <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
+              <Calendar className="w-5 h-5" />
+            </div>
+            <div className="space-y-1 min-w-0">
+              <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest block">Hoy es:</span>
+              <h3 className="text-base font-extrabold text-slate-800 dark:text-slate-200 leading-tight">{formattedDay}</h3>
+              <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 leading-tight">{formattedFullDate}</p>
             </div>
           </div>
-
-          <div className="flex items-center gap-1.5 lg:gap-2.5 pt-2 lg:pt-4 border-t border-black/10 dark:border-black/10 lg:border-slate-100 lg:dark:border-slate-800/60 mt-2 lg:mt-4 text-black dark:text-black lg:text-slate-700 lg:dark:text-slate-300">
-            <Clock className="w-3 h-3 lg:w-4 lg:h-4 text-black/60 dark:text-black/60 lg:text-slate-400" />
-            <span className="text-xs lg:text-lg font-bold font-mono tracking-wider" suppressHydrationWarning>
+          <div className="flex items-center gap-2.5 pt-4 border-t border-slate-100 dark:border-slate-800/60 mt-4 text-slate-700 dark:text-slate-300">
+            <Clock className="w-4 h-4 text-slate-400" />
+            <span className="text-lg font-bold font-mono tracking-wider" suppressHydrationWarning>
               {formattedTime}
             </span>
           </div>

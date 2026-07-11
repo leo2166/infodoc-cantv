@@ -1,19 +1,20 @@
 // ============================================================
 // InfoDoc PWA Service Worker — Versión Estable
-// Versión: v3
+// Versión: v4 — Carga rápida optimizada
 // ============================================================
-const CACHE_VERSION = 'infodoc-v3';
+const CACHE_VERSION = 'infodoc-v4';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const IMAGE_CACHE = `${CACHE_VERSION}-images`;
 const ALL_CACHES = [STATIC_CACHE, IMAGE_CACHE];
 
-// Assets básicos para funcionamiento sin conexión
+// Assets críticos para arranque rápido desde ícono
 const PRECACHE_URLS = [
   '/',
   '/offline.html',
   '/icon-192.png',
   '/icon-512.png',
-  '/manifest.json'
+  '/manifest.json',
+  '/Bzulia.webp',
 ];
 
 self.addEventListener('install', event => {
@@ -51,49 +52,45 @@ self.addEventListener('fetch', event => {
 
   // 1. APIs siempre directo a red
   if (url.pathname.startsWith('/api/')) {
-    return; // El navegador decide
+    return;
   }
 
-  // 2. Navegación (HTML de páginas): Network First con Timeout corto (2s)
-  // Esto arregla el cuelgue en el logo. Si la red es lenta, carga el caché.
+  // 2. Navegación (HTML): Cache First si ya hay caché → arranque INSTANTÁNEO
   if (request.mode === 'navigate') {
     event.respondWith(
-      new Promise((resolve) => {
-        let isResolved = false;
+      caches.match(request).then(cachedResponse => {
+        if (cachedResponse) {
+          // Caché disponible → servir INMEDIATAMENTE y actualizar en background
+          fetch(request).then(networkResponse => {
+            if (networkResponse && networkResponse.status === 200) {
+              caches.open(STATIC_CACHE).then(cache => cache.put(request, networkResponse));
+            }
+          }).catch(() => {});
+          return cachedResponse;
+        }
 
-        // Intentar red
-        const networkFetch = fetch(request).then(response => {
-          if (!isResolved && response && response.status === 200) {
-            isResolved = true;
-            // Guardar copia fresca
-            const cacheCopy = response.clone();
-            caches.open(STATIC_CACHE).then(cache => cache.put(request, cacheCopy));
-            resolve(response);
-          }
-        }).catch(() => {
-          // Fallo de red, no hacer nada aquí, el timeout o el caché responderá
-        });
+        // Sin caché → red con timeout reducido a 800ms
+        return new Promise((resolve) => {
+          let resolved = false;
 
-        // Timeout: Si en 1.5s no hay red, intenta servir CACHE (velocidad en Android)
-        setTimeout(() => {
-          if (!isResolved) {
-            caches.match(request).then(cachedResponse => {
-              if (cachedResponse) {
-                isResolved = true;
-                resolve(cachedResponse);
-              }
-            });
-          }
-        }, 1500); // 1.5 segundos máximo de espera en el logo en Android
+          fetch(request).then(response => {
+            if (!resolved && response && response.status === 200) {
+              resolved = true;
+              const copy = response.clone();
+              caches.open(STATIC_CACHE).then(cache => cache.put(request, copy));
+              resolve(response);
+            }
+          }).catch(() => {});
 
-        // Si red falla rápido, servir caché
-        networkFetch.catch(() => {
-          if (!isResolved) {
-            caches.match(request).then(cachedResponse => {
-              isResolved = true;
-              resolve(cachedResponse || caches.match('/offline.html'));
-            });
-          }
+          // 800ms de espera máxima antes de mostrar offline
+          setTimeout(() => {
+            if (!resolved) {
+              resolved = true;
+              caches.match('/offline.html').then(offline => {
+                resolve(offline || new Response('Sin conexión', { status: 503 }));
+              });
+            }
+          }, 800);
         });
       })
     );
