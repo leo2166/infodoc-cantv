@@ -249,7 +249,7 @@ export function AnnouncementModal() {
                     font-weight: 700;
                     letter-spacing: 0.12em;
                     text-transform: uppercase;
-                    color: #94a3b8;
+                    color: #ffffff;
                 }
 
                 /* ── BOTÓN X ESQUINA ── */
