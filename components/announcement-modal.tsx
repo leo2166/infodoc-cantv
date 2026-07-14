@@ -9,7 +9,8 @@ export function AnnouncementModal() {
     const [isClosing, setIsClosing] = useState(false);
 
     useEffect(() => {
-        const openTimer = setTimeout(() => setIsOpen(true), 600);
+        // Abre casi de inmediato (50ms solo para evitar mismatch SSR/hidratación)
+        const openTimer = setTimeout(() => setIsOpen(true), 50);
         return () => clearTimeout(openTimer);
     }, []);
 
