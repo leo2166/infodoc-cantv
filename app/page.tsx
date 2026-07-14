@@ -12,7 +12,6 @@ import { PWAInstallPrompt } from "@/components/pwa-install-prompt"
 import FechaHora from '@/components/FechaHora';
 import { NewsTicker } from "@/components/news-ticker";
 import BootieWidget from "@/components/bootie-widget";
-import { AnnouncementModal } from "@/components/announcement-modal";
 import { HeroMenu } from "@/components/hero-menu";
 import { SidebarPanel } from "@/components/sidebar-panel";
 
@@ -21,7 +20,7 @@ export default function HomePage() {
   const quickLinks = [
     {
       title: "Emergencias médicas",
-      description: "Contacto rápido para emergencias de salud",
+      description: "Contacto rápido para emergencies de salud",
       icon: Phone,
       href: "/emergencias",
       color: "bg-red-500",
@@ -62,8 +61,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-background relative overflow-x-hidden">
-      <AnnouncementModal />
-      {/* ── Fondo MÓVIL: Bandera Zulia (no tocar según petición) ── */}
+      {/* ── Fondo MÓVIL: Bandera Zulia (no tocar según petición) ── */}egún petición) ── */}
       <div
         className="fixed inset-0 z-0 pointer-events-none lg:hidden"
         style={{
