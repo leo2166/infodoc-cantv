@@ -12,7 +12,6 @@ import {
   Phone,
   Link as LinkIcon,
 } from 'lucide-react';
-import { EmergencyGuideModal } from '@/components/emergency-guide-modal';
 
 /* ──────────────────────────────────────────────────────────────────
    CONFIGURACIÓN DEL CUBO
@@ -26,9 +25,8 @@ interface MenuItem {
   Icon: any;
   bg: string;
   color: string;
-  href: string | null;
+  href: string;
   external: boolean;
-  isEmergency?: boolean;
 }
 
 const MENU: MenuItem[] = [
@@ -61,9 +59,8 @@ const MENU: MenuItem[] = [
     Icon: AlertTriangle,
     bg: '#fff1f2',
     color: '#e11d48',
-    href: null,
+    href: '/emergencias',
     external: false,
-    isEmergency: true,
   },
 ];
 
@@ -256,27 +253,15 @@ export function HeroCube(_: HeroCubeProps = {}) {
                   </div>
                 );
 
-                // EMERGENCIA: envolver en EmergencyGuideModal
-                if (item.isEmergency) return (
-                  <EmergencyGuideModal key={i}>
-                    <div
-                      style={{ width: '100%', height: '100%', display: 'block' }}
-                      onClick={e => { if (totalDrag.current > 8) e.preventDefault(); }}
-                    >
-                      {inner}
-                    </div>
-                  </EmergencyGuideModal>
-                );
-
                 if (item.external) return (
-                  <a key={i} href={item.href!} target="_blank" rel="noopener noreferrer"
+                  <a key={i} href={item.href} target="_blank" rel="noopener noreferrer"
                     style={{ display: 'block', height: '100%' }}
                     onClick={e => { if (totalDrag.current > 8) e.preventDefault(); }}>
                     {inner}
                   </a>
                 );
                 return (
-                  <Link key={i} href={item.href!}
+                  <Link key={i} href={item.href}
                     style={{ display: 'block', height: '100%' }}
                     onClick={e => { if (totalDrag.current > 8) e.preventDefault(); }}>
                     {inner}

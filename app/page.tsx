@@ -10,7 +10,6 @@ import { ChatWidget } from "@/components/chat-widget"
 import { PWAInstallPrompt } from "@/components/pwa-install-prompt"
 // import { RippleBackground } from "@/components/ui/ripple-background"  // Comentado temporalmente
 import FechaHora from '@/components/FechaHora';
-import { EmergencyGuideModal } from "@/components/emergency-guide-modal";
 import { NewsTicker } from "@/components/news-ticker";
 import BootieWidget from "@/components/bootie-widget";
 import { AnnouncementModal } from "@/components/announcement-modal";
