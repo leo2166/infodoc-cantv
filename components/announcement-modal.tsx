@@ -3,13 +3,21 @@
 import { useState, useEffect, useCallback } from 'react';
 import { X } from 'lucide-react';
 
+let isModalAlreadyMounted = false;
+
 export function AnnouncementModal() {
     const [isOpen, setIsOpen] = useState(false);
     const [countdown, setCountdown] = useState(20);
     const [isClosing, setIsClosing] = useState(false);
 
     useEffect(() => {
-        // Buscar y remover cualquier modal de anuncio previo en el DOM para evitar duplicados
+        // Si ya hay una instancia montada en ejecución, abortamos para evitar duplicados
+        if (isModalAlreadyMounted) {
+            return;
+        }
+        isModalAlreadyMounted = true;
+
+        // Buscar y remover cualquier modal de anuncio físico en el DOM por si quedó huérfano
         const duplicateOverlays = document.querySelectorAll('.ann-overlay, .announcement-overlay');
         duplicateOverlays.forEach((el) => {
             el.remove();
@@ -17,6 +25,10 @@ export function AnnouncementModal() {
 
         // Activar el modal en el cliente de forma inmediata
         setIsOpen(true);
+
+        return () => {
+            isModalAlreadyMounted = false;
+        };
     }, []);
 
     useEffect(() => {
@@ -39,6 +51,7 @@ export function AnnouncementModal() {
         setIsClosing(true);
         setTimeout(() => {
             setIsOpen(false);
+            isModalAlreadyMounted = false;
         }, 400);
     }, []);
 
