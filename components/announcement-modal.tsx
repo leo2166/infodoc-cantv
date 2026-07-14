@@ -217,7 +217,7 @@ export function AnnouncementModal() {
 
                 /* ── BANDA SUPERIOR ── */
                 .ann-top-band {
-                    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+                    background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 50%, #3b82f6 100%);
                     padding: 1.5rem 2rem 1.25rem;
                     display: flex;
                     flex-direction: column;
