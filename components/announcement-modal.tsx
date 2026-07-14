@@ -191,9 +191,7 @@ export function AnnouncementModal() {
                     align-items: center;
                     justify-content: center;
                     padding: 1rem;
-                    background: rgba(0, 0, 0, 0.60);
-                    backdrop-filter: blur(5px);
-                    -webkit-backdrop-filter: blur(5px);
+                    background: rgba(0, 0, 0, 0.75);
                 }
                 .ann-entering { animation: annOverlayIn 0.3s ease forwards; }
                 .ann-closing  { animation: annOverlayOut 0.4s ease forwards; }
