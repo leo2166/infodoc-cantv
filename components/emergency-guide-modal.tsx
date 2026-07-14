@@ -21,6 +21,7 @@ interface EmergencyGuideModalProps {
 }
 
 export function EmergencyGuideModal({ children }: EmergencyGuideModalProps) {
+  const [open, setOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -40,9 +41,10 @@ export function EmergencyGuideModal({ children }: EmergencyGuideModalProps) {
     setIsPlaying(false);
   };
 
-  const handleOpenChange = (open: boolean) => {
+  const handleOpenChange = (isOpen: boolean) => {
+    setOpen(isOpen);
     // Stop and reset audio when modal is closed
-    if (!open) {
+    if (!isOpen) {
       const audio = audioRef.current;
       if (audio) {
         audio.pause();
@@ -53,8 +55,8 @@ export function EmergencyGuideModal({ children }: EmergencyGuideModalProps) {
   };
 
   return (
-    <AlertDialog onOpenChange={handleOpenChange}>
-      <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
+    <AlertDialog open={open} onOpenChange={handleOpenChange}>
+      <AlertDialogTrigger asChild onClick={() => setOpen(true)}>{children}</AlertDialogTrigger>
       <AlertDialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
         <AlertDialogHeader>
           <AlertDialogTitle className="text-2xl text-center">¿Qué hacer en caso de una Emergencia?</AlertDialogTitle>
@@ -99,8 +101,11 @@ export function EmergencyGuideModal({ children }: EmergencyGuideModalProps) {
         </div>
         <audio ref={audioRef} src="/protocolo.mp3" preload="auto" onEnded={handleAudioEnded} />
         <AlertDialogFooter>
-          <AlertDialogCancel asChild>
-            <Button variant="outline" className="text-lg py-6">Cerrar</Button>
+          <AlertDialogCancel
+            className="text-lg py-6 cursor-pointer"
+            onClick={() => handleOpenChange(false)}
+          >
+            Cerrar
           </AlertDialogCancel>
         </AlertDialogFooter>
       </AlertDialogContent>
