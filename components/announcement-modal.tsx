@@ -3,15 +3,29 @@
 import { useState, useEffect, useCallback } from 'react';
 import { X } from 'lucide-react';
 
+let activeModalCount = 0;
+
 export function AnnouncementModal() {
     const [isOpen, setIsOpen] = useState(false);
     const [countdown, setCountdown] = useState(20);
     const [isClosing, setIsClosing] = useState(false);
 
     useEffect(() => {
+        // Si ya hay un modal activo o mostrándose, no abrir otro
+        if (activeModalCount > 0 || document.querySelector('.ann-overlay')) {
+            return;
+        }
+        activeModalCount++;
+
         // Abre casi de inmediato (50ms solo para evitar mismatch SSR/hidratación)
-        const openTimer = setTimeout(() => setIsOpen(true), 50);
-        return () => clearTimeout(openTimer);
+        const openTimer = setTimeout(() => {
+            setIsOpen(true);
+        }, 50);
+
+        return () => {
+            clearTimeout(openTimer);
+            activeModalCount = Math.max(0, activeModalCount - 1);
+        };
     }, []);
 
     useEffect(() => {
@@ -32,7 +46,10 @@ export function AnnouncementModal() {
 
     const handleClose = useCallback(() => {
         setIsClosing(true);
-        setTimeout(() => setIsOpen(false), 400);
+        setTimeout(() => {
+            setIsOpen(false);
+            activeModalCount = 0;
+        }, 400);
     }, []);
 
     if (!isOpen) return null;
