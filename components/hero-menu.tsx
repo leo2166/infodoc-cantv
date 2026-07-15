@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Users, Sparkles, Newspaper, AlertTriangle } from 'lucide-react';
+import { EmergencyGuideModal } from '@/components/emergency-guide-modal';
 
 interface MenuItem {
   label: string;
@@ -11,8 +12,9 @@ interface MenuItem {
   borderColor: string;
   iconBg: string;
   color: string;
-  href: string;
+  href: string | null;
   external: boolean;
+  isEmergency?: boolean;
 }
 
 const MENU_ITEMS: MenuItem[] = [
@@ -53,8 +55,9 @@ const MENU_ITEMS: MenuItem[] = [
     borderColor: 'border-slate-300/70 dark:border-slate-600/50',
     iconBg: 'bg-red-100/90 border-red-200/70 text-red-600 dark:bg-red-900/40 dark:border-red-800/40 dark:text-red-400',
     color: '#0f172a',
-    href: '/emergencias',
+    href: null,
     external: false,
+    isEmergency: true,
   },
 ] as const;
 
@@ -83,11 +86,21 @@ export function HeroMenu() {
             </div>
           );
 
+          if (item.isEmergency) {
+            return (
+              <EmergencyGuideModal key={i}>
+                <div className="h-full w-full block">
+                  {innerCard}
+                </div>
+              </EmergencyGuideModal>
+            );
+          }
+
           if (item.external) {
             return (
               <a
                 key={i}
-                href={item.href}
+                href={item.href!}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block h-full w-full no-underline"
@@ -98,7 +111,7 @@ export function HeroMenu() {
           }
 
           return (
-            <Link key={i} href={item.href} className="block h-full w-full no-underline">
+            <Link key={i} href={item.href!} className="block h-full w-full no-underline">
               {innerCard}
             </Link>
           );
@@ -107,3 +120,4 @@ export function HeroMenu() {
     </div>
   );
 }
+
