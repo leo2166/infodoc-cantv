@@ -161,8 +161,8 @@ export function SidebarPanel() {
             WIDGET 1-A: FECHA + CLIMA — SOLO MÓVIL (amarillo Piolín)
             ======================================================== */}
         <div
-          className="lg:hidden rounded-[20px] p-3 border shadow-[0_8px_20px_rgba(0,0,0,0.06)] transition-all duration-500 hover:-translate-y-1 ease-out backdrop-blur-sm"
-          style={{ backgroundColor: 'rgba(255, 224, 0, 0.55)', borderColor: 'rgba(212, 188, 0, 0.6)' }}
+          className="lg:hidden rounded-[20px] p-3 border shadow-[0_8px_20px_rgba(0,0,0,0.06)] transition-all duration-500 hover:-translate-y-1 ease-out"
+          style={{ backgroundColor: '#FFE000', borderColor: '#D4BC00' }}
         >
           <div className="flex items-stretch">
 
