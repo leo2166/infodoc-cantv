@@ -61,39 +61,41 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-background relative overflow-x-hidden">
-      {/* ── Fondo MÓVIL: Bandera Zulia (no tocar según petición) ── */}
-      <div
-        className="fixed inset-0 z-0 pointer-events-none lg:hidden"
-        style={{
-          backgroundImage: 'url(/Bzulia.webp)',
-          backgroundRepeat: 'repeat-y',
-          backgroundSize: '100% auto',
-          opacity: 0.05,
-        }}
-      />
-
-      {/* ── Fondo PC: Estilo original fusionbanderas ── */}
-      <div className="hidden lg:block fixed inset-0 z-0 pointer-events-none overflow-hidden">
+      {/* Fondo MOVIL: Bandera Zulia de punta a punta con cortina glass */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden lg:hidden">
         <img
-          src="/fusionbanderas.webp"
-          alt="Fondo de banderas fusionadas"
-          className="w-full h-full object-cover opacity-10"
+          src="/Bzulia.webp"
+          alt="Fondo bandera del Zulia"
+          className="w-full h-full object-cover opacity-20"
           loading="lazy"
           decoding="async"
         />
+        {/* Cortina glass movil: misma capa blanca semitransparente */}
+        <div className="absolute inset-0 bg-white/70 dark:bg-slate-950/75 backdrop-blur-[2px]" />
+      </div>
+
+      {/* Fondo PC: fusionbanderas de punta a punta (absolute = cubre todo el documento) */}
+      <div className="hidden lg:block absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <img
+          src="/Bzulia.webp"
+          alt="Fondo bandera del Zulia"
+          className="w-full h-full object-cover opacity-20"
+          loading="lazy"
+          decoding="async"
+        />
+        {/* Cortina glass: capa blanca semitransparente uniforme sobre toda la imagen */}
+        <div className="absolute inset-0 bg-white/70 dark:bg-slate-950/75 backdrop-blur-[2px]" />
       </div>
       <Navigation />
 
       <main role="main" className="relative overflow-x-hidden">
 
-        {/* ══════════════════════════════════════════════════════════════
-            VERSIÓN NUEVA — REDISEÑO CON CUADRADO MENÚ PLANO
-            ══════════════════════════════════════════════════════════════ */}
+        {/* === VERSION NUEVA - REDISENO CON CUADRADO MENU PLANO === */}
         <section className="relative py-3 sm:py-6 lg:min-h-[calc(100vh-3.5rem)] px-3 sm:px-6 lg:px-8 flex flex-col justify-between overflow-hidden">
 
           <div className="relative z-10 max-w-7xl mx-auto w-full mt-0 lg:my-auto">
 
-            {/* ── MÓVIL: widgets SOBRE el menú ── */}
+            {/* MOVIL: widgets SOBRE el menu */}
             <div className="lg:hidden w-full flex flex-col items-center mb-3">
               {/* Título en azul — solo móvil */}
               <p className="text-lg font-anton text-blue-600 dark:text-blue-400 leading-relaxed uppercase tracking-widest text-center mb-3 px-2">
@@ -104,7 +106,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* ── GRID PRINCIPAL ── */}
+            {/* GRID PRINCIPAL */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-6 items-center">
 
               {/* Columna izquierda — solo desktop */}
@@ -157,8 +159,8 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── SECCIONES ADICIONALES ── */}
-        <section className="py-6 sm:py-12 px-4 sm:px-6 lg:px-8 border-t border-slate-100 dark:border-slate-800/60" aria-labelledby="quick-links-heading">
+        {/* SECCIONES ADICIONALES */}
+        <section className="py-6 sm:py-12 px-4 sm:px-6 lg:px-8 border-t border-slate-200/50 dark:border-slate-800/40" aria-labelledby="quick-links-heading">
           <div className="max-w-4xl mx-auto">
             <h2 id="quick-links-heading" className="text-2xl font-heading font-bold text-center mb-8">
               Accesos Rápidos
@@ -197,7 +199,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-slate-50/50 dark:bg-slate-900/10 border-t border-b border-slate-100 dark:border-slate-800/60" aria-labelledby="services-heading">
+        <section className="py-16 px-4 sm:px-6 lg:px-8 border-t border-b border-slate-200/50 dark:border-slate-800/40" aria-labelledby="services-heading">
           <div className="max-w-7xl mx-auto">
             <h2 id="services-heading" className="text-3xl font-heading font-bold text-center mb-12">
               Nuestros Servicios
@@ -222,7 +224,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-muted/30" aria-labelledby="contact-heading">
+        <section className="py-16 px-4 sm:px-6 lg:px-8" aria-labelledby="contact-heading">
           <div className="max-w-4xl mx-auto text-center">
             <h2 id="contact-heading" className="text-3xl font-heading font-bold mb-8">
               ¿Necesitas Ayuda Adicional?
@@ -265,7 +267,7 @@ export default function HomePage() {
       <PWAInstallPrompt />
 
       {/* Footer */}
-      <footer className="bg-card pt-16 pb-8 px-4 sm:px-6 lg:px-8 border-t border-border" role="contentinfo">
+      <footer className="bg-white/60 dark:bg-slate-950/70 backdrop-blur-sm pt-16 pb-8 px-4 sm:px-6 lg:px-8 border-t border-slate-200/50 dark:border-slate-800/40" role="contentinfo">
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center space-x-2 mb-4">
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center" aria-hidden="true">
