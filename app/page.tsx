@@ -60,7 +60,7 @@ export default function HomePage() {
   ]
 
   return (
-    <div className="min-h-screen bg-background relative overflow-x-hidden">
+    <div className="min-h-screen bg-white dark:bg-slate-950 relative overflow-x-hidden">
       {/* Fondo MOVIL: Bandera Zulia de punta a punta con cortina glass */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden lg:hidden">
         <img
