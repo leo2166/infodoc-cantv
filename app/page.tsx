@@ -133,17 +133,6 @@ export default function HomePage() {
                 {/* Blur expansivo de fondo en negro, aumentado de tamaño y desenfoque */}
                 <div className="absolute w-[540px] h-[540px] rounded-full bg-black/15 dark:bg-black/50 blur-[120px] pointer-events-none z-0" />
                 
-                {/* Balón de fútbol para PC (encima del menú) */}
-                <a
-                  href="https://copa26lf.vercel.app"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center mb-4 w-12 h-12 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800/80 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:scale-110 active:scale-95 transition-all duration-300 relative z-10"
-                  title="Mundial de Fútbol 2026"
-                >
-                  <span className="text-2xl leading-none animate-[spin_10s_linear_infinite]">⚽</span>
-                </a>
-
                 <div className="relative z-10 mx-auto flex items-center justify-center w-full">
                   <HeroMenu />
                 </div>

@@ -253,8 +253,6 @@ export function SidebarPanel() {
           </div>
         </div>
 
-        {/* ── El balon de futbol para Celular fue movido a app/page.tsx para centrarlo igual que en PC ── */}
-
         {/* ========================================================
             WIDGET 2: ESTADO DEL TIEMPO — Solo visible en PC (Oculto en celular a petición)
             ======================================================== */}
