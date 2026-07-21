@@ -14,6 +14,7 @@ import { NewsTicker } from "@/components/news-ticker";
 import BootieWidget from "@/components/bootie-widget";
 import { HeroMenu } from "@/components/hero-menu";
 import { SidebarPanel } from "@/components/sidebar-panel";
+import { CurrencyCalculator } from "@/components/currency-calculator";
 
 export default function HomePage() {
 
@@ -133,7 +134,8 @@ export default function HomePage() {
                 {/* Blur expansivo de fondo en negro, aumentado de tamaño y desenfoque */}
                 <div className="absolute w-[540px] h-[540px] rounded-full bg-black/15 dark:bg-black/50 blur-[120px] pointer-events-none z-0" />
                 
-                <div className="relative z-10 mx-auto flex items-center justify-center w-full">
+                <div className="relative z-10 mx-auto flex flex-col items-center justify-center w-full gap-3">
+                  <CurrencyCalculator />
                   <HeroMenu />
                 </div>
               </div>
