@@ -32,6 +32,12 @@ const imageList = [
     title: 'Biblioteca',
     href: '/informacion/biblioteca'
   },
+  {
+    src: '/accionista.png',
+    alt: 'Atención al Accionista CANTV',
+    title: 'Atención al Accionista',
+    href: '/informacion/accionista'
+  },
 ];
 
 export default function FotosPage() {
