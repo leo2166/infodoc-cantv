@@ -232,22 +232,26 @@ export function SidebarPanel() {
         </div>
 
         {/* ========================================================
-            WIDGET 1-B: FECHA — SOLO DESKTOP (sky azul, diseño original)
+            WIDGET 1-B: FECHA — SOLO DESKTOP (diseño referencia)
             ======================================================== */}
-        <div className="hidden lg:block bg-sky-100 dark:bg-sky-950/40 rounded-[24px] p-6 border border-sky-200/60 dark:border-sky-800/80 shadow-[0_15px_40px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_20px_rgba(0,0,0,0.3)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(0,0,0,0.12)] ease-out">
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
-              <Calendar className="w-5 h-5" />
+        <div className="hidden lg:block bg-amber-50/90 dark:bg-amber-950/30 rounded-[20px] p-5 border border-amber-200/80 dark:border-amber-800/50 shadow-[0_4px_20px_rgba(217,119,6,0.06)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.3)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(217,119,6,0.12)] ease-out">
+          {/* Fila superior: ícono + label + día */}
+          <div className="flex items-start gap-3 mb-4">
+            <div className="w-9 h-9 rounded-xl bg-amber-100/80 dark:bg-amber-900/40 flex items-center justify-center text-amber-700 dark:text-amber-400 shrink-0">
+              <Calendar className="w-4.5 h-4.5" />
             </div>
-            <div className="space-y-1 min-w-0">
-              <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest block">Hoy es:</span>
-              <h3 className="text-base font-extrabold text-slate-800 dark:text-slate-200 leading-tight">{formattedDay}</h3>
-              <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 leading-tight">{formattedFullDate}</p>
+            <div className="flex-1 min-w-0">
+              <span className="text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-0.5">FECHA</span>
+              <h3 className="text-xl font-black text-slate-900 dark:text-slate-100 leading-tight">{formattedDay}</h3>
+              <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 leading-tight mt-0.5">{formattedFullDate}</p>
             </div>
           </div>
-          <div className="flex items-center gap-2.5 pt-4 border-t border-slate-100 dark:border-slate-800/60 mt-4 text-slate-700 dark:text-slate-300">
-            <Clock className="w-4 h-4 text-slate-400" />
-            <span className="text-lg font-bold font-mono tracking-wider" suppressHydrationWarning>
+          {/* Divisor */}
+          <div className="border-t border-slate-100 dark:border-slate-700/50 mb-3" />
+          {/* Hora */}
+          <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+            <Clock className="w-4 h-4 text-slate-400 shrink-0" />
+            <span className="text-lg font-bold font-mono tracking-widest" suppressHydrationWarning>
               {formattedTime}
             </span>
           </div>
@@ -256,43 +260,44 @@ export function SidebarPanel() {
         {/* ========================================================
             WIDGET 2: ESTADO DEL TIEMPO — Solo visible en PC (Oculto en celular a petición)
             ======================================================== */}
-        <div className="hidden lg:block bg-sky-100 dark:bg-sky-950/40 rounded-[20px] lg:rounded-[24px] p-3 lg:p-6 border border-sky-200/60 dark:border-sky-800/80 shadow-[0_8px_20px_rgba(0,0,0,0.06)] lg:shadow-[0_15px_40px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_20px_rgba(0,0,0,0.3)] transition-all duration-500 hover:-translate-y-1 lg:hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(0,0,0,0.12)] ease-out">
-          <div className="flex items-start gap-2 lg:gap-4">
-            <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-xl bg-sky-50 dark:bg-sky-900/30 flex items-center justify-center shrink-0">
-              <span className="text-base lg:text-xl leading-none">
-                {weather ? weatherInfo(weather.weatherCode).emoji : '🌡️'}
-              </span>
+        <div className="hidden lg:block bg-amber-50/90 dark:bg-amber-950/30 rounded-[20px] p-5 border border-amber-200/80 dark:border-amber-800/50 shadow-[0_4px_20px_rgba(217,119,6,0.06)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.3)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(217,119,6,0.12)] ease-out">
+          {/* Fila superior: emoji + label + temp */}
+          <div className="flex items-start gap-3 mb-4">
+            <div className="w-9 h-9 rounded-xl bg-amber-100/80 dark:bg-amber-900/40 flex items-center justify-center shrink-0 text-lg leading-none">
+              {weather ? weatherInfo(weather.weatherCode).emoji : '🌡️'}
             </div>
-            <div className="space-y-0.5 lg:space-y-1 flex-1 min-w-0">
-              <span className="text-[9px] lg:text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest block">Tiempo:</span>
+            <div className="flex-1 min-w-0">
+              <span className="text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-0.5">TIEMPO:</span>
               {weatherLoading ? (
-                <div className="flex items-center gap-1 py-0.5">
-                  <Loader2 className="w-3 h-3 text-blue-400 animate-spin" />
-                  <span className="text-[10px] text-slate-400">Cargando...</span>
+                <div className="flex items-center gap-1.5 py-1">
+                  <Loader2 className="w-4 h-4 text-slate-400 animate-spin" />
+                  <span className="text-sm text-slate-400">Cargando...</span>
                 </div>
               ) : weatherError ? (
-                <h3 className="text-[10px] font-bold text-red-500">{weatherError}</h3>
+                <p className="text-sm font-bold text-red-500">{weatherError}</p>
               ) : weather ? (
                 <>
-                  <h3 className="text-sm lg:text-base font-extrabold text-slate-800 dark:text-slate-200 leading-tight">
+                  <h3 className="text-xl font-black text-slate-900 dark:text-slate-100 leading-tight">
                     {weather.temperature}°C - {weatherInfo(weather.weatherCode).label}
                   </h3>
-                  <p className="text-[10px] lg:text-sm font-semibold text-slate-500 dark:text-slate-400 flex items-center gap-1">
-                    <MapPin className="w-2.5 h-2.5 lg:w-3.5 lg:h-3.5 text-slate-400 shrink-0" />
+                  <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-0.5">
+                    <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                     <span className="truncate">{weather.city}</span>
                   </p>
                 </>
               ) : null}
             </div>
           </div>
-
-          <div className="flex items-center justify-between pt-2 lg:pt-4 border-t border-slate-100 dark:border-slate-800/60 mt-2 lg:mt-4 text-[9px] lg:text-xs font-semibold text-slate-500 dark:text-slate-400">
-            <div className="flex items-center gap-1">
-              <Droplets className="w-2.5 h-2.5 lg:w-3.5 lg:h-3.5 text-sky-500 shrink-0" />
+          {/* Divisor */}
+          <div className="border-t border-slate-100 dark:border-slate-700/50 mb-3" />
+          {/* Detalles Hum / Vto */}
+          <div className="flex items-center gap-4 text-xs font-semibold text-slate-500 dark:text-slate-400">
+            <div className="flex items-center gap-1.5">
+              <Droplets className="w-3.5 h-3.5 text-sky-500 shrink-0" />
               <span>Hum: <strong className="text-slate-700 dark:text-slate-300">{weather ? `${weather.humidity}%` : '--'}</strong></span>
             </div>
-            <div className="flex items-center gap-1">
-              <Wind className="w-2.5 h-2.5 lg:w-3.5 lg:h-3.5 text-indigo-500 shrink-0" />
+            <div className="flex items-center gap-1.5">
+              <Wind className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
               <span>Vto: <strong className="text-slate-700 dark:text-slate-300">{weather ? `${weather.windSpeed} km/h` : '--'}</strong></span>
             </div>
           </div>
