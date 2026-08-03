@@ -106,34 +106,40 @@ export function SidebarPanel() {
       );
     };
 
-    // Verificar permiso SIN mostrar diálogo
-    if (typeof navigator !== 'undefined' && navigator.permissions) {
-      navigator.permissions
-        .query({ name: 'geolocation' as PermissionName })
-        .then((result) => {
-          if (result.state === 'granted') {
-            // GPS ya autorizado → usar ubicación real, sin diálogo
-            fetchWithRealLocation();
-          } else {
-            // 'prompt' o 'denied' → Maracaibo sin preguntar nada
-            fetchWeather(MARACAIBO_LAT, MARACAIBO_LON, MARACAIBO_CITY);
-          }
-
-          // Escuchar cambios futuros (si el usuario activa el GPS después)
-          result.addEventListener('change', () => {
+    const initWeather = () => {
+      // Verificar permiso SIN mostrar diálogo
+      if (typeof navigator !== 'undefined' && navigator.permissions) {
+        navigator.permissions
+          .query({ name: 'geolocation' as PermissionName })
+          .then((result) => {
             if (result.state === 'granted') {
+              // GPS ya autorizado → usar ubicación real, sin diálogo
               fetchWithRealLocation();
+            } else {
+              // 'prompt' o 'denied' → Maracaibo sin preguntar nada
+              fetchWeather(MARACAIBO_LAT, MARACAIBO_LON, MARACAIBO_CITY);
             }
+
+            // Escuchar cambios futuros (si el usuario activa el GPS después)
+            result.addEventListener('change', () => {
+              if (result.state === 'granted') {
+                fetchWithRealLocation();
+              }
+            });
+          })
+          .catch(() => {
+            // Si permissions API no está disponible → Maracaibo
+            fetchWeather(MARACAIBO_LAT, MARACAIBO_LON, MARACAIBO_CITY);
           });
-        })
-        .catch(() => {
-          // Si permissions API no está disponible → Maracaibo
-          fetchWeather(MARACAIBO_LAT, MARACAIBO_LON, MARACAIBO_CITY);
-        });
-    } else {
-      // Sin soporte de permissions API → Maracaibo
-      fetchWeather(MARACAIBO_LAT, MARACAIBO_LON, MARACAIBO_CITY);
-    }
+      } else {
+        // Sin soporte de permissions API → Maracaibo
+        fetchWeather(MARACAIBO_LAT, MARACAIBO_LON, MARACAIBO_CITY);
+      }
+    };
+
+    // Diferir la llamada 1.2s para liberar el hilo principal durante el renderizado en móviles
+    const timer = setTimeout(initWeather, 1200);
+    return () => clearTimeout(timer);
   }, []);
 
 
