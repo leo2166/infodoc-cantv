@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import dynamic from 'next/dynamic';
 import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -11,12 +10,11 @@ import { ChatWidget } from "@/components/chat-widget"
 import { PWAInstallPrompt } from "@/components/pwa-install-prompt"
 // import { RippleBackground } from "@/components/ui/ripple-background"  // Comentado temporalmente
 import FechaHora from '@/components/FechaHora';
+import { NewsTicker } from "@/components/news-ticker";
+import BootieWidget from "@/components/bootie-widget";
 import { HeroMenu } from "@/components/hero-menu";
 import { SidebarPanel } from "@/components/sidebar-panel";
 import { CurrencyCalculator } from "@/components/currency-calculator";
-
-// Carga diferida de BootieWidget para reducir el paquete de JS inicial en celulares
-const BootieWidget = dynamic(() => import("@/components/bootie-widget"), { ssr: false });
 
 export default function HomePage() {
 
@@ -64,8 +62,8 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950 relative overflow-x-hidden">
-      {/* Fondo de pantalla unificado optimizado para móvil y PC */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+      {/* Fondo MOVIL: Bandera Zulia de punta a punta con cortina glass */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden lg:hidden">
         <img
           src="/Bzulia.webp"
           alt="Fondo bandera del Zulia"
@@ -73,7 +71,20 @@ export default function HomePage() {
           loading="lazy"
           decoding="async"
         />
-        {/* Cortina glass semitransparente */}
+        {/* Cortina glass movil: misma capa blanca semitransparente */}
+        <div className="absolute inset-0 bg-white/70 dark:bg-slate-950/75 backdrop-blur-[2px]" />
+      </div>
+
+      {/* Fondo PC: fusionbanderas de punta a punta (absolute = cubre todo el documento) */}
+      <div className="hidden lg:block absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <img
+          src="/Bzulia.webp"
+          alt="Fondo bandera del Zulia"
+          className="w-full h-full object-cover opacity-20"
+          loading="lazy"
+          decoding="async"
+        />
+        {/* Cortina glass: capa blanca semitransparente uniforme sobre toda la imagen */}
         <div className="absolute inset-0 bg-white/70 dark:bg-slate-950/75 backdrop-blur-[2px]" />
       </div>
       <Navigation />
@@ -120,8 +131,8 @@ export default function HomePage() {
 
               {/* Columna Central: menú plano 2x2 — siempre visible */}
               <div className="lg:col-span-7 flex flex-col items-center justify-center overflow-visible relative">
-                {/* Blur expansivo optimizado para GPU móvil */}
-                <div className="absolute w-[320px] h-[320px] sm:w-[540px] sm:h-[540px] rounded-full bg-black/15 dark:bg-black/50 blur-2xl sm:blur-[120px] pointer-events-none z-0" />
+                {/* Blur expansivo de fondo en negro, aumentado de tamaño y desenfoque */}
+                <div className="absolute w-[540px] h-[540px] rounded-full bg-black/15 dark:bg-black/50 blur-[120px] pointer-events-none z-0" />
                 
                 <div className="relative z-10 mx-auto flex flex-col items-center justify-center w-full gap-3">
                   <CurrencyCalculator />

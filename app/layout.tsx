@@ -12,14 +12,14 @@ const montserrat = Montserrat({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-heading",
-  weight: ["400", "700"],
+  weight: ["400", "600", "700", "900"],
 })
 
 const openSans = Open_Sans({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-sans",
-  weight: ["400", "600"],
+  weight: ["400", "500", "600"],
 })
 
 const anton = Anton({
@@ -66,7 +66,7 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${montserrat.variable} ${openSans.variable} ${anton.variable}`}>
       <head>
-        <Script id="google-tag-manager" strategy="lazyOnload">
+        <Script id="google-tag-manager" strategy="afterInteractive">
           {`
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
