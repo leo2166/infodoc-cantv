@@ -35,8 +35,8 @@ export default function NominaPage() {
 
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/8.webp"
-                alt="Cronograma de pago CANTV - Agosto 2026"
+                src="/Nomina_ago_act.webp"
+                alt="Cronograma de pago CANTV - Agosto 2026 (Actualizado)"
                 width={800}
                 height={1120}
                 className="rounded-md object-contain"
