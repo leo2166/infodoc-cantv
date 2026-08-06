@@ -61,32 +61,7 @@ export default function HomePage() {
   ]
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 relative overflow-x-hidden">
-      {/* Fondo MOVIL: Bandera Zulia de punta a punta con cortina glass */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden lg:hidden">
-        <img
-          src="/Bzulia.webp"
-          alt="Fondo bandera del Zulia"
-          className="w-full h-full object-cover opacity-20"
-          loading="lazy"
-          decoding="async"
-        />
-        {/* Cortina glass movil: misma capa blanca semitransparente */}
-        <div className="absolute inset-0 bg-white/70 dark:bg-slate-950/75 backdrop-blur-[2px]" />
-      </div>
-
-      {/* Fondo PC: fusionbanderas de punta a punta (absolute = cubre todo el documento) */}
-      <div className="hidden lg:block absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <img
-          src="/Bzulia.webp"
-          alt="Fondo bandera del Zulia"
-          className="w-full h-full object-cover opacity-20"
-          loading="lazy"
-          decoding="async"
-        />
-        {/* Cortina glass: capa blanca semitransparente uniforme sobre toda la imagen */}
-        <div className="absolute inset-0 bg-white/70 dark:bg-slate-950/75 backdrop-blur-[2px]" />
-      </div>
+    <div className="min-h-screen bg-gray-100 dark:bg-slate-950 relative overflow-x-hidden">
       <Navigation />
 
       <main role="main" className="relative overflow-x-hidden">
@@ -156,7 +131,7 @@ export default function HomePage() {
             <h2 id="quick-links-heading" className="text-2xl font-heading font-bold text-center mb-8">
               Accesos Rápidos
             </h2>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10" role="list">
+            <div className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-10" role="list">
               {quickLinks.map((link) => {
                 const Icon = link.icon;
                 const isEmergency = link.href === '/emergencias';
@@ -164,10 +139,10 @@ export default function HomePage() {
                 
                 // Texto: Emergencias en rojo, Nómina en azul, Servicios Funerarios en gris/neutral
                 const textClass = isEmergency 
-                  ? "text-red-600 dark:text-red-400 font-extrabold hover:text-red-700 hover:scale-105"
+                  ? "text-red-600 dark:text-red-400 font-extrabold hover:text-red-700"
                   : isNomina
-                    ? "text-blue-600 dark:text-blue-400 font-extrabold hover:text-blue-700 hover:scale-105"
-                    : "text-slate-700 dark:text-slate-300 font-extrabold hover:text-blue-600 dark:hover:text-blue-400 hover:scale-105";
+                    ? "text-blue-600 dark:text-blue-400 font-extrabold hover:text-blue-700"
+                    : "text-slate-700 dark:text-slate-300 font-extrabold hover:text-blue-600 dark:hover:text-blue-400";
                 
                 // Iconos: Emergencias en rojo, Nómina en azul, Funeraria en azul
                 const iconColor = isEmergency 
@@ -175,12 +150,12 @@ export default function HomePage() {
                   : "text-blue-600 dark:text-blue-400";
                   
                 return (
-                  <div key={link.href} role="listitem">
+                  <div key={link.href} role="listitem" className="w-full sm:w-auto">
                     <Link 
                       href={link.href}
-                      className={`flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-200 hover:bg-slate-100 dark:hover:bg-slate-800/50 ${textClass}`}
+                      className={`flex items-center gap-3 px-5 py-3 rounded-xl transition-all duration-200 hover:bg-slate-200/70 dark:hover:bg-slate-800/50 hover:scale-105 w-full sm:w-auto ${textClass}`}
                     >
-                      <Icon className={`w-5 h-5 shrink-0 ${iconColor}`} />
+                      <Icon className={`w-6 h-6 shrink-0 ${iconColor}`} />
                       <span className="text-base tracking-wide">{link.title}</span>
                     </Link>
                   </div>
