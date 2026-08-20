@@ -2,7 +2,7 @@ import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, Home } from "lucide-react"
 
 export default function AccionistaPage() {
   const phoneNumbers = [
@@ -12,23 +12,29 @@ export default function AccionistaPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 overflow-hidden relative">
+    <div className="min-h-screen bg-background">
       <Navigation />
 
-      <main className="relative pt-8 pb-12 px-4 sm:px-6 z-10">
-        <div className="max-w-3xl mx-auto">
-          {/* Botón Volver */}
-          <div className="mb-6">
+      <main className="py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          {/* Botones de Navegación */}
+          <div className="flex justify-between items-center mb-8">
             <Link href="/informacion/fotos">
               <Button variant="outline" className="touch-target">
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                Volver
+                Volver a la Galería
+              </Button>
+            </Link>
+            <Link href="/">
+              <Button variant="outline" className="touch-target">
+                <Home className="w-4 h-4 mr-2" />
+                Volver al Inicio
               </Button>
             </Link>
           </div>
 
           {/* Contenedor Principal - Efecto Hoja Flotante */}
-          <div className="bg-white px-4 py-8 sm:p-12 rounded-2xl shadow-[0_10px_40px_rgba(0,92,185,0.15)] border border-gray-100">
+          <div className="bg-white px-4 py-8 sm:p-12 rounded-2xl shadow-md border border-gray-100">
 
             {/* ENCABEZADO */}
             <div className="flex flex-col sm:flex-row justify-between items-start mb-8 gap-6 relative">
