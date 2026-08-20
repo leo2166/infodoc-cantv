@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Navigation } from "@/components/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowLeft, BookUp } from "lucide-react";
+import { ArrowLeft, BookUp, Home } from "lucide-react";
 
 const bookList = [
   {
@@ -51,11 +51,17 @@ export default function BibliotecaPage() {
     <div className="min-h-screen bg-background">
       <Navigation />
       <main className="container mx-auto px-4 py-10">
-        <div className="mb-8">
+        <div className="flex justify-between items-center mb-8">
           <Link href="/informacion/fotos">
             <Button variant="outline" className="touch-target">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Volver a la Galería
+            </Button>
+          </Link>
+          <Link href="/">
+            <Button variant="outline" className="touch-target">
+              <Home className="w-4 h-4 mr-2" />
+              Volver al Inicio
             </Button>
           </Link>
         </div>

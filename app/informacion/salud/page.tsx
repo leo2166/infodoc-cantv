@@ -2,7 +2,7 @@ import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import Link from "next/link"
-import { ArrowLeft, FileText, Shield, Pill, CalendarDays } from "lucide-react"
+import { ArrowLeft, Home, FileText, Shield, Pill, CalendarDays } from "lucide-react"
 
 const healthServices = [
   {
@@ -37,10 +37,16 @@ export default function SaludPage() {
       <Navigation />
       <main className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
-          <div className="mb-8">
-            <Link href="/">
+          <div className="flex justify-between items-center mb-8">
+            <Link href="/informacion/fotos">
               <Button variant="outline" className="touch-target">
                 <ArrowLeft className="w-4 h-4 mr-2" />
+                Volver a la Galería
+              </Button>
+            </Link>
+            <Link href="/">
+              <Button variant="outline" className="touch-target">
+                <Home className="w-4 h-4 mr-2" />
                 Volver al Inicio
               </Button>
             </Link>
