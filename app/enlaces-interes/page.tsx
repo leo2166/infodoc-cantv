@@ -16,6 +16,10 @@ export default function EnlacesInteresPage() {
       href: "http://www.Cantv.com.ve",
     },
     {
+      title: "Consulta CANTV",
+      href: "https://consultacantv.vercel.app",
+    },
+    {
       title: "Banco Central de Venezuela",
       href: "http://www.bcv.org.ve",
     },
