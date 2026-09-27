@@ -34,29 +34,48 @@ async function callGemini(modelName: string, query: string, useSearchGrounding: 
     return null;
   }
 
-  try {
-    console.log(`🚀 [Gemini] Intentando modelo ${modelName} (Search Grounding: ${useSearchGrounding})...`);
-    const ai = new GoogleGenAI({ apiKey: GOOGLE_API_KEY });
-    
-    const config: any = {
-      systemInstruction: SYSTEM_PROMPT,
-    };
+  const ai = new GoogleGenAI({ apiKey: GOOGLE_API_KEY });
 
-    if (useSearchGrounding) {
-      config.tools = [{ googleSearch: {} }];
+  // Si se pide búsqueda web, intentamos con grounding (timeout rápido de 7s)
+  if (useSearchGrounding) {
+    try {
+      console.log(`🚀 [Gemini] Intentando ${modelName} con Google Search Grounding...`);
+      const response = await withTimeout(ai.models.generateContent({
+        model: modelName,
+        contents: query,
+        config: {
+          systemInstruction: SYSTEM_PROMPT,
+          tools: [{ googleSearch: {} }]
+        }
+      }), 7000);
+
+      const text = response.text;
+      if (text) {
+        const searchUsed = !!(response.candidates?.[0]?.groundingMetadata?.webSearchQueries?.length);
+        console.log(`✅ [Gemini ${modelName}] Respuesta exitosa con búsqueda web`);
+        return { text, searchUsed };
+      }
+    } catch (e: any) {
+      console.warn(`⚠️ [Gemini ${modelName}] Búsqueda web lenta o fallida (${e.message}), continuando con generación directa...`);
     }
+  }
 
+  // Generación directa estándar (ultra rápida, max_tokens 600)
+  try {
+    console.log(`🚀 [Gemini] Intentando ${modelName} directo...`);
     const response = await withTimeout(ai.models.generateContent({
       model: modelName,
       contents: query,
-      config: config
-    }), 18000);
+      config: { 
+        systemInstruction: SYSTEM_PROMPT,
+        maxOutputTokens: 600
+      }
+    }), 12000);
 
     const text = response.text;
     if (text) {
-      const searchUsed = !!(response.candidates?.[0]?.groundingMetadata?.webSearchQueries?.length);
-      console.log(`✅ [Gemini ${modelName}] Respuesta exitosa (Búsqueda web nativa usada: ${searchUsed})`);
-      return { text, searchUsed };
+      console.log(`✅ [Gemini ${modelName}] Respuesta directa exitosa`);
+      return { text, searchUsed: false };
     }
     return null;
   } catch (error: any) {
@@ -65,7 +84,7 @@ async function callGemini(modelName: string, query: string, useSearchGrounding: 
   }
 }
 
-// ─── Capas OpenRouter (Modelos Gratuitos) ───────────────────────────────────────
+// ─── Capas OpenRouter (Modelos Gratuitos vía Fetch Directo) ────────────────────
 async function callOpenRouter(modelName: string, query: string): Promise<string | null> {
   if (!OPENROUTER_API_KEY) {
     console.log(`⚠️ [OpenRouter ${modelName}] API Key no configurada`);
@@ -74,21 +93,33 @@ async function callOpenRouter(modelName: string, query: string): Promise<string 
 
   try {
     console.log(`🚀 [OpenRouter] Intentando modelo ${modelName}...`);
-    const openai = new OpenAI({
-      apiKey: OPENROUTER_API_KEY,
-      baseURL: "https://openrouter.ai/api/v1",
-    });
+    const res = await withTimeout(fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+        "Content-Type": "application/json",
+        "HTTP-Referer": "https://infodoc-cantv.vercel.app",
+        "X-Title": "InfoDoc CANTV"
+      },
+      body: JSON.stringify({
+        model: modelName,
+        messages: [
+          { role: "system", content: SYSTEM_PROMPT },
+          { role: "user", content: query }
+        ],
+        temperature: 0.4,
+        max_tokens: 600
+      })
+    }), 20000);
 
-    const completion = await withTimeout(openai.chat.completions.create({
-      model: modelName,
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        { role: "user", content: query }
-      ],
-      temperature: 0.4,
-    }), 15000);
+    if (!res.ok) {
+      const err = await res.text();
+      console.error(`❌ [OpenRouter ${modelName}] HTTP ${res.status}:`, err.slice(0, 150));
+      return null;
+    }
 
-    const response = completion.choices[0]?.message?.content || null;
+    const data = await res.json();
+    const response = data.choices?.[0]?.message?.content || null;
     if (response) {
       console.log(`✅ [OpenRouter ${modelName}] Respuesta exitosa`);
     }
