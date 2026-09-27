@@ -20,8 +20,8 @@ const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || process.env.QWEN_AP
 const SYSTEM_PROMPT = "Eres un asistente de Inteligencia Artificial avanzado para InfoDoc CANTV. Responde siempre en Español, usando Markdown simple y claro. Tu principal deber es proveer información exacta, útil y actualizada. Si se te proporciona información o resultados de búsqueda, úsalos como base principal.";
 
 // Helper para timeout en llamadas a APIs
-// Timeouts ajustados para Vercel (límite 10s total): máx 3-4s por capa
-function withTimeout<T>(promise: Promise<T>, ms: number = 4000): Promise<T> {
+// Timeouts ajustados para Vercel: máx 5s por capa
+function withTimeout<T>(promise: Promise<T>, ms: number = 5000): Promise<T> {
   return Promise.race([
     promise,
     new Promise<T>((_, reject) => setTimeout(() => reject(new Error(`Timeout de ${ms}ms excedido`)), ms))
@@ -37,7 +37,7 @@ async function callGemini(modelName: string, query: string, useSearchGrounding: 
 
   const ai = new GoogleGenAI({ apiKey: GOOGLE_API_KEY });
 
-  // Si se pide búsqueda web, intentamos con grounding (timeout reducido a 4s)
+  // Si se pide búsqueda web, intentamos con grounding
   if (useSearchGrounding) {
     try {
       console.log(`🚀 [Gemini] Intentando ${modelName} con Google Search Grounding...`);
@@ -57,11 +57,11 @@ async function callGemini(modelName: string, query: string, useSearchGrounding: 
         return { text, searchUsed };
       }
     } catch (e: any) {
-      console.warn(`⚠️ [Gemini ${modelName}] Búsqueda web lenta o fallida (${e.message}), continuando con generación directa...`);
+      console.warn(`⚠️ [Gemini ${modelName}] Búsqueda web no disponible (${e.message}), continuando con generación directa...`);
     }
   }
 
-  // Generación directa estándar (timeout reducido a 4s para Vercel)
+  // Generación directa estándar
   try {
     console.log(`🚀 [Gemini] Intentando ${modelName} directo...`);
     const response = await withTimeout(ai.models.generateContent({
@@ -69,9 +69,9 @@ async function callGemini(modelName: string, query: string, useSearchGrounding: 
       contents: query,
       config: { 
         systemInstruction: SYSTEM_PROMPT,
-        maxOutputTokens: 500
+        maxOutputTokens: 600
       }
-    }), 4000);
+    }), 4500);
 
     const text = response.text;
     if (text) {
@@ -111,7 +111,7 @@ async function callOpenRouter(modelName: string, query: string): Promise<string 
         temperature: 0.4,
         max_tokens: 500
       })
-    }), 4000);
+    }), 4500);
 
     if (!res.ok) {
       const err = await res.text();
@@ -149,7 +149,7 @@ async function callGroq(query: string): Promise<string | null> {
       ],
       model: "llama-3.3-70b-versatile",
       temperature: 0.3,
-    }), 12000);
+    }), 4500);
 
     const response = completion.choices[0]?.message?.content || null;
     if (response) {
@@ -186,7 +186,7 @@ async function callDeepSeek(query: string): Promise<string | null> {
         temperature: 0.3,
         stream: false
       })
-    }), 12000);
+    }), 4500);
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -208,39 +208,46 @@ async function callDeepSeek(query: string): Promise<string | null> {
 }
 
 // ─── Cascada de IA Resiliente — Optimizada para Vercel (10s límite) ─────────────
-// Estrategia: timeout 4s por capa → máx 3 capas secuenciales = ~12s
-// Las capas 1-3 corren en PARALELO para ganar velocidad
 async function callAICascade(
   query: string, 
   needsWebSearch: boolean
 ): Promise<{ text: string; source: string } | null> {
 
-  // FASE 1 — Carrera paralela entre los 3 modelos Gemini más rápidos
-  // El primero que responde gana; los otros se cancelan con timeout
-  console.log("⚡ [FASE 1] Carrera paralela Gemini (3.5 Lite + 2.5 + 2.0 Flash)...");
-  const geminiRace = await Promise.any([
-    callGemini("gemini-2.5-flash-lite-preview-06-17", query, false)
-      .then(r => r ? { ...r, model: "Gemini 2.5 Flash Lite" } : Promise.reject("null")),
-    callGemini("gemini-2.5-flash", query, needsWebSearch)
-      .then(r => r ? { ...r, model: r.searchUsed ? "Gemini 2.5 Flash (Búsqueda Web)" : "Gemini 2.5 Flash" } : Promise.reject("null")),
-    callGemini("gemini-2.0-flash", query, false)
-      .then(r => r ? { ...r, model: "Gemini 2.0 Flash" } : Promise.reject("null")),
-  ]).catch(() => null);
-
-  if (geminiRace) {
-    console.log(`✅ [FASE 1] Ganó: ${geminiRace.model}`);
-    return { text: geminiRace.text, source: geminiRace.model };
+  // FASE 1 — Gemini 3.5 Flash Lite (Responde en 600ms, cuota activa)
+  console.log("⚡ [FASE 1] Intentando Gemini 3.5 Flash Lite...");
+  const geminiLite = await callGemini("gemini-3.5-flash-lite", query, false);
+  if (geminiLite) {
+    return { text: geminiLite.text, source: "Gemini 3.5 Flash Lite" };
   }
 
-  // FASE 2 — OpenRouter como backup rápido
-  console.log("🟣 [FASE 2] Intentando OpenRouter Free Router...");
-  const openRouterFree = await callOpenRouter("openrouter/free", query);
-  if (openRouterFree) return { text: openRouterFree, source: "OpenRouter (Free)" };
+  // FASE 2 — Gemini 3.8 Flash (Última versión oficial de Google)
+  console.log("🔶 [FASE 2] Intentando Gemini 3.8 Flash...");
+  const gemini38 = await callGemini("gemini-3.8-flash", query, needsWebSearch);
+  if (gemini38) {
+    const label = gemini38.searchUsed ? "Gemini 3.8 Flash (Búsqueda Web)" : "Gemini 3.8 Flash";
+    return { text: gemini38.text, source: label };
+  }
 
-  // FASE 3 — DeepSeek como último recurso
-  console.log("🔴 [FASE 3] Intentando DeepSeek Directo...");
+  // FASE 3 — OpenRouter Free (Router gratuito: Nemotron / Qwen)
+  console.log("🟣 [FASE 3] Intentando OpenRouter Free...");
+  const openRouterFree = await callOpenRouter("openrouter/free", query);
+  if (openRouterFree) {
+    return { text: openRouterFree, source: "OpenRouter (Free)" };
+  }
+
+  // FASE 4 — Groq (Llama 3.3 70B)
+  console.log("🟡 [FASE 4] Intentando Groq Llama 3.3 70B...");
+  const groqResponse = await callGroq(query);
+  if (groqResponse) {
+    return { text: groqResponse, source: "Groq (Llama 3.3 70B)" };
+  }
+
+  // FASE 5 — DeepSeek como último recurso
+  console.log("🔴 [FASE 5] Intentando DeepSeek Directo...");
   const deepseekResponse = await callDeepSeek(query);
-  if (deepseekResponse) return { text: deepseekResponse, source: "DeepSeek" };
+  if (deepseekResponse) {
+    return { text: deepseekResponse, source: "DeepSeek" };
+  }
 
   return null;
 }
@@ -305,4 +312,18 @@ export async function POST(req: NextRequest) {
     { error: "Todos los servicios de IA están temporalmente saturados. Por favor intenta de nuevo en unos momentos." },
     { status: 503 }
   );
+}
+
+// ─── Endpoint de Diagnóstico Seguro (sin exponer secretos) ───────────────────
+export async function GET() {
+  return NextResponse.json({
+    status: "online",
+    activeModels: ["gemini-3.5-flash-lite", "gemini-3.8-flash", "openrouter/free", "groq", "deepseek"],
+    keysConfigured: {
+      GOOGLE_API_KEY: !!GOOGLE_API_KEY,
+      OPENROUTER_API_KEY: !!OPENROUTER_API_KEY,
+      GROQ_API_KEY: !!GROQ_API_KEY,
+      DEEPSEEK_API_KEY: !!DEEPSEEK_API_KEY,
+    }
+  });
 }
