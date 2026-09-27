@@ -59,24 +59,24 @@ async function testDeepSeek() {
 }
 
 async function testGemini() {
-    console.log(`\n${colors.blue}🔶 Probando CAPA 2: Gemini Flash Lite...${colors.reset}`);
+    console.log(`\n${colors.blue}🔶 Probando CAPA 2: Gemini 2.5 Flash...${colors.reset}`);
     if (!GOOGLE_KEY) { console.log(`${colors.yellow}⚠️ SALTADO: No Key${colors.reset}`); return; }
 
     try {
         const start = Date.now();
         const genAI = new GoogleGenAI({ apiKey: GOOGLE_KEY });
         const result = await genAI.models.generateContent({
-            model: "gemini-2.0-flash-lite",
-            contents: { role: "user", parts: [{ text: "PING" }] }
+            model: "gemini-2.5-flash",
+            contents: "PING"
         });
-        console.log(`${colors.green}✅ OKEY (${Date.now() - start}ms): ${result.text}${colors.reset}`);
+        console.log(`${colors.green}✅ OKEY (${Date.now() - start}ms): ${result.text?.trim()}${colors.reset}`);
     } catch (e) {
         console.error(`${colors.red}❌ FALLO: ${e.message || e}${colors.reset}`);
     }
 }
 
 async function testGroq() {
-    console.log(`\n${colors.magenta}🚀 Probando CAPA GROQ (Nuevo)...${colors.reset}`);
+    console.log(`\n${colors.magenta}🚀 Probando CAPA GROQ...${colors.reset}`);
     if (!GROQ_KEY) { console.log(`${colors.yellow}⚠️ SALTADO: No Key${colors.reset}`); return; }
 
     try {
@@ -93,16 +93,21 @@ async function testGroq() {
 }
 
 async function testOpenRouter() {
-    console.log(`\n${colors.blue}🟣 Probando CAPA 3: OpenRouter...${colors.reset}`);
+    console.log(`\n${colors.blue}🟣 Probando CAPA 3: OpenRouter (Free Router)...${colors.reset}`);
     if (!OPENROUTER_KEY) { console.log(`${colors.yellow}⚠️ SALTADO: No Key${colors.reset}`); return; }
 
     try {
         const start = Date.now();
         const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
             method: "POST",
-            headers: { "Authorization": `Bearer ${OPENROUTER_KEY}`, "Content-Type": "application/json" },
+            headers: { 
+                "Authorization": `Bearer ${OPENROUTER_KEY}`, 
+                "Content-Type": "application/json",
+                "HTTP-Referer": "https://infodoc-cantv.vercel.app",
+                "X-Title": "InfoDoc CANTV"
+            },
             body: JSON.stringify({
-                model: "google/gemma-3-27b-it:free",
+                model: "openrouter/free",
                 messages: [{ role: "user", content: "PING" }]
             })
         });

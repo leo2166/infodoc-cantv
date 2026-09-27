@@ -302,3 +302,30 @@ CAPA 6: Procesador Local (Fallback final)
 
 **Commit:** `92ccb6b` - "fix(nomina): eliminar visualización del cronograma de mayo 2026"
 **Estado:** ✅ Desplegado y verificado en producción
+
+## 🧠 Diagnóstico y Restauración de Capas de IA (27/09/2026)
+**Problema Reportado:** Las consultas de IA no respondían a pesar de contar con arquitectura de respaldo en capas.
+
+**Diagnóstico Técnico por Capa:**
+1. **DeepSeek (Capa Directa):** Error `HTTP 402: Insufficient Balance` (cuenta sin saldo prepago).
+2. **Groq (Llama 3):** Error `HTTP 403: Forbidden` (bloqueo geográfico de IP local / CANTV por Cloudflare).
+3. **OpenRouter (Modelos Anteriores):** `google/gemma-3-27b-it:free` fue retirado/deprecado y `qwen/qwen-plus` requería créditos de pago (`402`).
+4. **Google Gemini (Capa Gemini previa):** `gemini-2.0-flash` y `gemini-2.0-flash-lite` fueron dados de baja por Google retornando error `404 Not Found`.
+5. **Tavily Web Search:** Retornaba `403 Forbidden`.
+*Resultado:* Al fallar todas las capas simultáneamente, el sistema arrojaba error 503 ("servicios temporalmente ocupados").
+
+**Soluciones Implementadas:**
+- **`app/api/chat-deepseek/route.ts`:**
+  - **Capa 1 (Google GenAI Oficial):** Actualizado a `gemini-2.5-flash` con **Google Search Grounding nativo** (`tools: [{ googleSearch: {} }]`). Realiza búsquedas web oficiales en tiempo real sin depender de Tavily.
+  - **Capa 2:** `gemini-3.8-flash` (modelo de última generación de respaldo).
+  - **Capa 3:** `gemini-3.5-flash-lite` (modelo de respaldo ultra rápido).
+  - **Capa 4 (OpenRouter):** Actualizado al enrutador libre `openrouter/free` (sin saldo, auto-conmutación a modelos gratuitos).
+  - **Capa 5:** `nvidia/nemotron-3-super-120b-a12b:free` (modelo 120B de respaldo gratuito).
+  - **Capa 6 y 7:** Groq (`llama-3.3-70b-versatile`) y DeepSeek mantenidos con manejo de error limpio y timeouts independientes de 15s.
+- **`app/api/chat-bootie/route.ts`:**
+  - Actualizado modelo OpenRouter a `openrouter/free` y respaldo Gemini a `gemini-3.8-flash`.
+- **`app/api/chat/route.ts`:**
+  - Añadido fallback automático: si el endpoint externo `bootie-dev.vercel.app` no responde o falla, conmuta automáticamente al motor local de Bootie (`chat-bootie`).
+- **Verificación:**
+  - Diagnóstico ejecutado con éxito en `scripts/test-all-layers.js`.
+  - Build de producción probado con `npm run build` (0 errores).

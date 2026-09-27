@@ -279,10 +279,10 @@ export async function POST(req: NextRequest) {
                     }
                 }
 
-                // CAPA 3: Gemma 3 27B (via OpenRouter - Inteligente, 27B parámetros)
+                // CAPA 3: OpenRouter Free Router (Modelos libres de OpenRouter)
                 if (gemma3) {
-                    console.log("\n🔵 [CAPA 3] Intentando Gemma 3 27B (inteligente - 27B)...");
-                    console.time("gemma3");
+                    console.log("\n🔵 [CAPA 3] Intentando OpenRouter Free...");
+                    console.time("openrouter_free");
 
                     try {
                         const completion = await gemma3.chat.completions.create({
@@ -290,16 +290,16 @@ export async function POST(req: NextRequest) {
                                 { role: "system", content: systemPrompt },
                                 { role: "user", content: `CONTEXTO:\n${context}\n\nPREGUNTA: ${message}` }
                             ],
-                            model: "google/gemma-3-27b-it",
+                            model: "openrouter/free",
                             temperature: 0.7,
                             max_tokens: 1024,
                         });
 
-                        console.timeEnd("gemma3");
+                        console.timeEnd("openrouter_free");
                         console.timeEnd("chat_total");
 
                         const text = completion.choices[0]?.message?.content || "No pude procesar tu respuesta.";
-                        console.log("✅ [CAPA 3] Respondiendo con Gemma 3 27B");
+                        console.log("✅ [CAPA 3] Respondiendo con OpenRouter Free");
                         return NextResponse.json({ response: text });
 
                     } catch (error3: any) {
@@ -307,21 +307,21 @@ export async function POST(req: NextRequest) {
                     }
                 }
 
-                // CAPA 4: Gemini 2.0 Flash (Respaldo de Google)
-                console.log("\n🔶 [CAPA 4] Intentando Gemini 2.0 Flash...");
-                console.time("gemini_2.0");
+                // CAPA 4: Gemini 3.8 Flash (Respaldo de Google de última generación)
+                console.log("\n🔶 [CAPA 4] Intentando Gemini 3.8 Flash...");
+                console.time("gemini_3.8");
 
                 try {
                     if (!genAI) throw new Error("Google GenAI client not initialized");
                     const result = await genAI.models.generateContent({
-                        model: "gemini-2.0-flash",
+                        model: "gemini-3.8-flash",
                         contents: `${systemPrompt}\n\nCONTEXTO:\n${context}\n\nPREGUNTA: ${message}\n\nRESPUESTA:`,
                     });
-                    console.timeEnd("gemini_2.0");
+                    console.timeEnd("gemini_3.8");
                     console.timeEnd("chat_total");
 
                     const text = result.text || "No pude procesar tu respuesta en este momento.";
-                    console.log("✅ [CAPA 4] Respondiendo con Gemini 2.0");
+                    console.log("✅ [CAPA 4] Respondiendo con Gemini 3.8 Flash");
                     return NextResponse.json({ response: text });
 
                 } catch (error4: any) {

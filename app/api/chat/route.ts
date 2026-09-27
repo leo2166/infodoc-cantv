@@ -29,11 +29,24 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(data);
 
     } catch (error: any) {
-        console.error("❌ Error conectando con el Bootie externo:", error);
+        console.error("❌ Error conectando con el Bootie externo, activando respaldo local:", error.message || error);
 
-        return NextResponse.json(
-            { error: "No pude conectar con el cerebro de Bootie.", details: error.message },
-            { status: 500 }
-        );
+        try {
+            // Importar dinámicamente y ejecutar el cerebro local de Bootie como respaldo
+            const { POST: localBootieHandler } = await import("../chat-bootie/route");
+            // Clonamos el request para poder pasarlo al handler local
+            const localReq = new NextRequest(req.url, {
+                method: "POST",
+                headers: req.headers,
+                body: JSON.stringify(body)
+            });
+            return await localBootieHandler(localReq);
+        } catch (localError: any) {
+            console.error("❌ Error también en Bootie local:", localError);
+            return NextResponse.json(
+                { error: "No pude conectar con el cerebro de Bootie.", details: error.message },
+                { status: 500 }
+            );
+        }
     }
 }
