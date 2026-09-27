@@ -81,7 +81,7 @@ async function callGemini(modelName: string, query: string, useSearchGrounding: 
     return null;
   } catch (error: any) {
     console.error(`❌ [Gemini ${modelName}] Error:`, error.message || error);
-    return null;
+    throw error;
   }
 }
 
@@ -116,7 +116,7 @@ async function callOpenRouter(modelName: string, query: string): Promise<string 
     if (!res.ok) {
       const err = await res.text();
       console.error(`❌ [OpenRouter ${modelName}] HTTP ${res.status}:`, err.slice(0, 150));
-      return null;
+      throw new Error(`HTTP ${res.status}: ${err.slice(0, 100)}`);
     }
 
     const data = await res.json();
@@ -127,7 +127,7 @@ async function callOpenRouter(modelName: string, query: string): Promise<string 
     return response;
   } catch (error: any) {
     console.error(`❌ [OpenRouter ${modelName}] Error:`, error.message || error);
-    return null;
+    throw error;
   }
 }
 
@@ -210,43 +210,69 @@ async function callDeepSeek(query: string): Promise<string | null> {
 // ─── Cascada de IA Resiliente — Optimizada para Vercel (10s límite) ─────────────
 async function callAICascade(
   query: string, 
-  needsWebSearch: boolean
+  needsWebSearch: boolean,
+  debugLogs: string[]
 ): Promise<{ text: string; source: string } | null> {
 
   // FASE 1 — Gemini 3.5 Flash Lite (Responde en 600ms, cuota activa)
-  console.log("⚡ [FASE 1] Intentando Gemini 3.5 Flash Lite...");
-  const geminiLite = await callGemini("gemini-3.5-flash-lite", query, false);
-  if (geminiLite) {
-    return { text: geminiLite.text, source: "Gemini 3.5 Flash Lite" };
+  debugLogs.push("Intentando Gemini 3.5 Flash Lite...");
+  try {
+    const geminiLite = await callGemini("gemini-3.5-flash-lite", query, false);
+    if (geminiLite) {
+      return { text: geminiLite.text, source: "Gemini 3.5 Flash Lite" };
+    }
+    debugLogs.push("Gemini 3.5 Flash Lite devolvió null");
+  } catch (e: any) {
+    debugLogs.push(`Gemini 3.5 Flash Lite error: ${e.message}`);
   }
 
   // FASE 2 — Gemini 3.8 Flash (Última versión oficial de Google)
-  console.log("🔶 [FASE 2] Intentando Gemini 3.8 Flash...");
-  const gemini38 = await callGemini("gemini-3.8-flash", query, needsWebSearch);
-  if (gemini38) {
-    const label = gemini38.searchUsed ? "Gemini 3.8 Flash (Búsqueda Web)" : "Gemini 3.8 Flash";
-    return { text: gemini38.text, source: label };
+  debugLogs.push("Intentando Gemini 3.8 Flash...");
+  try {
+    const gemini38 = await callGemini("gemini-3.8-flash", query, needsWebSearch);
+    if (gemini38) {
+      const label = gemini38.searchUsed ? "Gemini 3.8 Flash (Búsqueda Web)" : "Gemini 3.8 Flash";
+      return { text: gemini38.text, source: label };
+    }
+    debugLogs.push("Gemini 3.8 Flash devolvió null");
+  } catch (e: any) {
+    debugLogs.push(`Gemini 3.8 Flash error: ${e.message}`);
   }
 
   // FASE 3 — OpenRouter Free (Router gratuito: Nemotron / Qwen)
-  console.log("🟣 [FASE 3] Intentando OpenRouter Free...");
-  const openRouterFree = await callOpenRouter("openrouter/free", query);
-  if (openRouterFree) {
-    return { text: openRouterFree, source: "OpenRouter (Free)" };
+  debugLogs.push("Intentando OpenRouter Free...");
+  try {
+    const openRouterFree = await callOpenRouter("openrouter/free", query);
+    if (openRouterFree) {
+      return { text: openRouterFree, source: "OpenRouter (Free)" };
+    }
+    debugLogs.push("OpenRouter Free devolvió null");
+  } catch (e: any) {
+    debugLogs.push(`OpenRouter Free error: ${e.message}`);
   }
 
   // FASE 4 — Groq (Llama 3.3 70B)
-  console.log("🟡 [FASE 4] Intentando Groq Llama 3.3 70B...");
-  const groqResponse = await callGroq(query);
-  if (groqResponse) {
-    return { text: groqResponse, source: "Groq (Llama 3.3 70B)" };
+  debugLogs.push("Intentando Groq Llama 3.3 70B...");
+  try {
+    const groqResponse = await callGroq(query);
+    if (groqResponse) {
+      return { text: groqResponse, source: "Groq (Llama 3.3 70B)" };
+    }
+    debugLogs.push("Groq devolvió null");
+  } catch (e: any) {
+    debugLogs.push(`Groq error: ${e.message}`);
   }
 
   // FASE 5 — DeepSeek como último recurso
-  console.log("🔴 [FASE 5] Intentando DeepSeek Directo...");
-  const deepseekResponse = await callDeepSeek(query);
-  if (deepseekResponse) {
-    return { text: deepseekResponse, source: "DeepSeek" };
+  debugLogs.push("Intentando DeepSeek Directo...");
+  try {
+    const deepseekResponse = await callDeepSeek(query);
+    if (deepseekResponse) {
+      return { text: deepseekResponse, source: "DeepSeek" };
+    }
+    debugLogs.push("DeepSeek devolvió null");
+  } catch (e: any) {
+    debugLogs.push(`DeepSeek error: ${e.message}`);
   }
 
   return null;
@@ -297,7 +323,8 @@ export async function POST(req: NextRequest) {
   }
 
   // ── PASO 3: Ejecutar cascada de IAs ─────────────────────────────────────────
-  const result = await callAICascade(finalPrompt, isWebSearch);
+  const debugLogs: string[] = [];
+  const result = await callAICascade(finalPrompt, isWebSearch, debugLogs);
 
   if (result) {
     const label = searchLabel
@@ -307,9 +334,12 @@ export async function POST(req: NextRequest) {
   }
 
   // Fallo total de todas las capas
-  console.error("🔴 [ERROR] Todas las capas de IA fallaron.");
+  console.error("🔴 [ERROR] Todas las capas de IA fallaron:", debugLogs);
   return NextResponse.json(
-    { error: "Todos los servicios de IA están temporalmente saturados. Por favor intenta de nuevo en unos momentos." },
+    { 
+      error: "Todos los servicios de IA están temporalmente saturados. Por favor intenta de nuevo en unos momentos.",
+      debug: debugLogs
+    },
     { status: 503 }
   );
 }
