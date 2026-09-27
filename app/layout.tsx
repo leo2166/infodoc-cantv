@@ -37,6 +37,10 @@ export const metadata: Metadata = {
   authors: [{ name: "InfoDoc CANTV" }],
   robots: "index, follow",
   manifest: "/manifest.json",
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/icon-192.png",
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -64,7 +68,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es" className={`${montserrat.variable} ${openSans.variable} ${anton.variable}`}>
+    <html lang="es" suppressHydrationWarning className={`${montserrat.variable} ${openSans.variable} ${anton.variable}`}>
       <head>
         <Script id="google-tag-manager" strategy="afterInteractive">
           {`
@@ -88,7 +92,7 @@ export default function RootLayout({
       <body className="antialiased overflow-x-hidden w-full">
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >

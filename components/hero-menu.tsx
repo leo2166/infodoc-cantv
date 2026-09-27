@@ -21,13 +21,17 @@ interface MenuItem {
   isEmergency?: boolean;
 }
 
+// Color unificado para todas las tarjetas — íconos conservan su color individual
+const CARD_BG = 'bg-slate-100/80 hover:bg-slate-200/90 dark:bg-slate-800/70 dark:hover:bg-slate-700/80';
+const CARD_BORDER = 'border-slate-200/60 dark:border-slate-600/40';
+
 const MENU_ITEMS: MenuItem[] = [
   {
     // ─── Azul ─────────────────────────────────────────────────────
     label: 'Información\nCANTV',
     Icon: Users,
-    bg: 'bg-blue-100/90 hover:bg-blue-200/80 dark:bg-blue-900/40 dark:hover:bg-blue-800/50',
-    borderColor: 'border-blue-200/70 dark:border-blue-800/40',
+    bg: CARD_BG,
+    borderColor: CARD_BORDER,
     iconBg: 'bg-blue-600 dark:bg-blue-500',
     iconColor: 'text-white',
     href: '/informacion/fotos',
@@ -37,8 +41,8 @@ const MENU_ITEMS: MenuItem[] = [
     // ─── Morado ───────────────────────────────────────────────────
     label: 'Consulta\ncon IA',
     Icon: Sparkles,
-    bg: 'bg-purple-100/90 hover:bg-purple-200/80 dark:bg-purple-900/40 dark:hover:bg-purple-800/50',
-    borderColor: 'border-purple-200/70 dark:border-purple-800/40',
+    bg: CARD_BG,
+    borderColor: CARD_BORDER,
     iconBg: 'bg-purple-500 dark:bg-purple-400',
     iconColor: 'text-white',
     href: '/chat-deepseek',
@@ -48,8 +52,8 @@ const MENU_ITEMS: MenuItem[] = [
     // ─── Verde ────────────────────────────────────────────────────
     label: 'Noticias y\nTasas Bs/$',
     Icon: Newspaper,
-    bg: 'bg-green-100/90 hover:bg-green-200/80 dark:bg-green-900/40 dark:hover:bg-green-800/50',
-    borderColor: 'border-green-200/70 dark:border-green-800/40',
+    bg: CARD_BG,
+    borderColor: CARD_BORDER,
     iconBg: 'bg-green-600 dark:bg-green-500',
     iconColor: 'text-white',
     href: 'https://leo2166.github.io/news-scraper/',
@@ -59,8 +63,8 @@ const MENU_ITEMS: MenuItem[] = [
     // ─── Rojo ────────────────────────────────────────────────────
     label: 'En caso de\nEmergencia',
     Icon: AlertTriangle,
-    bg: 'bg-red-100/90 hover:bg-red-200/80 dark:bg-red-900/40 dark:hover:bg-red-800/50',
-    borderColor: 'border-red-200/70 dark:border-red-800/40',
+    bg: CARD_BG,
+    borderColor: CARD_BORDER,
     iconBg: 'bg-red-500 dark:bg-red-600',
     iconColor: 'text-white',
     href: null,

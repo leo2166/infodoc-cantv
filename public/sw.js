@@ -2,7 +2,7 @@
 // InfoDoc PWA Service Worker — Versión Estable
 // Versión: v4 — Carga rápida optimizada
 // ============================================================
-const CACHE_VERSION = 'infodoc-v4';
+const CACHE_VERSION = 'infodoc-v5';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const IMAGE_CACHE = `${CACHE_VERSION}-images`;
 const ALL_CACHES = [STATIC_CACHE, IMAGE_CACHE];
@@ -49,6 +49,11 @@ self.addEventListener('message', event => {
 self.addEventListener('fetch', event => {
   const { request } = event;
   const url = new URL(request.url);
+
+  // Ignorar esquemas no soportados por Cache API (chrome-extension, etc.)
+  if (!url.protocol.startsWith('http')) {
+    return;
+  }
 
   // 1. APIs siempre directo a red
   if (url.pathname.startsWith('/api/')) {
