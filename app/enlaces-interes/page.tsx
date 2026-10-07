@@ -8,6 +8,10 @@ import Link from "next/link"
 export default function EnlacesInteresPage() {
   const links = [
     {
+      title: "Farmacias Locales",
+      href: "/farmacias",
+    },
+    {
       title: "Reporte de Averías Cantv",
       href: "https://averiastelefonicas.cantv.com.ve/views/reporte",
     },
@@ -68,22 +72,31 @@ export default function EnlacesInteresPage() {
               Enlaces de Interés
             </h1>
             <p className="text-xl text-muted-foreground">
-              Una colección de enlaces útiles a sitios web externos.
+              Una colección de enlaces útiles y servicios de interés.
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {links.map((link) => (
-              <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg">
-                <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer">
-                  <CardHeader className="flex flex-row items-center gap-4">
-                    <LinkIcon className="w-8 h-8 text-primary" />
-                    <div>
-                      <CardTitle>{link.title}</CardTitle>
-                    </div>
-                  </CardHeader>
-                </Card>
-              </a>
-            ))}
+            {links.map((link) => {
+              const isExternal = link.href.startsWith("http")
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  target={isExternal ? "_blank" : undefined}
+                  rel={isExternal ? "noopener noreferrer" : undefined}
+                  className="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg"
+                >
+                  <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer">
+                    <CardHeader className="flex flex-row items-center gap-4">
+                      <LinkIcon className="w-8 h-8 text-primary" />
+                      <div>
+                        <CardTitle>{link.title}</CardTitle>
+                      </div>
+                    </CardHeader>
+                  </Card>
+                </Link>
+              )
+            })}
           </div>
         </div>
       </main>

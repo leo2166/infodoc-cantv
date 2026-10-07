@@ -12,7 +12,7 @@ const navLinks = [
   { href: "/", label: "Inicio" },
   { href: "/construccion", label: "Documentos" },
   { href: "/enlaces-interes", label: "Enlaces de Interés" },
-  { href: "/farmacias", label: "Farmacias Locales" },
+  { href: "https://cumpleaz.vercel.app", label: "Libreta de Cumpleaños", external: true },
   { href: "/convertir-jpg-pdf", label: "Convertir JPG > PDF" },
 ]
 
@@ -21,6 +21,7 @@ const mobileNavLinks = [
   { href: "/construccion", label: "Documentos" },
   { href: "/enlaces-interes", label: "Enlaces de Interés" },
   { href: "/farmacias", label: "Farmacias Locales" },
+  { href: "https://cumpleaz.vercel.app", label: "Libreta de Cumpleaños", external: true },
   { href: "/convertir-jpg-pdf", label: "Convertir JPG > PDF" },
 ]
 
@@ -43,6 +44,8 @@ export function Navigation() {
             <Link
               key={link.href}
               href={link.href}
+              target={link.external ? "_blank" : undefined}
+              rel={link.external ? "noopener noreferrer" : undefined}
               className="text-sm font-medium transition-colors hover:text-primary"
             >
               {link.label}
@@ -79,6 +82,8 @@ export function Navigation() {
                     <Link
                       key={link.href}
                       href={link.href}
+                      target={link.external ? "_blank" : undefined}
+                      rel={link.external ? "noopener noreferrer" : undefined}
                       className="text-lg font-medium py-2 px-2 rounded-md hover:bg-muted"
                       onClick={() => setIsOpen(false)}
                     >
