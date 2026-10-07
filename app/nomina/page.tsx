@@ -24,49 +24,30 @@ export default function NominaPage() {
           <div className="flex flex-col gap-8">
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/Nomina_año_2026.webp"
-                alt="Cronograma de pago CANTV - Anual 2026"
-                width={800}
-                height={1120}
-                priority
-                className="rounded-md object-contain"
-              />
-            </div>
-
-            <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
-              <Image
-                src="/ult_Septiembre.webp"
-                alt="Cronograma de pago CANTV - Septiembre 2026 (Actualizado)"
-                width={800}
-                height={1120}
-                className="rounded-md object-contain"
-              />
-            </div>
-            <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
-              <Image
-                src="/10.webp"
+                src="/10oct.webp"
                 alt="Cronograma de pago CANTV - Octubre 2026"
                 width={800}
-                height={1120}
-                className="rounded-md object-contain"
+                height={618}
+                priority
+                className="rounded-md object-contain w-full h-auto max-w-[800px]"
               />
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/11.webp"
+                src="/11nov.webp"
                 alt="Cronograma de pago CANTV - Noviembre 2026"
                 width={800}
-                height={1120}
-                className="rounded-md object-contain"
+                height={618}
+                className="rounded-md object-contain w-full h-auto max-w-[800px]"
               />
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/12.webp"
+                src="/12dic.webp"
                 alt="Cronograma de pago CANTV - Diciembre 2026"
                 width={800}
-                height={1120}
-                className="rounded-md object-contain"
+                height={618}
+                className="rounded-md object-contain w-full h-auto max-w-[800px]"
               />
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md">

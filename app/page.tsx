@@ -15,10 +15,8 @@ import BootieWidget from "@/components/bootie-widget";
 import { HeroMenu } from "@/components/hero-menu";
 import { SidebarPanel } from "@/components/sidebar-panel";
 import { CurrencyCalculator } from "@/components/currency-calculator";
-import { NominaRestrictedModal } from "@/components/nomina-restricted-modal";
 
 export default function HomePage() {
-  const [nominaModalOpen, setNominaModalOpen] = useState(false);
 
 
   const quickLinks = [
@@ -33,9 +31,8 @@ export default function HomePage() {
       title: "Nómina Cantv",
       description: "Consulta y gestiona tu información de nómina",
       icon: Calendar,
-      href: "#",
+      href: "/nomina",
       color: "bg-blue-500",
-      restricted: true,
     },
     {
       title: "Servicios Funerarios El Rosal",
@@ -139,37 +136,19 @@ export default function HomePage() {
               {quickLinks.map((link) => {
                 const Icon = link.icon;
                 const isEmergency = link.href === '/emergencias';
-                const isNomina = (link as any).restricted === true;
+                const isNomina = link.href === '/nomina';
                 
-                // Texto: Emergencias en rojo, Nómina en rojo tachado (restringido), Servicios Funerarios en gris/neutral
+                // Texto: Emergencias en rojo, Nómina en azul, Servicios Funerarios en gris/neutral
                 const textClass = isEmergency 
                   ? "text-red-600 dark:text-red-400 font-extrabold hover:text-red-700"
                   : isNomina
-                    ? "text-slate-400 dark:text-slate-500 font-extrabold"
+                    ? "text-blue-600 dark:text-blue-400 font-extrabold hover:text-blue-700"
                     : "text-slate-700 dark:text-slate-300 font-extrabold hover:text-blue-600 dark:hover:text-blue-400";
                 
-                // Iconos: Emergencias en rojo, Nómina restringido en gris, Funeraria en azul
+                // Iconos: Emergencias en rojo, Nómina en azul, Funeraria en azul
                 const iconColor = isEmergency 
                   ? "text-red-600 dark:text-red-400 animate-pulse"
-                  : isNomina
-                    ? "text-slate-400 dark:text-slate-500"
-                    : "text-blue-600 dark:text-blue-400";
-
-                // Si está restringido, usar botón en vez de Link
-                if (isNomina) {
-                  return (
-                    <div key={link.title} role="listitem" className="w-full sm:w-auto">
-                      <button
-                        onClick={() => setNominaModalOpen(true)}
-                        className={`flex items-center gap-3 px-5 py-3 rounded-xl transition-all duration-200 hover:bg-red-50 dark:hover:bg-red-950/30 hover:scale-105 w-full sm:w-auto cursor-pointer ${textClass}`}
-                      >
-                        <Icon className={`w-6 h-6 shrink-0 ${iconColor}`} />
-                        <span className="text-base tracking-wide line-through decoration-red-400 decoration-2">{link.title}</span>
-                        <span className="text-[9px] bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Suspendido</span>
-                      </button>
-                    </div>
-                  );
-                }
+                  : "text-blue-600 dark:text-blue-400";
                   
                 return (
                   <div key={link.href} role="listitem" className="w-full sm:w-auto">
@@ -251,7 +230,6 @@ export default function HomePage() {
 
       {/* Widget Bootie - solo pantalla principal */}
       <BootieWidget />
-      <NominaRestrictedModal open={nominaModalOpen} onOpenChange={setNominaModalOpen} />
 
       <PWAInstallPrompt />
 
