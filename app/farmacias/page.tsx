@@ -6,19 +6,54 @@ import { ArrowLeft, Globe, Smartphone } from "lucide-react"
 interface Farmacia {
   name: string
   contact: string
+  contact2?: string
   type: "web" | "whatsapp" | "telegram"
   location: string
 }
 
 export default function FarmaciasPage() {
   const farmacias: Farmacia[] = [
-    { name: "Farmatodo", contact: "www.Farmatodo.com.ve", type: "web", location: "" },
-    { name: "Redvital", contact: "04144991786", type: "whatsapp", location: "La Limpia" },
-    { name: "Farmaexpress", contact: "04126913703", type: "whatsapp", location: "Delicias" },
-    { name: "Maraplus", contact: "04246998400", type: "telegram", location: "Delicias" },
-    { name: "SAAS", contact: "04122267724", type: "whatsapp", location: "Bella Vista" },
-    { name: "Nueva Goajira", contact: "04120701895", type: "whatsapp", location: "Pomona" },
-    { name: "Farmaclic", contact: "04124755829", type: "whatsapp", location: "Haticos" }
+    // ── Existentes ──────────────────────────────────────────────────────────
+    { name: "Farmatodo",          contact: "www.Farmatodo.com.ve", type: "web",      location: "" },
+    { name: "Redvital",           contact: "04144991786",          type: "whatsapp", location: "La Limpia" },
+    { name: "Farmaexpress",       contact: "04126913703",          type: "whatsapp", location: "Delicias" },
+    { name: "Maraplus",           contact: "04246998400",          type: "telegram", location: "Delicias" },
+    { name: "SAAS",               contact: "04122267724",          type: "whatsapp", location: "Bella Vista" },
+    { name: "Nueva Goajira",      contact: "04120701895",          type: "whatsapp", location: "Pomona" },
+    { name: "Farmaclic",          contact: "04124755829",          type: "whatsapp", location: "Haticos" },
+
+    // ── Nuevas ───────────────────────────────────────────────────────────────
+    { name: "Aventura",                         contact: "04246615959", type: "whatsapp", location: "" },
+    { name: "Casana",                           contact: "04246568887", type: "whatsapp", location: "" },
+    { name: "Claret",                           contact: "04149606158", type: "whatsapp", location: "" },
+    { name: "Farma Lago",                       contact: "04126554437", type: "whatsapp", location: "" },
+    { name: "FarmaBien",                        contact: "04141659021", type: "whatsapp", location: "Delicias Norte" },
+    { name: "FarmaExpress",                     contact: "04246670793", type: "whatsapp", location: "Bella Vista" },
+    { name: "FarmaExpress",                     contact: "04246850044", type: "whatsapp", location: "El Milagro" },
+    { name: "FarmaExpress",                     contact: "04146274057", type: "whatsapp", location: "Fuerzas Armadas" },
+    { name: "FarmaExpress",                     contact: "04146008130", type: "whatsapp", location: "Indio Mara" },
+    { name: "FarmaExpress",                     contact: "04246160576", type: "whatsapp", location: "San Francisco" },
+    { name: "FarmaExpress 24h",                 contact: "04246318163", type: "whatsapp", location: "" },
+    { name: "FarmaExpress 72",                  contact: "04122068947", type: "whatsapp", location: "" },
+    { name: "Farma Dr. Galué",                  contact: "04143687444", type: "whatsapp", location: "" },
+    { name: "Farmacia Dr. Galué",               contact: "04246606331", type: "whatsapp", location: "San Miguel" },
+    { name: "Farmacia Dr. Galué",               contact: "04246033434", type: "whatsapp", location: "La Estrella" },
+    { name: "Farma Go",                         contact: "04120773791", type: "whatsapp", location: "" },
+    { name: "Farma Venezuela",                  contact: "04146054862", type: "whatsapp", location: "" },
+    { name: "Farmacia Clínica Zulia",           contact: "04246026972", type: "whatsapp", location: "" },
+    { name: "Farmatem",                         contact: "04246644358", type: "whatsapp", location: "Irama" },
+    { name: "Fleming",                          contact: "04168664809", type: "whatsapp", location: "" },
+    { name: "Franjamar",                        contact: "04246402918", type: "whatsapp", location: "" },
+    { name: "Inversiones 2000",                 contact: "04125347431", type: "whatsapp", location: "" },
+    { name: "La Cascada",                       contact: "04146497236", type: "whatsapp", location: "" },
+    { name: "La Venezolana",                    contact: "04149665716", type: "whatsapp", location: "" },
+    { name: "Maraplus",                         contact: "04123483834", type: "whatsapp", location: "La Fuente" },
+    { name: "Maraplus",                         contact: "04146922161", type: "whatsapp", location: "Tierra Negra" },
+    { name: "MegaAhorro",                       contact: "04246016676", type: "whatsapp", location: "" },
+    { name: "SAAS Dr. Portillo",                contact: "04246495193", type: "whatsapp", location: "" },
+    { name: "SAAS Galería",                     contact: "04121042035", type: "whatsapp", location: "" },
+    { name: "SAAS Tierra Negra",                contact: "04120697223", type: "whatsapp", location: "" },
+    { name: "Suplos",                           contact: "04146667313", contact2: "04126939431", type: "whatsapp", location: "" },
   ]
 
   // Función para generar el enlace correcto según el tipo
@@ -26,15 +61,18 @@ export default function FarmaciasPage() {
     if (farmacia.type === "web") {
       return `https://${farmacia.contact}`
     } else if (farmacia.type === "whatsapp") {
-      // Formato WhatsApp: https://wa.me/58XXXXXXXXXX (sin guiones)
       const cleanNumber = farmacia.contact.replace(/-/g, "")
       return `https://wa.me/58${cleanNumber}`
     } else if (farmacia.type === "telegram") {
-      // Formato Telegram: https://t.me/+58XXXXXXXXXX
       const cleanNumber = farmacia.contact.replace(/-/g, "")
       return `https://t.me/+58${cleanNumber}`
     }
     return "#"
+  }
+
+  const getContact2Link = (number: string): string => {
+    const cleanNumber = number.replace(/-/g, "")
+    return `https://wa.me/58${cleanNumber}`
   }
 
   // Función para renderizar el icono correcto
@@ -51,12 +89,9 @@ export default function FarmaciasPage() {
   }
 
   // Función para formatear el contacto mostrado
-  const formatContact = (farmacia: Farmacia): string => {
-    if (farmacia.type === "web") {
-      return farmacia.contact
-    }
-    // Agregar guiones para mejor legibilidad del número
-    return farmacia.contact.replace(/(\d{4})(\d{7})/, "$1-$2")
+  const formatContact = (contact: string, type: string): string => {
+    if (type === "web") return contact
+    return contact.replace(/(\d{4})(\d{7})/, "$1-$2")
   }
 
   return (
@@ -84,55 +119,77 @@ export default function FarmaciasPage() {
             <h1 className="text-3xl sm:text-4xl font-heading font-bold text-white relative z-10">
               Donde Ubicar Mis Medicamentos
             </h1>
+            <p className="text-teal-100 mt-2 text-sm sm:text-base relative z-10">
+              {farmacias.length} farmacias disponibles · Maracaibo
+            </p>
           </div>
 
-          {/* Contenedor de la tabla */}
-          <div className="bg-card rounded-b-2xl shadow-lg overflow-hidden">
+          {/* Contenedor de la información en recuadro blanco para máximo contraste */}
+          <div className="bg-white text-slate-900 rounded-b-2xl shadow-xl border border-slate-200 overflow-hidden">
             <div className="p-6 sm:p-8">
-              {/* Vista de tarjetas para móvil */}
-              <div className="block sm:hidden space-y-4">
+
+              {/* ── Vista de tarjetas para móvil ── */}
+              <div className="block sm:hidden space-y-3">
                 {farmacias.map((farmacia, index) => (
                   <div
                     key={index}
-                    className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm"
+                    className="bg-slate-50 border border-slate-200 rounded-xl p-4 shadow-sm hover:border-teal-400 transition-all"
                   >
                     <div className="flex items-start justify-between mb-2">
-                      <h3 className="font-bold text-lg text-foreground">
-                        {farmacia.name}
-                      </h3>
-                      <div className="flex-shrink-0 ml-2">
+                      <div>
+                        <h3 className="font-bold text-lg text-slate-900 leading-tight">
+                          {farmacia.name}
+                        </h3>
+                        {farmacia.location && (
+                          <p className="text-xs font-medium text-slate-500 mt-0.5">
+                            📍 {farmacia.location}
+                          </p>
+                        )}
+                      </div>
+                      <div className="flex-shrink-0 ml-2 mt-0.5">
                         {getIcon(farmacia.type)}
                       </div>
                     </div>
-                    <a
-                      href={getContactLink(farmacia)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-lg font-bold text-primary hover:text-primary/80 hover:underline transition-all active:scale-95 inline-block"
-                    >
-                      {formatContact(farmacia)}
-                    </a>
-                    {farmacia.location && (
-                      <p className="text-sm text-muted-foreground mt-1">
-                        📍 {farmacia.location}
-                      </p>
-                    )}
+
+                    <div className="flex flex-wrap gap-2">
+                      <a
+                        href={getContactLink(farmacia)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-base font-bold text-teal-700 hover:text-teal-900 hover:underline transition-all active:scale-95 inline-block"
+                      >
+                        {formatContact(farmacia.contact, farmacia.type)}
+                      </a>
+                      {farmacia.contact2 && (
+                        <>
+                          <span className="text-slate-400 font-bold">·</span>
+                          <a
+                            href={getContact2Link(farmacia.contact2)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-base font-bold text-teal-700 hover:text-teal-900 hover:underline transition-all active:scale-95 inline-block"
+                          >
+                            {formatContact(farmacia.contact2, farmacia.type)}
+                          </a>
+                        </>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
 
-              {/* Tabla para desktop */}
+              {/* ── Tabla para desktop ── */}
               <div className="hidden sm:block overflow-x-auto">
                 <table className="w-full">
                   <thead>
-                    <tr className="bg-blue-50">
-                      <th className="px-4 py-4 text-left text-sm sm:text-base font-bold text-primary border-b-2 border-primary">
+                    <tr className="bg-teal-50 border-b-2 border-teal-500">
+                      <th className="px-5 py-4 text-left text-sm sm:text-base font-bold text-teal-950 uppercase tracking-wider">
                         Nombre de la Farmacia
                       </th>
-                      <th className="px-4 py-4 text-center text-sm sm:text-base font-bold text-primary border-b-2 border-primary">
+                      <th className="px-5 py-4 text-center text-sm sm:text-base font-bold text-teal-950 uppercase tracking-wider">
                         Tipo
                       </th>
-                      <th className="px-4 py-4 text-left text-sm sm:text-base font-bold text-primary border-b-2 border-primary">
+                      <th className="px-5 py-4 text-left text-sm sm:text-base font-bold text-teal-950 uppercase tracking-wider">
                         Información de Contacto
                       </th>
                     </tr>
@@ -141,28 +198,43 @@ export default function FarmaciasPage() {
                     {farmacias.map((farmacia, index) => (
                       <tr
                         key={index}
-                        className="border-b border-gray-200 hover:bg-gray-50 transition-colors"
+                        className={`border-b border-slate-200 hover:bg-teal-50/40 transition-colors ${index % 2 === 0 ? "bg-white" : "bg-slate-50/50"}`}
                       >
-                        <td className="px-4 py-4 font-semibold text-base sm:text-lg text-foreground">
+                        <td className="px-5 py-3.5 font-bold text-base text-slate-900">
                           {farmacia.name}
                         </td>
-                        <td className="px-4 py-4 text-center">
+                        <td className="px-5 py-3.5 text-center">
                           {getIcon(farmacia.type)}
                         </td>
-                        <td className="px-4 py-4">
-                          <a
-                            href={getContactLink(farmacia)}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-lg sm:text-xl font-bold text-primary hover:text-primary/80 hover:underline transition-all active:scale-95 inline-block"
-                          >
-                            {formatContact(farmacia)}
-                          </a>
-                          {farmacia.location && (
-                            <span className="ml-2 text-sm text-muted-foreground">
-                              {farmacia.location}
-                            </span>
-                          )}
+                        <td className="px-5 py-3.5">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <a
+                              href={getContactLink(farmacia)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-base sm:text-lg font-bold text-teal-700 hover:text-teal-900 hover:underline transition-all active:scale-95 inline-block"
+                            >
+                              {formatContact(farmacia.contact, farmacia.type)}
+                            </a>
+                            {farmacia.contact2 && (
+                              <>
+                                <span className="text-slate-400 font-bold">·</span>
+                                <a
+                                  href={getContact2Link(farmacia.contact2)}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-base sm:text-lg font-bold text-teal-700 hover:text-teal-900 hover:underline transition-all active:scale-95 inline-block"
+                                >
+                                  {formatContact(farmacia.contact2, farmacia.type)}
+                                </a>
+                              </>
+                            )}
+                            {farmacia.location && (
+                              <span className="inline-block px-2.5 py-0.5 text-xs font-semibold bg-slate-100 text-slate-700 rounded-full border border-slate-200">
+                                📍 {farmacia.location}
+                              </span>
+                            )}
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -170,12 +242,13 @@ export default function FarmaciasPage() {
                 </table>
               </div>
 
-              {/* Nota informativa */}
-              <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                <p className="text-sm text-muted-foreground text-center">
-                  💡 <strong>Consejo:</strong> Haz clic en el número o enlace para contactar directamente por WhatsApp, Telegram o visitar el sitio web.
+              {/* Nota informativa de alto contraste */}
+              <div className="mt-8 p-4 bg-teal-50 rounded-xl border border-teal-200 shadow-sm">
+                <p className="text-sm sm:text-base text-slate-800 text-center font-medium">
+                  💡 <strong className="text-teal-900 font-bold">Consejo:</strong> Haz clic en el número o enlace para contactar directamente por WhatsApp, Telegram o visitar el sitio web.
                 </p>
               </div>
+
             </div>
           </div>
         </div>
@@ -183,4 +256,3 @@ export default function FarmaciasPage() {
     </div>
   )
 }
-
