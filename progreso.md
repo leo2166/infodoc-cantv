@@ -97,10 +97,14 @@ components/
     - **Elementos 100% estáticos e informativos:** Sin links ni redirecciones, con `pointer-events-none` tanto en PC como en móviles.
 - **Commits:** `e41f8b7` (versión inicial) → `6abf272` (versión estática) → `59693b7` (estilo verde) → texto actualizado a *"Envía la palabra hola al 0412-1024405"*.
 
+#### ⚙️ Creación del System Prompt Permanente (`GEMINI.md`)
+- **Motivo:** Garantizar que cualquier agente de IA en sesiones futuras lea obligatoriamente `progreso.md` al iniciar y registre cualquier avance o cambio antes de cerrar la sesión.
+- **Archivo creado:** `GEMINI.md` en la raíz del repositorio, configurado como regla de workspace de Antigravity.
+
 #### ✅ Estado final de sesión
 - Build de producción: ✅ Exitoso (42 páginas generadas estáticamente)
 - Todos los cambios desplegados en producción vía Git push a `origin/main`
-- Último commit: `6abf272`
+- Commits relevantes de la jornada: `3c01215`, `e41f8b7`, `6abf272`, `d75e3fe`, `59693b7`, `62d011d`.
 
 ---
 
