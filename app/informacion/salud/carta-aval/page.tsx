@@ -10,13 +10,21 @@ export default function CartaAvalPage() {
       <Navigation />
       <main className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
-          <div className="flex justify-between items-center mb-8">
-            <Link href="/informacion/salud">
-              <Button variant="outline" className="touch-target">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Volver a Servicios de Salud
-              </Button>
-            </Link>
+          <div className="flex flex-wrap justify-between items-center gap-4 mb-8">
+            <div className="flex flex-wrap gap-2">
+              <Link href="/informacion/salud">
+                <Button variant="outline" className="touch-target">
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Volver a Servicios de Salud
+                </Button>
+              </Link>
+              <Link href="/informacion/fotos">
+                <Button variant="outline" className="touch-target">
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Volver a la Galería
+                </Button>
+              </Link>
+            </div>
             <Link href="/">
               <Button variant="outline" className="touch-target">
                 <Home className="w-4 h-4 mr-2" />

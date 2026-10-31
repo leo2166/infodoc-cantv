@@ -27,7 +27,7 @@ const healthServices = [
     title: "Citas médicas",
     description: "Información sobre citas médicas y atención de salud.",
     icon: CalendarDays,
-    href: "/infodoc_citas_medicas.jpg",
+    href: "/informacion/salud/citas-medicas",
   },
 ]
 
