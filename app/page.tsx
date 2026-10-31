@@ -11,7 +11,8 @@ import { PWAInstallPrompt } from "@/components/pwa-install-prompt"
 // import { RippleBackground } from "@/components/ui/ripple-background"  // Comentado temporalmente
 import FechaHora from '@/components/FechaHora';
 import { NewsTicker } from "@/components/news-ticker";
-import BootieWidget from "@/components/bootie-widget";
+// import BootieWidget from "@/components/bootie-widget";
+import WhatsAppWidget from "@/components/whatsapp-widget";
 import { HeroMenu } from "@/components/hero-menu";
 import { SidebarPanel } from "@/components/sidebar-panel";
 import { CurrencyCalculator } from "@/components/currency-calculator";
@@ -228,8 +229,11 @@ export default function HomePage() {
       </main>
 
 
-      {/* Widget Bootie - solo pantalla principal */}
-      <BootieWidget />
+      {/* Widget Bootie - comentado */}
+      {/* <BootieWidget /> */}
+
+      {/* Widget WhatsApp */}
+      <WhatsAppWidget />
 
       <PWAInstallPrompt />
 
