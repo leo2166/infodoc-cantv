@@ -92,10 +92,10 @@ components/
 - **Cambios:**
   - `app/page.tsx`: Se comentó `<BootieWidget />` y su importación. Se agregó `<WhatsAppWidget />`.
   - `components/whatsapp-widget.tsx` (**CREADO**): Widget flotante fijo en esquina inferior derecha con:
-    - Texto informativo: *"Escribe hola al 0412-1024405"*, con la palabra **"hola"** en verde WhatsApp (`#25D366`).
+    - Texto informativo: *"Envía la palabra hola al 0412-1024405"*, con la palabra **"hola"** en verde WhatsApp (`#25D366`).
     - Icono circular verde con logo oficial de WhatsApp.
     - **Elementos 100% estáticos e informativos:** Sin links ni redirecciones, con `pointer-events-none` tanto en PC como en móviles.
-- **Commits:** `e41f8b7` (versión inicial) → `6abf272` (versión estática) → siguiente deploy con palabra "hola" en verde y bloqueo de interacción.
+- **Commits:** `e41f8b7` (versión inicial) → `6abf272` (versión estática) → `59693b7` (estilo verde) → texto actualizado a *"Envía la palabra hola al 0412-1024405"*.
 
 #### ✅ Estado final de sesión
 - Build de producción: ✅ Exitoso (42 páginas generadas estáticamente)

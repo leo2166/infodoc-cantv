@@ -3,7 +3,7 @@ export default function WhatsAppWidget() {
     <div className="fixed bottom-6 right-4 sm:right-6 z-50 flex items-center gap-2 sm:gap-3 pointer-events-none select-none">
       {/* Texto informativo estático */}
       <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm text-foreground px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full shadow-lg border border-slate-200 dark:border-slate-800 text-xs sm:text-sm font-semibold flex items-center gap-1 cursor-default">
-        <span>Escribe </span>
+        <span>Envía la palabra </span>
         <span className="text-[#25D366] font-bold">hola</span>
         <span> al 0412-1024405</span>
       </div>
