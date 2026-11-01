@@ -322,7 +322,7 @@ export default function AutorizacionBolsaPage() {
 
                                 {/* ═══ SECCIÓN TITULAR ═══ */}
                                 <div className="rounded-lg border-2 border-[#0044FF] p-4 space-y-4 shadow-[0_0_8px_0px_rgba(0,68,255,0.25)]">
-                                    <p className="text-sm font-bold tracking-wide" style={{ color: "#FFE600" }}>
+                                    <p className="text-sm font-bold tracking-wide text-amber-600 dark:text-[#FFE600]">
                                         Datos del Titular
                                     </p>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
