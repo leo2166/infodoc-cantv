@@ -322,7 +322,7 @@ export default function AutorizacionBolsaPage() {
 
                                 {/* ═══ SECCIÓN TITULAR ═══ */}
                                 <div className="rounded-lg border-2 border-[#0044FF] p-4 space-y-4 shadow-[0_0_8px_0px_rgba(0,68,255,0.25)]">
-                                    <p className="text-sm font-bold tracking-wide" style={{ color: "#7B1C1C" }}>
+                                    <p className="text-sm font-bold tracking-wide" style={{ color: "#FFE600" }}>
                                         Datos del Titular
                                     </p>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -335,7 +335,7 @@ export default function AutorizacionBolsaPage() {
                                                 onChange={handleInputChange}
                                                 placeholder="Ej: Zulia"
                                                 readOnly={option === 2}
-                                                className={`placeholder:text-muted-foreground/30 border-2 border-red-200 rounded-md ${option === 2 ? "bg-muted cursor-not-allowed" : "bg-[#FFF5F5]"}`}
+                                                className={`placeholder:text-muted-foreground/30 border-2 border-yellow-400 rounded-md ${option === 2 ? "bg-muted cursor-not-allowed" : "bg-[#FEFCE8] dark:bg-yellow-950/20"}`}
                                             />
                                         </div>
                                         <div className="space-y-2">
@@ -346,7 +346,7 @@ export default function AutorizacionBolsaPage() {
                                                 value={formData.ciudad}
                                                 onChange={handleInputChange}
                                                 placeholder={option === 2 ? "Ej: Maracaibo" : "Ej: Cabimas"}
-                                                className="placeholder:text-muted-foreground/30 bg-[#FFF5F5] border-2 border-red-200 rounded-md"
+                                                className="placeholder:text-muted-foreground/30 bg-[#FEFCE8] dark:bg-yellow-950/20 border-2 border-yellow-400 rounded-md"
                                             />
                                         </div>
                                     </div>
@@ -359,7 +359,7 @@ export default function AutorizacionBolsaPage() {
                                             value={formData.nombre}
                                             onChange={handleInputChange}
                                             placeholder="Ej: Juan Pérez"
-                                            className="placeholder:text-muted-foreground/30 bg-[#FFF5F5] border-2 border-red-200 rounded-md"
+                                            className="placeholder:text-muted-foreground/30 bg-[#FEFCE8] dark:bg-yellow-950/20 border-2 border-yellow-400 rounded-md"
                                         />
                                     </div>
 
@@ -372,7 +372,7 @@ export default function AutorizacionBolsaPage() {
                                                 value={formData.cedula}
                                                 onChange={handleInputChange}
                                                 placeholder="Ej: V-12.345.678"
-                                                className="placeholder:text-muted-foreground/30 bg-[#FFF5F5] border-2 border-red-200 rounded-md"
+                                                className="placeholder:text-muted-foreground/30 bg-[#FEFCE8] dark:bg-yellow-950/20 border-2 border-yellow-400 rounded-md"
                                             />
                                         </div>
                                         <div className="space-y-2">
@@ -383,7 +383,7 @@ export default function AutorizacionBolsaPage() {
                                                 value={formData.telefono}
                                                 onChange={handleInputChange}
                                                 placeholder="Ej: 0412-1234567"
-                                                className="placeholder:text-muted-foreground/30 bg-[#FFF5F5] border-2 border-red-200 rounded-md"
+                                                className="placeholder:text-muted-foreground/30 bg-[#FEFCE8] dark:bg-yellow-950/20 border-2 border-yellow-400 rounded-md"
                                             />
                                         </div>
                                     </div>

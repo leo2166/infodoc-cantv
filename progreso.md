@@ -65,6 +65,18 @@ components/
 
 ---
 
+### Sesión: 01/11/2026
+
+#### 🎨 Ajustes visuales en Autorización de Retiro de Bolsa (`/documentos/autorizacion-bolsa`)
+- **Motivo:** Mejorar el contraste y legibilidad en la sección "Datos del Titular": el título era oscuro y los recuadros eran rosados. Se solicitó cambiar el título a amarillo piolín y los recuadros a amarillo.
+- **Cambios realizados:**
+  - `app/documentos/autorizacion-bolsa/page.tsx`:
+    - Título `"Datos del Titular"`: Cambiado de color vino `#7B1C1C` a amarillo piolín `#FFE600`.
+    - Recuadros de entrada (inputs) de Titular: Cambiados de fondo rosa/borde rojo (`bg-[#FFF5F5] border-red-200`) a amarillo (`border-2 border-yellow-400 bg-[#FEFCE8] dark:bg-yellow-950/20`).
+    - Los campos de "Datos del Autorizado" se mantuvieron intactos según lo indicado.
+
+---
+
 ### Sesión: 31/10/2026
 
 #### 🆕 Nueva página: Citas Médicas (`/informacion/salud/citas-medicas`)
