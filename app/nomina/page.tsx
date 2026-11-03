@@ -36,8 +36,8 @@ export default function NominaPage() {
               <Image
                 src="/11nov.webp"
                 alt="Cronograma de pago CANTV - Noviembre 2026"
-                width={800}
-                height={618}
+                width={1999}
+                height={1545}
                 className="rounded-md object-contain w-full h-auto max-w-[800px]"
               />
             </div>

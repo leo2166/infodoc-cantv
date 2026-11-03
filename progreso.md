@@ -65,6 +65,20 @@ components/
 
 ---
 
+### Sesión: 03/11/2026
+
+#### 📅 Actualización de cronograma de Nómina Noviembre 2026
+- **Motivo:** El usuario entregó una nueva imagen PNG con el cronograma de pago de noviembre 2026 actualizado.
+- **Imagen recibida:** `public/nomina 03112026.png` (258 KB, 1999x1545 px).
+- **Proceso:**
+  - Se convirtió la imagen a formato WebP (calidad 85%) usando `sharp` → `public/11nov.webp` (146 KB).
+  - Se actualizaron las dimensiones en `app/nomina/page.tsx` (width: 1999, height: 1545) para reflejar la resolución real.
+- **Archivos modificados:**
+  - `public/11nov.webp` (reemplazado)
+  - `app/nomina/page.tsx` (dimensiones de imagen de noviembre)
+
+---
+
 ### Sesión: 01/11/2026
 
 #### 🎨 Ajustes visuales en Autorización de Retiro de Bolsa (`/documentos/autorizacion-bolsa`)
