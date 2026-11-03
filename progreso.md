@@ -76,6 +76,12 @@ components/
 - **Archivos modificados:**
   - `public/11nov.webp` (reemplazado)
   - `app/nomina/page.tsx` (dimensiones de imagen de noviembre)
+- **Commit:** `96820d9`
+
+#### 🗑️ Eliminación del cronograma de Octubre 2026
+- **Motivo:** Ya estamos en noviembre, el cronograma de octubre está vencido.
+- **Cambios:**
+  - `app/nomina/page.tsx`: Se eliminó el bloque de imagen de octubre (`/10oct.webp`) y se asignó `priority` a noviembre por ser ahora la primera imagen.
 
 ---
 
