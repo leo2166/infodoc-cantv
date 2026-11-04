@@ -187,3 +187,17 @@ components/
 | PWA (instalable) | ✅ Operativa |
 | Admin Upload docs | ✅ Operativo |
 
+---
+
+## 📌 Tareas Técnicas Pendientes (Backlog de Optimización)
+
+- [ ] **Tarea 1: Limpieza del endpoint de administración (`/api/admin/upload`)**
+  - Desacoplar la dependencia local a `../bootie-dev` que no existe en el entorno Serverless de Vercel.
+- [ ] **Tarea 2: Consolidación y unificación del Chat IA**
+  - Unificar `/api/chat`, `/api/chat-deepseek` y `/api/chat-bootie` en un flujo modular (`lib/ai-cascade.ts`).
+- [ ] **Tarea 3: Optimización de timeouts y resiliencia en Vercel**
+  - Ajustar tiempos máximos de espera por capa y evaluar `maxDuration` para evitar errores 504.
+- [ ] **Tarea 4: Depuración de scripts temporales**
+  - Reorganizar o limpiar scripts de prueba `test-*.js` en desuso fuera de la raíz.
+
+
