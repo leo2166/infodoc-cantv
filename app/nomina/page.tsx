@@ -24,7 +24,7 @@ export default function NominaPage() {
           <div className="flex flex-col gap-8">
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/11nov.webp"
+                src="/11moderno.webp"
                 alt="Cronograma de pago CANTV - Noviembre 2026"
                 width={1999}
                 height={1545}
@@ -34,7 +34,7 @@ export default function NominaPage() {
             </div>
             <div className="bg-card p-4 sm:p-6 rounded-lg shadow-md flex justify-center">
               <Image
-                src="/12dic.webp"
+                src="/12moderno.webp"
                 alt="Cronograma de pago CANTV - Diciembre 2026"
                 width={800}
                 height={618}
