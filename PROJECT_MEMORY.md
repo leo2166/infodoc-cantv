@@ -329,3 +329,22 @@ CAPA 6: Procesador Local (Fallback final)
 - **Verificación:**
   - Diagnóstico ejecutado con éxito en `scripts/test-all-layers.js`.
   - Build de producción probado con `npm run build` (0 errores).
+
+
+## 🦋 Elemento 3D: Mariposa Morpho Azul Animada en Home (05/11/2026)
+**Objetivo:** Incorporar un elemento tridimensional ligero, poético y representativo de la identidad azul CANTV que vuele y se pose de forma suave sobre el menú de 4 botones centrales (`HeroMenu`).
+
+**Implementación Técnica:**
+1. **Modelado y Segmentación:**
+   - Se tomó la imagen de referencia aportada por el usuario (`media_1793862522394_3646d250.jpg`).
+   - Se removió el fondo blanco mediante script con suavizado de bordes anti-aliasing.
+   - Se dividió anatómicamente en 3 piezas con ejes simétricos precisos: ala izquierda (`butterfly-left.webp`), ala derecha (`butterfly-right.webp`) y cuerpo central con antenas (`butterfly-body.webp`).
+   - Peso total de las piezas: menos de 45 KB en WebP ultra optimizado.
+2. **Motor de Animación 3D (CSS3 / Perspectiva Hardware):**
+   - Nuevo componente: `components/butterfly-3d.tsx`.
+   - Vuelo inicial de entrada en 3D (3.8s) con aleteo dinámico (`rotateY` a 75°), aceleración natural y sombra proyectada.
+   - Posado milimétrico sobre la esquina superior derecha del contenedor `HeroMenu`.
+   - Estado de descanso con aleteo suave cíclico tipo respiración cada 4.2s.
+   - Interactividad: reacciona al clic o toque en móvil asustándose, haciendo un vuelo circular y volviendo a aterrizar en su lugar.
+3. **Respaldo:** Snapshot git `snapshot-pre-mariposa` creado en commit `f46d078`.
+4. **Deploy:** Commit `5bd3767` desplegado y validado en producción en Vercel.

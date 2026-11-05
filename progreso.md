@@ -68,18 +68,21 @@ components/
 ### Sesión: 05/11/2026
 
 #### 🦋 Integración de Elemento 3D: Mariposa Azul Morpho en la Pantalla Principal
-- **Motivo:** Solicitud del usuario para agregar un elemento 3D sutil y elegante en la página de inicio que vuele y se pose sobre el contenedor de los 4 botones centrales (`HeroMenu`).
+- **Motivo:** Solicitud del usuario para agregar un elemento 3D sutil y elegante en la página de inicio que vuele y se pose sobre el contenedor de los 4 botones centrales (`HeroMenu`), utilizando como base visual exacta la imagen Morpho Azul suministrada por el usuario.
 - **Respaldo previo:** Se creó el tag de snapshot `snapshot-pre-mariposa` en el commit `f46d078` para permitir reversión instantánea en caso necesario.
 - **Implementación técnica:**
   - Componente: `components/butterfly-3d.tsx` (**NUEVO**).
-  - Técnica: CSS 3D (`preserve-3d`, planos de alas independientes con aleteo físico y gradiente iridiscente azul morpho CANTV + reflejo de luz + puntos de ala realistas).
+  - Segmentación de imagen: Se tomó la imagen de referencia del usuario, se aisló el fondo blanco con anti-aliasing y se segmentaron anatómicamente en WebP (`public/butterfly-left.webp`, `public/butterfly-right.webp` y `public/butterfly-body.webp`), pesando menos de 45 KB en total.
+  - Técnica: CSS 3D (`preserve-3d`, planos de alas independientes montadas en bisagras `rotateY` con aleteo físico y perspectiva de 1200px).
   - Trayectoria: Entra volando con curvas suaves en 3D, aleteo dinámico y sombra proyectada, y se posa sobre la esquina superior derecha del contenedor de los 4 botones centrales.
   - Interactividad: Una vez posada, realiza una respiración suave con aleteos pausados. Al tocarla o hacer click sobre ella, se asusta temporalmente, hace un pequeño vuelo y vuelve a posarse.
   - Integración: Vinculada de forma relativa y no invasiva dentro de `components/hero-menu.tsx`.
-- **Archivos modificados:**
+- **Archivos modificados/creados:**
   - `components/butterfly-3d.tsx` (creado)
   - `components/hero-menu.tsx` (modificado)
-- **Verificación:** `npm run build` exitoso (0 errores). Servidor local activo en puerto 4007.
+  - `public/butterfly-left.webp`, `public/butterfly-right.webp`, `public/butterfly-body.webp` (creados)
+  - `PROJECT_MEMORY.md` y `progreso.md` (actualizados)
+- **Commit y Despliegue:** `5bd3767` desplegado con éxito en Vercel.
 
 ---
 
