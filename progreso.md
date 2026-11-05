@@ -65,6 +65,24 @@ components/
 
 ---
 
+### Sesión: 05/11/2026
+
+#### 🦋 Integración de Elemento 3D: Mariposa Azul Morpho en la Pantalla Principal
+- **Motivo:** Solicitud del usuario para agregar un elemento 3D sutil y elegante en la página de inicio que vuele y se pose sobre el contenedor de los 4 botones centrales (`HeroMenu`).
+- **Respaldo previo:** Se creó el tag de snapshot `snapshot-pre-mariposa` en el commit `f46d078` para permitir reversión instantánea en caso necesario.
+- **Implementación técnica:**
+  - Componente: `components/butterfly-3d.tsx` (**NUEVO**).
+  - Técnica: CSS 3D (`preserve-3d`, planos de alas independientes con aleteo físico y gradiente iridiscente azul morpho CANTV + reflejo de luz + puntos de ala realistas).
+  - Trayectoria: Entra volando con curvas suaves en 3D, aleteo dinámico y sombra proyectada, y se posa sobre la esquina superior derecha del contenedor de los 4 botones centrales.
+  - Interactividad: Una vez posada, realiza una respiración suave con aleteos pausados. Al tocarla o hacer click sobre ella, se asusta temporalmente, hace un pequeño vuelo y vuelve a posarse.
+  - Integración: Vinculada de forma relativa y no invasiva dentro de `components/hero-menu.tsx`.
+- **Archivos modificados:**
+  - `components/butterfly-3d.tsx` (creado)
+  - `components/hero-menu.tsx` (modificado)
+- **Verificación:** `npm run build` exitoso (0 errores). Servidor local activo en puerto 4007.
+
+---
+
 ### Sesión: 03/11/2026
 
 #### 📅 Actualización de cronograma de Nómina Noviembre 2026
