@@ -141,14 +141,14 @@ export default function HomePage() {
                 
                 // Texto: Emergencias en rojo, Nómina en azul, Servicios Funerarios en gris/neutral
                 const textClass = isEmergency 
-                  ? "text-red-600 dark:text-red-400 font-extrabold hover:text-red-700"
+                  ? "text-red-600 dark:text-red-500 font-extrabold hover:text-red-700 dark:hover:text-red-400"
                   : isNomina
                     ? "text-blue-600 dark:text-blue-400 font-extrabold hover:text-blue-700"
                     : "text-slate-700 dark:text-slate-300 font-extrabold hover:text-blue-600 dark:hover:text-blue-400";
                 
                 // Iconos: Emergencias en rojo, Nómina en azul, Funeraria en azul
                 const iconColor = isEmergency 
-                  ? "text-red-600 dark:text-red-400 animate-pulse"
+                  ? "text-red-600 dark:text-red-500 animate-pulse"
                   : "text-blue-600 dark:text-blue-400";
                   
                 return (

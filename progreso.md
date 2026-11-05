@@ -84,6 +84,14 @@ components/
   - `PROJECT_MEMORY.md` y `progreso.md` (actualizados)
 - **Commit y Despliegue:** `5bd3767` desplegado con éxito en Vercel.
 
+#### 🎨 Unificación del color Rojo en Emergencias Médicas
+- **Motivo:** Homogeneizar el tono de rojo entre el botón del menú central (`HeroMenu`) y el acceso rápido inferior (`Accesos Rápidos`).
+- **Ajuste:**
+  - Ambos elementos ahora comparten exactamente la misma escala: `red-600` (`#DC2626`) en modo claro y `red-500` (`#EF4444`) en modo oscuro.
+- **Archivos modificados:**
+  - `components/hero-menu.tsx`
+  - `app/page.tsx`
+
 ---
 
 ### Sesión: 03/11/2026

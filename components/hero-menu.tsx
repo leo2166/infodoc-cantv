@@ -66,7 +66,7 @@ const MENU_ITEMS: MenuItem[] = [
     Icon: AlertTriangle,
     bg: CARD_BG,
     borderColor: CARD_BORDER,
-    iconBg: 'bg-red-500 dark:bg-red-600',
+    iconBg: 'bg-red-600 dark:bg-red-500',
     iconColor: 'text-white',
     href: null,
     external: false,
