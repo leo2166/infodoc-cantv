@@ -65,6 +65,21 @@ components/
 
 ---
 
+### Sesión: 06/11/2026
+
+#### 📅 Actualización de cronograma de Nómina Noviembre 2026 (Versión 11moderno2)
+- **Motivo:** El usuario suministró un nuevo diseño para el cronograma de pago de noviembre (`11moderno2.png`) que sustituye al anterior `11moderno`.
+- **Proceso técnico:**
+  - Conversión optimizada de `public/11moderno2.png` (1.87 MB, 1254x1254 px) a formato WebP (`public/11moderno2.webp` y `public/11moderno.webp`, 246 KB cada uno).
+  - Actualización en `app/nomina/page.tsx` para referenciar `/11moderno2.webp` con sus dimensiones cuadradas reales (1254x1254).
+- **Archivos afectados:**
+  - `public/11moderno2.webp` (creado)
+  - `public/11moderno.webp` (actualizado)
+  - `app/nomina/page.tsx` (modificado)
+  - `progreso.md` (actualizado)
+
+---
+
 ### Sesión: 05/11/2026
 
 #### 🦋 Integración de Elemento 3D: Mariposa Azul Morpho en la Pantalla Principal
