@@ -65,6 +65,21 @@ components/
 
 ---
 
+### Sesión: 08/11/2026
+
+#### 📄 Integración de Versión Digital Web de Convención Colectiva (cc23-25.vercel.app)
+- **Motivo:** Solicitud del usuario para agregar en la última posición del apartado de Documentos (`/construccion`) el enlace a la versión web digital interactiva de la Convención Colectiva FETRATEL-CANTV 2023-2025 (`https://cc23-25.vercel.app`), que cuenta con buscador rápido.
+- **Implementación técnica:**
+  - Se agregó el elemento a la lista de documentos en `app/construccion/page.tsx` con su título, descripción exacta solicitada y flag `isExternalWeb: true`.
+  - Se configuró el botón de acceso para abrir en una nueva pestaña (`target="_blank"`, `rel="noopener noreferrer"`) asegurando que el usuario pueda volver fácilmente a InfoDoc.
+  - Se integró un icono alusivo de enlace web/global y una nota aclaratoria para el retorno.
+  - Se actualizó la descripción del documento PDF anterior para reemplazar «Contrato colectivo» por «Convención colectiva».
+- **Archivos afectados:**
+  - `app/construccion/page.tsx` (modificado)
+  - `progreso.md` (actualizado)
+
+---
+
 ### Sesión: 06/11/2026
 
 #### 📅 Actualización de cronograma de Nómina Noviembre 2026 (Versión 11moderno2)

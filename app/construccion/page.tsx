@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { Navigation } from "@/components/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, BookOpen, ArrowLeft } from "lucide-react";
+import { FileText, BookOpen, ArrowLeft, ExternalLink, Globe } from "lucide-react";
 import Link from "next/link";
 import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 
@@ -25,8 +25,15 @@ const documents = [
   {
     title: "Convención Colectiva FETRATEL-CANTV 2023-2025",
     fileName: "Cc.pdf",
-    description: "Contrato colectivo de trabajo entre la Federación de Trabajadores de Telecomunicaciones de Venezuela y CANTV.",
+    description: "Convención colectiva de trabajo entre la Federación de Trabajadores de Telecomunicaciones de Venezuela y CANTV.",
     href: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/Cc.pdf",
+  },
+  {
+    title: "Convención Colectiva FETRATEL-CANTV 2023-2025 << DIGITAL >>",
+    fileName: "",
+    description: "CONVENCIÓN COLECTIVA de trabajo entre la Federación de Trabajadores de Telecomunicaciones de Venezuela y CANTV, EN FORMATO WEB CON BOX DE CONSULTA RAPIDA.",
+    href: "https://cc23-25.vercel.app",
+    isExternalWeb: true,
   },
 ];
 
@@ -73,7 +80,11 @@ export default function DocumentosPage() {
             <Card key={doc.href} className="hover:shadow-lg transition-shadow">
               <CardHeader className="flex flex-row items-start gap-4">
                 <div className="p-3 bg-primary/10 rounded-lg">
-                  <BookOpen className="w-6 h-6 text-primary" />
+                  {doc.isExternalWeb ? (
+                    <Globe className="w-6 h-6 text-primary" />
+                  ) : (
+                    <BookOpen className="w-6 h-6 text-primary" />
+                  )}
                 </div>
                 <div>
                   <CardTitle>{doc.title}</CardTitle>
@@ -81,7 +92,24 @@ export default function DocumentosPage() {
                 </div>
               </CardHeader>
               <CardContent>
-                {doc.href.includes("AutorizacionBolsa") ? (
+                {doc.isExternalWeb ? (
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                    <a
+                      href={doc.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full sm:w-auto"
+                    >
+                      <Button className="w-full sm:w-auto bg-primary hover:bg-primary/90">
+                        <ExternalLink className="w-4 h-4 mr-2" />
+                        Abrir Convención Digital (Web)
+                      </Button>
+                    </a>
+                    <span className="text-xs text-muted-foreground">
+                      Se abre en una pestaña externa para regresar fácilmente a InfoDoc.
+                    </span>
+                  </div>
+                ) : doc.href.includes("AutorizacionBolsa") ? (
                   <Link href="/documentos/autorizacion-bolsa">
                     <Button className="w-full sm:w-auto">
                       <FileText className="w-4 h-4 mr-2" />
