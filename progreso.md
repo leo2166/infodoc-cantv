@@ -65,6 +65,27 @@ components/
 
 ---
 
+### Sesión: 18/11/2026
+
+#### 📑 Inclusión del Reglamento de la Ley de Personas Adultas Mayores y Reordenamiento en Documentos
+- **Motivo:** El usuario suministró el archivo PDF oficial del Reglamento de la Ley de Personas Adultas Mayores en `public/` y solicitó posicionarlo en el 1er lugar del apartado de Documentos (`/construccion`), moviendo al 2do lugar la Convención Colectiva Digital (`cc23-25.vercel.app`).
+- **Implementación técnica:**
+  - Se copió el archivo en `public/` a un nombre web seguro `public/ReglamentoLeyAdultosMayores.pdf` preservando el archivo original.
+  - Se actualizó el array `documents` en `app/construccion/page.tsx` posicionando:
+    1. **1º:** *Reglamento Ley Orgánica para la Atención y Desarrollo Integral de las Personas Adultas Mayores* (con descarga de PDF directo).
+    2. **2º:** *Convención Colectiva FETRATEL-CANTV 2023-2025 << DIGITAL >>* (acceso a web interactiva).
+    3. **3º:** *Descargar Autorización Bolsa Alim.*
+    4. **4º:** *Estatutos de AJUPTEL ZULIA*
+    5. **5º:** *Convención Colectiva FETRATEL-CANTV 2023-2025 (PDF)*
+  - Compilación verificada con éxito (`npm run build`).
+- **Archivos afectados:**
+  - `public/ReglamentoLeyAdultosMayores.pdf` (creado para URL web segura)
+  - `public/REGLAMENTO DE LA LEY ORGÁNICA PARA LA ATENCIÓN Y DESARROLLO INTEGRAL DE LAS PERSONAS ADULTAS MAYORES.PDF` (documento original suministrado)
+  - `app/construccion/page.tsx` (modificado)
+  - `progreso.md` (actualizado)
+
+---
+
 ### Sesión: 08/11/2026
 
 #### 📄 Integración de Versión Digital Web de Convención Colectiva (cc23-25.vercel.app)

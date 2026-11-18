@@ -11,6 +11,19 @@ import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescript
 
 const documents = [
   {
+    title: "Reglamento Ley Orgánica para la Atención y Desarrollo Integral de las Personas Adultas Mayores",
+    fileName: "REGLAMENTO DE LA LEY ORGÁNICA PARA LA ATENCIÓN Y DESARROLLO INTEGRAL DE LAS PERSONAS ADULTAS MAYORES.PDF",
+    description: "Reglamento de la Ley Orgánica para la atención y desarrollo integral de las personas adultas mayores.",
+    href: "/ReglamentoLeyAdultosMayores.pdf",
+  },
+  {
+    title: "Convención Colectiva FETRATEL-CANTV 2023-2025 << DIGITAL >>",
+    fileName: "",
+    description: "CONVENCIÓN COLECTIVA de trabajo entre la Federación de Trabajadores de Telecomunicaciones de Venezuela y CANTV, EN FORMATO WEB CON BOX DE CONSULTA RAPIDA.",
+    href: "https://cc23-25.vercel.app",
+    isExternalWeb: true,
+  },
+  {
     title: "Descargar Autorización Bolsa Alim.",
     fileName: "AutorizacionBolsa.pdf",
     description: "Documento de autorización para la bolsa de alimentación.",
@@ -27,13 +40,6 @@ const documents = [
     fileName: "Cc.pdf",
     description: "Convención colectiva de trabajo entre la Federación de Trabajadores de Telecomunicaciones de Venezuela y CANTV.",
     href: "https://pub-191743e1ba734c8eaa9ae902e6a12737.r2.dev/Cc.pdf",
-  },
-  {
-    title: "Convención Colectiva FETRATEL-CANTV 2023-2025 << DIGITAL >>",
-    fileName: "",
-    description: "CONVENCIÓN COLECTIVA de trabajo entre la Federación de Trabajadores de Telecomunicaciones de Venezuela y CANTV, EN FORMATO WEB CON BOX DE CONSULTA RAPIDA.",
-    href: "https://cc23-25.vercel.app",
-    isExternalWeb: true,
   },
 ];
 
