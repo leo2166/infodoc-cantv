@@ -124,8 +124,8 @@ export default function DocumentosPage() {
                       rel="noopener noreferrer"
                       className="w-full sm:w-auto"
                     >
-                      <Button className="w-full sm:w-auto">
-                        <FileText className="w-4 h-4 mr-2" />
+                      <Button className="w-full sm:w-auto bg-yellow-400 hover:bg-yellow-500 text-black font-semibold shadow-sm">
+                        <FileText className="w-4 h-4 mr-2 text-black" />
                         Leer en Línea o Descargar (PDF)
                       </Button>
                     </a>

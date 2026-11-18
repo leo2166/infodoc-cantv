@@ -78,6 +78,7 @@ components/
     4. **4º:** *Estatutos de AJUPTEL ZULIA*
     5. **5º:** *Convención Colectiva FETRATEL-CANTV 2023-2025 (PDF)*
   - Se configuró el comportamiento `viewOnline: true` para que el PDF se abra en una nueva pestaña del navegador en lugar de descarga forzada directa.
+  - Se aplicó estilo amarillo institucional («amarillo piolín» `bg-yellow-400 hover:bg-yellow-500 text-black font-semibold`) al botón de lectura/descarga de la Ley.
   - Compilación verificada con éxito (`npm run build`).
 - **Archivos afectados:**
   - `public/ReglamentoLeyAdultosMayores.pdf` (creado para URL web segura)
