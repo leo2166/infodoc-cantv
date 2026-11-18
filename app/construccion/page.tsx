@@ -15,6 +15,7 @@ const documents = [
     fileName: "REGLAMENTO DE LA LEY ORGÁNICA PARA LA ATENCIÓN Y DESARROLLO INTEGRAL DE LAS PERSONAS ADULTAS MAYORES.PDF",
     description: "Reglamento de la Ley Orgánica para la atención y desarrollo integral de las personas adultas mayores.",
     href: "/ReglamentoLeyAdultosMayores.pdf",
+    viewOnline: true,
   },
   {
     title: "Convención Colectiva FETRATEL-CANTV 2023-2025 << DIGITAL >>",
@@ -113,6 +114,23 @@ export default function DocumentosPage() {
                     </a>
                     <span className="text-xs text-muted-foreground">
                       Se abre en una pestaña externa para regresar fácilmente a InfoDoc.
+                    </span>
+                  </div>
+                ) : doc.viewOnline ? (
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                    <a
+                      href={doc.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full sm:w-auto"
+                    >
+                      <Button className="w-full sm:w-auto">
+                        <FileText className="w-4 h-4 mr-2" />
+                        Leer en Línea o Descargar (PDF)
+                      </Button>
+                    </a>
+                    <span className="text-xs text-muted-foreground">
+                      Se abre en el visor del navegador con opción de guardado o descarga.
                     </span>
                   </div>
                 ) : doc.href.includes("AutorizacionBolsa") ? (

@@ -72,11 +72,12 @@ components/
 - **Implementación técnica:**
   - Se copió el archivo en `public/` a un nombre web seguro `public/ReglamentoLeyAdultosMayores.pdf` preservando el archivo original.
   - Se actualizó el array `documents` en `app/construccion/page.tsx` posicionando:
-    1. **1º:** *Reglamento Ley Orgánica para la Atención y Desarrollo Integral de las Personas Adultas Mayores* (con descarga de PDF directo).
+    1. **1º:** *Reglamento Ley Orgánica para la Atención y Desarrollo Integral de las Personas Adultas Mayores* (configurado con botón «Leer en Línea o Descargar (PDF)» para apertura directa en el visor del navegador con opción a descarga nativa).
     2. **2º:** *Convención Colectiva FETRATEL-CANTV 2023-2025 << DIGITAL >>* (acceso a web interactiva).
     3. **3º:** *Descargar Autorización Bolsa Alim.*
     4. **4º:** *Estatutos de AJUPTEL ZULIA*
     5. **5º:** *Convención Colectiva FETRATEL-CANTV 2023-2025 (PDF)*
+  - Se configuró el comportamiento `viewOnline: true` para que el PDF se abra en una nueva pestaña del navegador en lugar de descarga forzada directa.
   - Compilación verificada con éxito (`npm run build`).
 - **Archivos afectados:**
   - `public/ReglamentoLeyAdultosMayores.pdf` (creado para URL web segura)
