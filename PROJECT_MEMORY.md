@@ -348,3 +348,25 @@ CAPA 6: Procesador Local (Fallback final)
    - Interactividad: reacciona al clic o toque en móvil asustándose, haciendo un vuelo circular y volviendo a aterrizar en su lugar.
 3. **Respaldo:** Snapshot git `snapshot-pre-mariposa` creado en commit `f46d078`.
 4. **Deploy:** Commit `5bd3767` desplegado y validado en producción en Vercel.
+
+## 📅 Actualización Nómina Noviembre (06/11/2026)
+- **Motivo:** Suministro de nuevo diseño de cronograma (`11moderno2.png`).
+- **Implementación:**
+  - Conversión optimizada a WebP (`11moderno2.webp`, 246 KB).
+  - Actualización de proporciones cuadradas reales (1254x1254) en `app/nomina/page.tsx`.
+- **Deploy:** Commit `10f34ca` desplegado en Vercel.
+
+## 📄 Convención Colectiva Digital (08/11/2026)
+- **Motivo:** Incorporación de enlace interactivo con buscador rápido para la Convención Colectiva FETRATEL-CANTV 2023-2025.
+- **Implementación:**
+  - Enlace externo a `https://cc23-25.vercel.app` en `app/construccion/page.tsx` (`target="_blank"` para fácil retorno).
+  - Ajuste de terminología reemplazando «Contrato colectivo» por «Convención colectiva» en versión PDF.
+- **Deploy:** Commit `8ce7170` desplegado en Vercel.
+
+## 📑 Reglamento de la Ley de Personas Adultas Mayores (18/11/2026)
+- **Motivo:** Publicación del nuevo Reglamento de la Ley de Personas Adultas Mayores en el apartado de Documentos (`/construccion`).
+- **Implementación:**
+  - Archivo PDF en `public/ReglamentoLeyAdultosMayores.pdf`.
+  - Posicionado como **1ª opción** en Documentos, moviendo la Convención Colectiva Digital al **2º lugar**.
+  - Botón configurado en **amarillo piolín institucional** (`bg-yellow-400 hover:bg-yellow-500 text-black font-semibold`) con apertura directa en el visor del navegador (`viewOnline: true`, «Leer en Línea o Descargar (PDF)»).
+- **Deploy:** Commits `bd7e385`, `71b8eb2` y `8113ecc` desplegados en Vercel.
